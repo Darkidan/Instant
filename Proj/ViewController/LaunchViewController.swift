@@ -12,18 +12,17 @@ class LaunchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("T:::T")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         if UserDefaults.standard.bool(forKey: "usersignedin"){
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "MyFeedViewController")
-            self.present(vc, animated: true, completion: nil)
+            let vc = storyboard.instantiateInitialViewController()
+            self.present(vc!, animated: true, completion: nil)
         } else{
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "ViewController")
-            self.present(vc, animated: true, completion: nil)
+            let storyboard = UIStoryboard(name: "Sign", bundle: nil)
+            let vc = storyboard.instantiateInitialViewController()
+            self.present(vc!, animated: true, completion: nil)
         }
     }
 }

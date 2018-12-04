@@ -34,7 +34,9 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         if userDefault.bool(forKey: "usersignedin"){
-            performSegue(withIdentifier: "myfeed", sender: self)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateInitialViewController()
+            self.present(vc!, animated: true, completion: nil)
         }
     }
     
@@ -46,9 +48,11 @@ class LoginViewController: UIViewController {
                 print("User has Signed In!")
                 self.userDefault.set(true, forKey: "usersignedin")
                 self.userDefault.synchronize()
-                self.performSegue(withIdentifier: "myfeed", sender: self)
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyboard.instantiateInitialViewController()
+                self.present(vc!, animated: true, completion: nil)
             } else {
-                print(error?.localizedDescription)
+                print(error?.localizedDescription as Any)
             }
         }
     }

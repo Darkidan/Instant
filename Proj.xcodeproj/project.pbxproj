@@ -19,6 +19,8 @@
 		AC141A8821B6CD1500D85EA7 /* MyFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC141A8721B6CD1500D85EA7 /* MyFeedViewController.swift */; };
 		AC15CBCE21A754D1009BAE3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC15CBCD21A754D0009BAE3C /* Assets.xcassets */; };
 		AC1F0A5521B7078600792F83 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1F0A5421B7078600792F83 /* LaunchViewController.swift */; };
+		AC1F0A6021B721FA00792F83 /* test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC1F0A5F21B721FA00792F83 /* test.storyboard */; };
+		AC1F0A6221B7225500792F83 /* Sign.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC1F0A6121B7225500792F83 /* Sign.storyboard */; };
 		AC2BEABF21A8921300881016 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2BEABE21A8921300881016 /* SignUpViewController.swift */; };
 		AC2BEAC421A89AEF00881016 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2BEAC321A89AEF00881016 /* User.swift */; };
 		AC2BEAC621A89B0300881016 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2BEAC521A89B0300881016 /* Feed.swift */; };
@@ -68,6 +70,8 @@
 		AC141A8721B6CD1500D85EA7 /* MyFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedViewController.swift; sourceTree = "<group>"; };
 		AC15CBCD21A754D0009BAE3C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AC1F0A5421B7078600792F83 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		AC1F0A5F21B721FA00792F83 /* test.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = test.storyboard; sourceTree = "<group>"; };
+		AC1F0A6121B7225500792F83 /* Sign.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Sign.storyboard; sourceTree = "<group>"; };
 		AC2BEABE21A8921300881016 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		AC2BEAC321A89AEF00881016 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AC2BEAC521A89B0300881016 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
@@ -151,6 +155,8 @@
 				AC2BEAC121A89A8800881016 /* StoryBoard */,
 				AC2BEAC021A89A6300881016 /* ViewController */,
 				AC051D8F219AF59E001D134A /* AppDelegate.swift */,
+				AC1F0A6121B7225500792F83 /* Sign.storyboard */,
+				AC1F0A5F21B721FA00792F83 /* test.storyboard */,
 				AC051D93219AF59E001D134A /* Main.storyboard */,
 				AC15CBCD21A754D0009BAE3C /* Assets.xcassets */,
 				AC051D98219AF59F001D134A /* LaunchScreen.storyboard */,
@@ -328,8 +334,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC051D9A219AF59F001D134A /* LaunchScreen.storyboard in Resources */,
+				AC1F0A6221B7225500792F83 /* Sign.storyboard in Resources */,
 				AC8B338221A43E0D00455B38 /* GoogleService-Info.plist in Resources */,
 				AC15CBCE21A754D1009BAE3C /* Assets.xcassets in Resources */,
+				AC1F0A6021B721FA00792F83 /* test.storyboard in Resources */,
 				AC051D95219AF59E001D134A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

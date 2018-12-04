@@ -26,7 +26,10 @@ class MyFeedViewController: UIViewController {
             try Auth.auth().signOut()
             userDefault.removeObject(forKey: "usersignedin")
             userDefault.synchronize()
-            self.dismiss(animated: true, completion: nil)
+            let storyboard = UIStoryboard(name: "Sign", bundle: nil)
+            let vc = storyboard.instantiateInitialViewController()
+            self.present(vc!, animated: true, completion: nil)
+            //self.dismiss(animated: true, completion: nil)
         } catch let error as NSError {
             print(error.localizedDescription)
         }
