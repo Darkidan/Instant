@@ -11,9 +11,13 @@ import UIKit
 class SignUpViewController: UIViewController {
     @IBOutlet weak var addImageBtn: UIButton!
     
+    @IBOutlet weak var username: UITextField!
+    @IBOutlet weak var passwordText: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.changeBtnImage(image: UIImage(named: "TODO: add defult image name")!)
+    
+    // self.changeBtnImage(image: UIImage(named: "TODO: add defult image name")!)
     }
     
     @IBAction func addImage(_ sender: Any) {

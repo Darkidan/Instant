@@ -7,24 +7,29 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
 
 class MyFeedViewController: UIViewController {
 
+    let userDefault = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+       // guard  let email = Auth.auth().currentUser?.email else { return }
+       // email.text = email
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func signOutPressed(_ sender: Any) {
+        do {
+            try Auth.auth().signOut()
+            userDefault.removeObject(forKey: "usersignedin")
+            userDefault.synchronize()
+            self.dismiss(animated: true, completion: nil)
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
     }
-    */
-
+    
 }

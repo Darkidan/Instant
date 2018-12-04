@@ -10,12 +10,23 @@ import UIKit
 
 class PlaceHolder: UITextField {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    override init(frame: CGRect){
+        super.init(frame: frame)
+        setUpField()
     }
-    */
+    required init?(coder aDecoder: NSCoder){
+        super.init(coder: aDecoder)
+        setUpField()
+    }
+    
+    func setUpField() {
+        borderStyle = .none
+        layer.cornerRadius = frame.size.height/2
+        backgroundColor = UIColor.white.withAlphaComponent(0.7)
+        autocorrectionType = .no
+        clipsToBounds = true
+        
+        let placeholder = self.placeholder != nil ? self.placeholder! : ""
+    }
 
 }

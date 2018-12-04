@@ -6,4 +6,11 @@
 //  Copyright © 2018 Darkidan. All rights reserved.
 //
 
+// Singlton
+
 import Foundation
+
+class User_Manager {
+    static let instance:User_Manager = User_Manager()
+    
+}
