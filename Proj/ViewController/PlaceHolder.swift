@@ -26,7 +26,7 @@ class PlaceHolder: UITextField {
         autocorrectionType = .no
         clipsToBounds = true
         
-        let placeholder = self.placeholder != nil ? self.placeholder! : ""
+        _ = self.placeholder != nil ? self.placeholder! : ""
     }
 
 }

@@ -68,4 +68,3 @@ class LoginViewController: UIViewController {
         textfield.leftViewMode = .always
     }
 }
-

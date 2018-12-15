@@ -24,7 +24,6 @@
 		AC2BEABF21A8921300881016 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2BEABE21A8921300881016 /* SignUpViewController.swift */; };
 		AC2BEAC421A89AEF00881016 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2BEAC321A89AEF00881016 /* User.swift */; };
 		AC2BEAC621A89B0300881016 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2BEAC521A89B0300881016 /* Feed.swift */; };
-		AC2BEAC821A89B1100881016 /* Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2BEAC721A89B1100881016 /* Friends.swift */; };
 		AC4D668921B463D80042E73B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4D668821B463D80042E73B /* LoginViewController.swift */; };
 		AC77461421B442400011F807 /* PlaceHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC77461321B442400011F807 /* PlaceHolder.swift */; };
 		AC8B338221A43E0D00455B38 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC8B338121A43E0D00455B38 /* GoogleService-Info.plist */; };
@@ -75,7 +74,6 @@
 		AC2BEABE21A8921300881016 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		AC2BEAC321A89AEF00881016 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AC2BEAC521A89B0300881016 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
-		AC2BEAC721A89B1100881016 /* Friends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friends.swift; sourceTree = "<group>"; };
 		AC4D668821B463D80042E73B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AC77461321B442400011F807 /* PlaceHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolder.swift; sourceTree = "<group>"; };
 		AC8B338121A43E0D00455B38 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -209,7 +207,6 @@
 			children = (
 				AC2BEAC321A89AEF00881016 /* User.swift */,
 				AC2BEAC521A89B0300881016 /* Feed.swift */,
-				AC2BEAC721A89B1100881016 /* Friends.swift */,
 				AC1279A621B010060023BAA9 /* User_Manager.swift */,
 			);
 			path = Model;
@@ -436,6 +433,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Proj/Pods-Proj-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -444,6 +442,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -462,7 +461,6 @@
 				AC1279A721B010060023BAA9 /* User_Manager.swift in Sources */,
 				AC141A8821B6CD1500D85EA7 /* MyFeedViewController.swift in Sources */,
 				AC2BEAC421A89AEF00881016 /* User.swift in Sources */,
-				AC2BEAC821A89B1100881016 /* Friends.swift in Sources */,
 				AC2BEAC621A89B0300881016 /* Feed.swift in Sources */,
 				AC2BEABF21A8921300881016 /* SignUpViewController.swift in Sources */,
 				AC051D92219AF59E001D134A /* ViewController.swift in Sources */,
