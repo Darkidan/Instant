@@ -6,16 +6,14 @@
 //  Copyright © 2018 Darkidan. All rights reserved.
 //
 
-
+import Foundation
 import UIKit
 import Firebase
 import FirebaseAuth
 
-class LoginViewController: UIViewController {
-    
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var addImageBtn: UIButton!
-    
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
     
@@ -24,12 +22,14 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         
         let usernameImage = UIImage(named: "username_icon")
         addImagetoPlaceHolder(textfield: email, andImage: usernameImage!)
         
         let passwordImage = UIImage(named: "password_icon")
         addImagetoPlaceHolder(textfield: password, andImage: passwordImage!)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,6 +42,7 @@ class LoginViewController: UIViewController {
     
     
     func signInUser(email: String, password: String){
+        
         Auth.auth().signIn(withEmail: email, password: password) {(user,error) in
             if error == nil {
                 // Signed in

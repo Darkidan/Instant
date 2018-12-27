@@ -12,11 +12,11 @@ class Feed {
     let id: String
     let username: String
     let urlImage: String
-    let timestemp: Date
+    let timestemp: String //Date
     var likes = 0
     let text: String
     
-    init(_id:String, _username:String, _urlImage:String, _timestemp:Date,_text:String){
+    init(_id:String, _username:String, _urlImage:String, _timestemp:String,_text:String){
         id = _id
         username = _username
         urlImage = _urlImage
@@ -28,7 +28,7 @@ class Feed {
         id = json["id"] as! String
         username = json["username"] as! String
         urlImage = json["urlImage"] as! String
-        timestemp = json["timestemp"] as! Date
+        timestemp = json["timestemp"] as! String //Date
         likes = json["likes"] as! Int
         text = json["text"] as! String
     }

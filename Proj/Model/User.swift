@@ -9,27 +9,34 @@ class User {
     let id:String
     let username:String
     var email:String
-    var url:String
+    var avatarUrl:String
     var friends:[User]?
     
-    init(_id:String, _username:String, _email:String,_url:String){
+    init(_id:String, _username:String, _email:String,_avatarUrl:String){
         id = _id
         username = _username
         email = _email
-        url = _url
+        avatarUrl = _avatarUrl
+    }
+    
+    init(uid: String, dictionary: [String: Any]){
+        self.id = uid
+        self.username = dictionary["username"] as? String ?? ""
+        self.email = dictionary["email"] as? String ?? ""
+        self.avatarUrl = dictionary["Avatarurl"] as? String ?? ""
     }
     
     init(json:[String:Any]) {
         id = json["id"] as! String
         username = json["username"] as! String
         email = json["email"] as! String
-        url = json["url"] as! String
+        avatarUrl = json["avatarUrl"] as! String
         
         var friendsId:[String]
         friendsId = json["friendsId"] as! [String]
         
-        for friend in friendsId {
-            //Todo for each id get frind from firebase
+        for _ in friendsId {
+            //Todo for each id get friend from firebase
         }
     }
     
@@ -38,7 +45,7 @@ class User {
         json["id"] = id
         json["username"] = username
         json["email"] = email
-        json["url"] = url
+        json["avatarUrl"] = avatarUrl
         
         var friendsId = [String]()
         for friend in friends! {
