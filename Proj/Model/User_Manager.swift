@@ -1,9 +1,7 @@
 //
 //  User_Manager.swift
-//  Proj
 //
-//  Created by Darkidan on 29/11/2018.
-//  Copyright © 2018 Darkidan. All rights reserved.
+//  Copyright © 2018 All rights reserved.
 //
 
 // Singlton
@@ -15,15 +13,11 @@ class User_Manager {
     var firebase = Firebase();
     static let instance:User_Manager = User_Manager()
     
-    func saveUser(user:User){
-        //save user local
-    }
-    
-    func signInUser(email: String, password: String, onSuccess:@escaping ()->Void, onFalire:@escaping (Error?)->Void){
+    func signInUser(email: String, password: String, onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
         self.firebase.signInUser(email: email, password: password, onSuccess: {
             onSuccess()
-        }, onFalire: { (error) in
-            onFalire(error)
+        }, onFailure: { (error) in
+            onFailure(error)
         })
     }
     
@@ -37,11 +31,11 @@ class User_Manager {
         return firebase.getUserId()
     }
 
-    
-    // Need Fixing
-    func logout() {
-        firebase.logout()
+    func logout(onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
+        self.firebase.logout(onSuccess: {
+            onSuccess()
+        }, onFailure: { (error) in
+            onFailure(error)
+        })
     }
-    
-   
 }

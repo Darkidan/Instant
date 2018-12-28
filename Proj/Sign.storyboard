@@ -229,16 +229,31 @@
                                     <action selector="SignIn:" destination="bKo-W6-eIa" eventType="touchUpInside" id="1e1-3Z-hcf"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Muk-WK-oNK">
+                                <rect key="frame" x="158" y="41" width="59" height="31"/>
+                                <fontDescription key="fontDescription" name="OriyaSangamMN-Bold" family="Oriya Sangam MN" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="2Lb-VL-GUz">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" red="0.40138431390000001" green="0.77065112849999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Muk-WK-oNK" firstAttribute="leading" secondItem="mTt-U0-Rwi" secondAttribute="leading" constant="158" id="A05-Sg-bas"/>
                             <constraint firstItem="NSL-V4-dcQ" firstAttribute="trailing" secondItem="49Y-ij-jOm" secondAttribute="trailing" id="IhL-4V-M6r"/>
                             <constraint firstItem="NSL-V4-dcQ" firstAttribute="trailing" secondItem="ffR-ft-JJY" secondAttribute="trailing" id="LNK-u5-aHz"/>
                             <constraint firstAttribute="trailing" secondItem="NSL-V4-dcQ" secondAttribute="trailing" constant="37" id="MOv-G8-cF2"/>
                             <constraint firstItem="NSL-V4-dcQ" firstAttribute="top" secondItem="ffR-ft-JJY" secondAttribute="bottom" constant="28" id="Rqn-2J-W6i"/>
+                            <constraint firstItem="Muk-WK-oNK" firstAttribute="top" secondItem="mTt-U0-Rwi" secondAttribute="top" constant="21" id="Tfe-3t-h1i"/>
+                            <constraint firstItem="49Y-ij-jOm" firstAttribute="top" secondItem="Muk-WK-oNK" secondAttribute="bottom" constant="17" id="Yop-cu-TJW"/>
                             <constraint firstItem="NSL-V4-dcQ" firstAttribute="leading" secondItem="nJy-QP-X1I" secondAttribute="leading" constant="37" id="aWy-9Y-8IM"/>
                             <constraint firstItem="NSL-V4-dcQ" firstAttribute="leading" secondItem="ffR-ft-JJY" secondAttribute="leading" id="cMj-TJ-m40"/>
                             <constraint firstItem="NSL-V4-dcQ" firstAttribute="leading" secondItem="49Y-ij-jOm" secondAttribute="leading" id="d8S-1R-yuZ"/>
+                            <constraint firstItem="Muk-WK-oNK" firstAttribute="centerX" secondItem="49Y-ij-jOm" secondAttribute="centerX" id="lB3-Ta-8oz"/>
                             <constraint firstItem="49Y-ij-jOm" firstAttribute="top" secondItem="mTt-U0-Rwi" secondAttribute="top" constant="69" id="les-Zo-lN4"/>
                             <constraint firstItem="ffR-ft-JJY" firstAttribute="top" secondItem="49Y-ij-jOm" secondAttribute="bottom" constant="27" id="zOG-je-8dB"/>
                         </constraints>
@@ -247,11 +262,12 @@
                     <connections>
                         <outlet property="email" destination="49Y-ij-jOm" id="cyk-nu-Dzh"/>
                         <outlet property="password" destination="ffR-ft-JJY" id="nzs-k1-uY0"/>
+                        <outlet property="spinner" destination="2Lb-VL-GUz" id="Ezg-oc-rOI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q1e-ia-6DE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2724" y="-99"/>
+            <point key="canvasLocation" x="-2724" y="-99.400299850074973"/>
         </scene>
     </scenes>
     <resources>

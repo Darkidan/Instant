@@ -1,15 +1,12 @@
 //
 //  LoginViewController.swift
-//  Proj
+//  Instant
 //
-//  Created by Darkidan on 02/12/2018.
-//  Copyright © 2018 Darkidan. All rights reserved.
+//  Copyright © 2018 All rights reserved.
 //
 
 import Foundation
 import UIKit
-import Firebase
-import FirebaseAuth
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
@@ -17,10 +14,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
     
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.spinner.isHidden = true
 
-        
         let usernameImage = UIImage(named: "username_icon")
         addImagetoPlaceHolder(textfield: email, andImage: usernameImage!)
         
@@ -29,16 +27,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-    //    if userDefault.bool(forKey: "usersignedin"){
-      //      let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        //    let vc = storyboard.instantiateInitialViewController()
-          //  self.present(vc!, animated: true, completion: nil)
-        //}
-    }
-    
-    
     func signInUser(email: String, password: String){
+        self.spinner.isHidden = false
+        self.spinner.startAnimating()
         User_Manager.instance.signInUser(email: email, password: password, onSuccess: {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateInitialViewController()

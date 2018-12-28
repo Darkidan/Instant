@@ -1,9 +1,8 @@
 //
 //  SignUpViewController.swift
-//  Proj
+//  Instant
 //
-//  Created by Darkidan on 23/11/2018.
-//  Copyright © 2018 Darkidan. All rights reserved.
+//  Copyright © 2018 All rights reserved.
 //
 
 import UIKit
@@ -12,23 +11,20 @@ class SignUpViewController: UIViewController {
 
     @IBOutlet weak var imgAvatar: UIImageView!
     @IBOutlet weak var btnChooseAvatar: UIButton!
-    
-    var imagePicker = UIImagePickerController()
-    
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var passwordText: UITextField!
     
-    
+    var imagePicker = UIImagePickerController()
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    
-    // Avatar For User
+    // Avatar For User //
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        // Design thr avatar
+        // Design the avatar
         //self.imgAvatar.layer.cornerRadius = imgAvatar.bounds.width/2
         //self.imgAvatar.layer.borderWidth = 1
         //self.imgAvatar.layer.borderColor = UIColor.black.cgColor
@@ -50,17 +46,14 @@ class SignUpViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
 
-    //MARK: - Open the camera
     func openCamera(){
         if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera)){
             imagePicker.sourceType = UIImagePickerController.SourceType.camera
-            //If you dont want to edit the photo then you can set allowsEditing to false
             imagePicker.allowsEditing = true
             imagePicker.delegate = self
             self.present(imagePicker, animated: true, completion: nil)
-        }
-        else{
-            let alert  = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .alert)
+        } else{
+            let alert = UIAlertController(title: "Warning", message: "You don't have a camera", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
@@ -70,14 +63,11 @@ class SignUpViewController: UIViewController {
     
     func openGallary(){
         imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
-        //If you dont want to edit the photo then you can set allowsEditing to false
         imagePicker.allowsEditing = true
         imagePicker.delegate = self
         self.present(imagePicker, animated: true, completion: nil)
     }
 }
-
-//MARK: - UIImagePickerControllerDelegate
 
 extension SignUpViewController:  UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -92,7 +82,6 @@ extension SignUpViewController:  UIImagePickerControllerDelegate, UINavigationCo
             self.imgAvatar.image = selectedImage!
             picker.dismiss(animated: true, completion: nil)
         }
-        
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

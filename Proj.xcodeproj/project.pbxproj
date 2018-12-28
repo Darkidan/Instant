@@ -28,7 +28,6 @@
 		AC3B546C21C6812400130BA0 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3B546B21C6812400130BA0 /* ProfileViewController.swift */; };
 		AC3B546E21C6827500130BA0 /* Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3B546D21C6827500130BA0 /* Firebase.swift */; };
 		AC4D668921B463D80042E73B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4D668821B463D80042E73B /* LoginViewController.swift */; };
-		AC77461421B442400011F807 /* PlaceHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC77461321B442400011F807 /* PlaceHolder.swift */; };
 		C0B77D36CF4C3CD215237F6B /* Pods_ProjTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3D09BEB95E74CF149C9713D /* Pods_ProjTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -80,7 +79,6 @@
 		AC3B546B21C6812400130BA0 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		AC3B546D21C6827500130BA0 /* Firebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Firebase.swift; sourceTree = "<group>"; };
 		AC4D668821B463D80042E73B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		AC77461321B442400011F807 /* PlaceHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolder.swift; sourceTree = "<group>"; };
 		C0924E57433C37ED2F67E68E /* Pods-ProjUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ProjUITests/Pods-ProjUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		C39CDD0328010C6421835AF2 /* Pods-Proj.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Proj.release.xcconfig"; path = "Pods/Target Support Files/Pods-Proj/Pods-Proj.release.xcconfig"; sourceTree = "<group>"; };
 		E0AFF157F2C36DF32C4DE98A /* Pods_ProjUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ProjUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,7 +189,6 @@
 			children = (
 				AC051D91219AF59E001D134A /* ViewController.swift */,
 				AC2BEABE21A8921300881016 /* SignUpViewController.swift */,
-				AC77461321B442400011F807 /* PlaceHolder.swift */,
 				AC4D668821B463D80042E73B /* LoginViewController.swift */,
 				AC141A8721B6CD1500D85EA7 /* MyFeedViewController.swift */,
 				AC1F0A5421B7078600792F83 /* LaunchViewController.swift */,
@@ -474,7 +471,6 @@
 				AC051D92219AF59E001D134A /* ViewController.swift in Sources */,
 				AC1F0A5521B7078600792F83 /* LaunchViewController.swift in Sources */,
 				AC051D90219AF59E001D134A /* AppDelegate.swift in Sources */,
-				AC77461421B442400011F807 /* PlaceHolder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -660,7 +656,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Instant.Project;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -679,7 +675,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Instant.Project;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -1,9 +1,8 @@
 //
 //  LaunchViewController.swift
-//  Proj
+//  Instant
 //
-//  Created by Darkidan on 04/12/2018.
-//  Copyright © 2018 Darkidan. All rights reserved.
+//  Copyright © 2018 All rights reserved.
 //
 
 import UIKit
