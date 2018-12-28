@@ -12,15 +12,26 @@ class ProfileViewController: UIViewController {
 
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var email: UILabel!
+    var user:User?
     
-    var userId:String?
-    var user: User?
-    
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        if userId != nil {
-            user = User_Manager.instance.getUser(byId: userId!)
-            username.text = user?.username
+        self.spinner.isHidden = false
+        self.spinner.startAnimating()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        User_Manager.instance.getUser { (user) in
+            self.user = user
+            DispatchQueue.main.async {
+                self.username.text = user.username
+                self.email.text = user.email
+                self.spinner.isHidden = true
+            }
+            
+            print(user.username)
+            //TODO: ADD Spinner. IF done Spiner is hidden
         }
     }
     

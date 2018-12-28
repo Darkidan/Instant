@@ -17,9 +17,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
     
-    let userDefault = UserDefaults.standard
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,29 +30,23 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if userDefault.bool(forKey: "usersignedin"){
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateInitialViewController()
-            self.present(vc!, animated: true, completion: nil)
-        }
+    //    if userDefault.bool(forKey: "usersignedin"){
+      //      let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        //    let vc = storyboard.instantiateInitialViewController()
+          //  self.present(vc!, animated: true, completion: nil)
+        //}
     }
     
     
     func signInUser(email: String, password: String){
-        
-        Auth.auth().signIn(withEmail: email, password: password) {(user,error) in
-            if error == nil {
-                // Signed in
-                print("User has Signed In!")
-                self.userDefault.set(true, forKey: "usersignedin")
-                self.userDefault.synchronize()
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyboard.instantiateInitialViewController()
-                self.present(vc!, animated: true, completion: nil)
-            } else {
-                print(error?.localizedDescription as Any)
-            }
+        User_Manager.instance.signInUser(email: email, password: password, onSuccess: {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateInitialViewController()
+            self.present(vc!, animated: true, completion: nil)
+        }) { (error) in
+            print(error?.localizedDescription as Any)
         }
+
     }
     
     @IBAction func SignIn(_ sender: Any) {

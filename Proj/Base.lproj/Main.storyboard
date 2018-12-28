@@ -228,17 +228,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="75r-ZC-Pkf">
-                                <rect key="frame" x="121" y="85" width="140" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Gei-Gu-d1W" firstAttribute="top" secondItem="deb-KE-gFj" secondAttribute="top" constant="52" id="4th-it-jst"/>
-                            <constraint firstItem="75r-ZC-Pkf" firstAttribute="leading" secondItem="deb-KE-gFj" secondAttribute="leading" constant="121" id="EOx-L9-ywK"/>
                             <constraint firstItem="tWI-Z0-MEW" firstAttribute="top" secondItem="jCG-Hi-KaI" secondAttribute="bottom" constant="12" id="EyC-ff-RgC"/>
                             <constraint firstItem="deb-KE-gFj" firstAttribute="trailing" secondItem="tWI-Z0-MEW" secondAttribute="trailing" constant="16" id="KQB-Xn-aPZ"/>
                             <constraint firstItem="jCG-Hi-KaI" firstAttribute="top" secondItem="Gei-Gu-d1W" secondAttribute="bottom" constant="8" symbolic="YES" id="Lhs-pX-hAy"/>
@@ -251,9 +244,7 @@
                             <constraint firstItem="zr7-Sw-9qF" firstAttribute="leading" secondItem="deb-KE-gFj" secondAttribute="leading" constant="23" id="YJg-Gg-bsH"/>
                             <constraint firstItem="h4O-FZ-CB1" firstAttribute="top" secondItem="tWI-Z0-MEW" secondAttribute="bottom" constant="27" id="ZQR-bM-3vT"/>
                             <constraint firstItem="jCG-Hi-KaI" firstAttribute="leading" secondItem="tWI-Z0-MEW" secondAttribute="leading" id="cAA-eh-Xck"/>
-                            <constraint firstItem="75r-ZC-Pkf" firstAttribute="centerX" secondItem="jCG-Hi-KaI" secondAttribute="centerX" id="eiK-aQ-vGl"/>
                             <constraint firstItem="h4O-FZ-CB1" firstAttribute="centerX" secondItem="tWI-Z0-MEW" secondAttribute="centerX" id="fTs-vm-725"/>
-                            <constraint firstItem="75r-ZC-Pkf" firstAttribute="top" secondItem="deb-KE-gFj" secondAttribute="top" constant="21" id="h0b-ZC-uqw"/>
                             <constraint firstItem="Gei-Gu-d1W" firstAttribute="leading" secondItem="zr7-Sw-9qF" secondAttribute="leading" id="hhO-28-Osd"/>
                             <constraint firstItem="tWI-Z0-MEW" firstAttribute="leading" secondItem="deb-KE-gFj" secondAttribute="leading" constant="16" id="oNU-uk-OZJ"/>
                             <constraint firstItem="deb-KE-gFj" firstAttribute="trailing" secondItem="diS-we-FfS" secondAttribute="trailing" constant="16" id="wEr-QD-NAX"/>
@@ -273,9 +264,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="emailLabel" destination="75r-ZC-Pkf" id="s3t-C1-oZ5"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B25-nh-Qx5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -498,6 +486,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="E0o-9d-f6J">
+                                <rect key="frame" x="169" y="167" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" red="0.40138431390000001" green="0.77065112849999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -531,6 +524,7 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="email" destination="YbS-bu-CWT" id="Uq8-Yn-mjv"/>
+                        <outlet property="spinner" destination="E0o-9d-f6J" id="nyO-SB-LZ0"/>
                         <outlet property="username" destination="vby-rc-7Kg" id="Erc-Uh-Upj"/>
                     </connections>
                 </viewController>

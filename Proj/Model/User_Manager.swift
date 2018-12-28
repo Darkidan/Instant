@@ -11,18 +11,32 @@
 import Foundation
 
 class User_Manager {
-    static let instance:User_Manager = User_Manager()
     
     var firebase = Firebase();
-
-    ///////////////////////////
-    func getUser(byId:String)->User?{
-        return firebase.getUser(byId:byId)
-    }
+    static let instance:User_Manager = User_Manager()
     
     func saveUser(user:User){
         //save user local
     }
+    
+    func signInUser(email: String, password: String, onSuccess:@escaping ()->Void, onFalire:@escaping (Error?)->Void){
+        self.firebase.signInUser(email: email, password: password, onSuccess: {
+            onSuccess()
+        }, onFalire: { (error) in
+            onFalire(error)
+        })
+    }
+    
+    func getUser(onSuccess:@escaping (User)->Void){
+        firebase.getUserByID(id: self.getUserId()) { (user) in
+            onSuccess(user)
+        }
+    }
+    
+    func getUserId()->String{
+        return firebase.getUserId()
+    }
+
     
     // Need Fixing
     func logout() {
