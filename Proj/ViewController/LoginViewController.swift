@@ -13,8 +13,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var addImageBtn: UIButton!
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
-    
     @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.spinner.isHidden = true
@@ -37,7 +37,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }) { (error) in
             print(error?.localizedDescription as Any)
         }
-
     }
     
     @IBAction func SignIn(_ sender: Any) {

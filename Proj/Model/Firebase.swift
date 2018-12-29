@@ -24,10 +24,26 @@ class Firebase {
                 print("User has Signed In!")
                 self.userDefault.set(true, forKey: "usersignedin")
                 self.userDefault.synchronize()
-                onSuccess();
+                onSuccess()
             } else {
                 print(error?.localizedDescription as Any)
-                onFailure(error);
+                onFailure(error)
+            }
+        }
+    }
+    
+    
+    func signUpUser(email: String, password: String, onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
+        
+        Auth.auth().createUser(withEmail: email, password: password){(user, error) in
+            if error == nil {
+                print("User has Registerd (Add Username)")
+                self.userDefault.set(true, forKey: "usersignedup")
+                self.userDefault.synchronize()
+                onSuccess()
+            } else {
+                print(error?.localizedDescription as Any)
+                onFailure(error)
             }
         }
     }

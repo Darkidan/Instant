@@ -7,17 +7,72 @@
 
 import UIKit
 
-class SignUpViewController: UIViewController {
-
+class SignUpViewController: UIViewController,UITextFieldDelegate {
+    
     @IBOutlet weak var imgAvatar: UIImageView!
     @IBOutlet weak var btnChooseAvatar: UIButton!
-    @IBOutlet weak var username: UITextField!
-    @IBOutlet weak var passwordText: UITextField!
+    
+    @IBOutlet weak var usernameLabel: UITextField!
+    @IBOutlet weak var passwordLabel: UITextField!
+    @IBOutlet weak var confirmPasswordLabel: UITextField!
+    @IBOutlet weak var emailLabel: UITextField!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
     
     var imagePicker = UIImagePickerController()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        hideKeyboardWhenTappedAround()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+        self.spinner.isHidden = true
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    func signUpUser(email: String, password: String){
+        self.spinner.isHidden = false
+        self.spinner.startAnimating()
+        User_Manager.instance.signUpUser(email: email, password: password, onSuccess: {
+            
+            User_Manager.instance.firebase.ref.child("Users").child(User_Manager.instance.firebase.getUserId()).setValue([
+                "email" : self.emailLabel.text!,
+                "id" : User_Manager.instance.getUserId(),
+                "url" : "",
+                "username" : self.usernameLabel.text!,
+                ])
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateInitialViewController()
+            self.present(vc!, animated: true, completion: nil)
+        }) { (error) in
+            print(error?.localizedDescription as Any)
+        }
+    }
+    
+    @IBAction func signUp(_ sender: Any) {
+        if self.passwordLabel.text != self.confirmPasswordLabel.text {
+            let alert = UIAlertController(title: "Password Incorrect", message: "Please re-type password", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+        } else if (self.passwordLabel.text?.isEmpty)! {
+            let alert = UIAlertController(title: "Password Empty", message: "Please enter password", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            signUpUser(email: emailLabel.text!, password: passwordLabel.text!)
+        }
     }
     
     // Avatar For User //
@@ -25,10 +80,9 @@ class SignUpViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         // Design the avatar
-        //self.imgAvatar.layer.cornerRadius = imgAvatar.bounds.width/2
-        //self.imgAvatar.layer.borderWidth = 1
-        //self.imgAvatar.layer.borderColor = UIColor.black.cgColor
-        //self.btnChooseAvatar.layer.cornerRadius = 5
+        self.imgAvatar.contentMode = .scaleAspectFill
+        self.imgAvatar.layer.cornerRadius = 50
+        self.imgAvatar.clipsToBounds = true
     }
     
     @IBAction func btnChooseAvatarOnClick(_ sender: UIButton) {
@@ -45,7 +99,7 @@ class SignUpViewController: UIViewController {
         
         self.present(alert, animated: true, completion: nil)
     }
-
+    
     func openCamera(){
         if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera)){
             imagePicker.sourceType = UIImagePickerController.SourceType.camera
@@ -87,5 +141,31 @@ extension SignUpViewController:  UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.isNavigationBarHidden = false
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func keyboardWillChange(notification: Notification){
+        guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
+        }
+        
+        if notification.name == UIResponder.keyboardWillShowNotification || notification.name == UIResponder.keyboardWillChangeFrameNotification {
+            view.frame.origin.y = -keyboardRect.height
+        } else {
+            view.frame.origin.y = 0
+        }
+    }
+    
+    
+}
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }

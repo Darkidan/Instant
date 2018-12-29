@@ -8,8 +8,6 @@
 import UIKit
 
 class MyFeedViewController: UIViewController {
-
-    let userDefault = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()

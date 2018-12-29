@@ -14,7 +14,7 @@ class LaunchViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if UserDefaults.standard.bool(forKey: "usersignedin"){
+        if UserDefaults.standard.bool(forKey: "usersignedin") || UserDefaults.standard.bool(forKey: "usersignedup"){
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateInitialViewController()
             self.present(vc!, animated: true, completion: nil)
