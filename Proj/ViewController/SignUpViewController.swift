@@ -11,26 +11,27 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
     
     @IBOutlet weak var imgAvatar: UIImageView!
     @IBOutlet weak var btnChooseAvatar: UIButton!
-    
     @IBOutlet weak var usernameLabel: UITextField!
     @IBOutlet weak var passwordLabel: UITextField!
     @IBOutlet weak var confirmPasswordLabel: UITextField!
     @IBOutlet weak var emailLabel: UITextField!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
-    
+    @IBOutlet weak var registerBtn: UIButton!
     
     var imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         hideKeyboardWhenTappedAround()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+        passwordLabel.delegate = self
+        confirmPasswordLabel.delegate = self
+        registerBtn.alpha = 0.5
+        registerBtn.isEnabled = false
         
         self.spinner.isHidden = true
     }
@@ -44,14 +45,9 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
     func signUpUser(email: String, password: String){
         self.spinner.isHidden = false
         self.spinner.startAnimating()
-        User_Manager.instance.signUpUser(email: email, password: password, onSuccess: {
-            
-            User_Manager.instance.firebase.ref.child("Users").child(User_Manager.instance.firebase.getUserId()).setValue([
-                "email" : self.emailLabel.text!,
-                "id" : User_Manager.instance.getUserId(),
-                "url" : "",
-                "username" : self.usernameLabel.text!,
-                ])
+        
+        User_Manager.instance.signUpUser(email: email, password: password,
+                                         newUser: User(_id: User_Manager.instance.getUserId(), _username: usernameLabel.text!, _email: emailLabel.text!, _url: "") ,onSuccess: {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateInitialViewController()
             self.present(vc!, animated: true, completion: nil)
@@ -61,18 +57,7 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
     }
     
     @IBAction func signUp(_ sender: Any) {
-        if self.passwordLabel.text != self.confirmPasswordLabel.text {
-            let alert = UIAlertController(title: "Password Incorrect", message: "Please re-type password", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            
-        } else if (self.passwordLabel.text?.isEmpty)! {
-            let alert = UIAlertController(title: "Password Empty", message: "Please enter password", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        } else {
             signUpUser(email: emailLabel.text!, password: passwordLabel.text!)
-        }
     }
     
     // Avatar For User //
@@ -121,6 +106,17 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
         imagePicker.delegate = self
         self.present(imagePicker, animated: true, completion: nil)
     }
+    
+    @IBAction func confirmPassword(_ sender: UITextField) {
+        if passwordLabel.text == "" || passwordLabel.text != confirmPasswordLabel.text{
+            registerBtn.isEnabled = false
+            registerBtn.alpha = 0.5
+        }else{
+            registerBtn.isEnabled = true
+            registerBtn.alpha = 1
+        }
+    }
+    
 }
 
 extension SignUpViewController:  UIImagePickerControllerDelegate, UINavigationControllerDelegate{

@@ -32,11 +32,15 @@ class Firebase {
         }
     }
     
+
     
-    func signUpUser(email: String, password: String, onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
+    func signUpUser(email: String, password: String, newUser:User, onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
         
         Auth.auth().createUser(withEmail: email, password: password){(user, error) in
             if error == nil {
+       
+                self.ref.child("Users").child(self.getUserId()).setValue(newUser.toJson())
+                
                 print("User has Registerd (Add Username)")
                 self.userDefault.set(true, forKey: "usersignedup")
                 self.userDefault.synchronize()

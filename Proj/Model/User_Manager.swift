@@ -21,8 +21,8 @@ class User_Manager {
         })
     }
     
-    func signUpUser(email: String, password: String, onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
-        self.firebase.signUpUser(email: email, password: password, onSuccess: {
+    func signUpUser(email: String, password: String,newUser:User ,onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
+        self.firebase.signUpUser(email: email, password: password, newUser: newUser, onSuccess: {
             onSuccess()
         }, onFailure: { (error) in
             onFailure(error)
