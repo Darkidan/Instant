@@ -5,20 +5,21 @@
 //
 
 import Foundation
+import Firebase
 
 class Feed {
     let id: String
     let username: String
     let urlImage: String
-    let timestemp: String //Date
-    var likes = 0
+    var likes: String
     let text: String
+    var lastUpdate:Double?
     
-    init(_id:String, _username:String, _urlImage:String, _timestemp:String,_text:String){
+    init(_id:String, _username:String, _urlImage:String = "", _likes:String ,_text:String){
         id = _id
         username = _username
         urlImage = _urlImage
-        timestemp = _timestemp
+        likes = _likes
         text = _text
 }
 
@@ -26,9 +27,14 @@ class Feed {
         id = json["id"] as! String
         username = json["username"] as! String
         urlImage = json["urlImage"] as! String
-        timestemp = json["timestemp"] as! String //Date
-        likes = json["likes"] as! Int
+        likes = json["likes"] as! String
         text = json["text"] as! String
+        
+        if json["lastUpdate"] != nil {
+            if let lud = json["lastUpdate"] as? Double{
+                lastUpdate = lud
+            }
+        }
     }
     
     func toJson() -> [String:Any] {
@@ -36,8 +42,8 @@ class Feed {
         json["id"] = id
         json["username"] = username
         json["urlImage"] = urlImage
-        json["timestemp"] = timestemp
         json["likes"] = likes
         json["text"] = text
+        json["lastUpdate"] = ServerValue.timestamp()
         return json
     }}

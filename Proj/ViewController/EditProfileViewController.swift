@@ -16,10 +16,19 @@ class EditProfileViewController: UIViewController {
     @IBOutlet weak var confirmNewPasswordText: UITextField!
     @IBOutlet weak var newPasswordText: UITextField!
     @IBOutlet weak var usernameText: UITextField!
+    var user: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.spinner.isHidden = true
+        self.spinner.isHidden = false
+        self.spinner.startAnimating()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        User_Manager.instance.getUser { (user) in
+            self.usernameText.text = user.username
+            self.spinner.isHidden = true
+        }
     }
     
 
