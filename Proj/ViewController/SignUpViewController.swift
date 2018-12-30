@@ -22,24 +22,11 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        hideKeyboardWhenTappedAround()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-        
-        passwordLabel.delegate = self
-        confirmPasswordLabel.delegate = self
-        registerBtn.alpha = 0.5
-        registerBtn.isEnabled = false
-        
         self.spinner.isHidden = true
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     func signUpUser(email: String, password: String){
@@ -55,7 +42,38 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
     }
     
     @IBAction func signUp(_ sender: Any) {
+        guard let username = usernameLabel.text, !username.isEmpty else {
+            alert(title: "Username Error", message: "Username is empty")
+            return
+        }
+        guard let password = passwordLabel.text, !password.isEmpty else {
+                alert(title: "Password Error", message: "Password is empty")
+                return
+        }
+        guard let confirmPass = confirmPasswordLabel.text, !confirmPass.isEmpty else {
+                alert(title: "Confirm Password Error", message: "Confirm Password is empty")
+                return
+        }
+        guard password == confirmPass else {
+            alert(title: "Password Error", message: "Password does not match")
+            return
+        }
+        guard let email = emailLabel.text, !email.isEmpty else {
+            alert(title: "Email Error", message: "Email is empty")
+            return
+        }
+        guard let email2 = emailLabel.text, email2.contains("@") else {
+            alert(title: "Email Error", message: "Email is missing @")
+            return
+        }
         signUpUser(email: emailLabel.text!, password: passwordLabel.text!)
+    }
+    
+    
+    func alert(title: String, message: String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     // Avatar For User //
@@ -97,24 +115,12 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
     }
     
     //MARK: - Choose image from camera roll
-    
     func openGallary(){
         imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
         imagePicker.allowsEditing = true
         imagePicker.delegate = self
         self.present(imagePicker, animated: true, completion: nil)
     }
-    
-    @IBAction func confirmPassword(_ sender: UITextField) {
-        if passwordLabel.text == "" || passwordLabel.text != confirmPasswordLabel.text{
-            registerBtn.isEnabled = false
-            registerBtn.alpha = 0.5
-        }else{
-            registerBtn.isEnabled = true
-            registerBtn.alpha = 1
-        }
-    }
-    
 }
 
 extension SignUpViewController:  UIImagePickerControllerDelegate, UINavigationControllerDelegate{
@@ -135,31 +141,5 @@ extension SignUpViewController:  UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.isNavigationBarHidden = false
         self.dismiss(animated: true, completion: nil)
-    }
-    
-    @objc func keyboardWillChange(notification: Notification){
-        guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-            return
-        }
-        
-        if notification.name == UIResponder.keyboardWillShowNotification || notification.name == UIResponder.keyboardWillChangeFrameNotification {
-            view.frame.origin.y = -keyboardRect.height
-        } else {
-            view.frame.origin.y = 0
-        }
-    }
-    
-    
-}
-
-extension UIViewController {
-    func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
     }
 }
