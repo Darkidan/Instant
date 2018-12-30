@@ -45,19 +45,17 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
     func signUpUser(email: String, password: String){
         self.spinner.isHidden = false
         self.spinner.startAnimating()
-        
-        User_Manager.instance.signUpUser(email: email, password: password,
-                                         newUser: User(_id: User_Manager.instance.getUserId(), _username: usernameLabel.text!, _email: emailLabel.text!, _url: "") ,onSuccess: {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateInitialViewController()
-            self.present(vc!, animated: true, completion: nil)
+        User_Manager.instance.signUpUser(email: emailLabel.text!, password: password, username: usernameLabel.text!, url: "" ,onSuccess: {
+                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                            let vc = storyboard.instantiateInitialViewController()
+                            self.present(vc!, animated: true, completion: nil)
         }) { (error) in
             print(error?.localizedDescription as Any)
         }
     }
     
     @IBAction func signUp(_ sender: Any) {
-            signUpUser(email: emailLabel.text!, password: passwordLabel.text!)
+        signUpUser(email: emailLabel.text!, password: passwordLabel.text!)
     }
     
     // Avatar For User //

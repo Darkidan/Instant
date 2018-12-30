@@ -292,7 +292,7 @@
                     <navigationItem key="navigationItem" title="My Feed" id="Vby-Ge-sYA">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="4nb-Y6-LJ7">
                             <connections>
-                                <action selector="signOutPressed:" destination="h7S-7X-a4D" id="EE4-oj-NSa"/>
+                                <action selector="signOutPressed:" destination="h7S-7X-a4D" id="tD5-av-Crp"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="jku-n8-WMZ">

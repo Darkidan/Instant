@@ -20,9 +20,8 @@ class User_Manager {
             onFailure(error)
         })
     }
-    
-    func signUpUser(email: String, password: String,newUser:User ,onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
-        self.firebase.signUpUser(email: email, password: password, newUser: newUser, onSuccess: {
+    func signUpUser(email: String, password: String, username: String, url: String ,onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
+        self.firebase.signUpUser(email: email, password: password, username: username, url: url, onSuccess: {
             onSuccess()
         }, onFailure: { (error) in
             onFailure(error)
@@ -38,9 +37,17 @@ class User_Manager {
     func getUserId()->String{
         return firebase.getUserId()
     }
+    
+    func logoutSignUp(onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
+        self.firebase.logoutSignUp(onSuccess: {
+            onSuccess()
+        }, onFailure: { (error) in
+            onFailure(error)
+        })
+    }
 
-    func logout(onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
-        self.firebase.logout(onSuccess: {
+    func logoutSignIn(onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
+        self.firebase.logoutSignIn(onSuccess: {
             onSuccess()
         }, onFailure: { (error) in
             onFailure(error)

@@ -32,16 +32,12 @@ class Firebase {
         }
     }
     
-
-    
-    func signUpUser(email: String, password: String, newUser:User, onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
-        
+    func signUpUser(email: String, password: String, username: String, url: String, onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
         Auth.auth().createUser(withEmail: email, password: password){(user, error) in
             if error == nil {
-       
+                let newUser = User(_id: self.getUserId(), _username: username, _email: email, _url: url)
                 self.ref.child("Users").child(self.getUserId()).setValue(newUser.toJson())
-                
-                print("User has Registerd (Add Username)")
+                print("User has Registerd!")
                 self.userDefault.set(true, forKey: "usersignedup")
                 self.userDefault.synchronize()
                 onSuccess()
@@ -52,7 +48,19 @@ class Firebase {
         }
     }
     
-    func logout(onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
+    func logoutSignUp(onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
+        do {
+            try Auth.auth().signOut()
+            userDefault.removeObject(forKey: "usersignedup")
+            userDefault.synchronize()
+            onSuccess();
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            onFailure(error);
+        }
+    }
+    
+    func logoutSignIn(onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
         do {
             try Auth.auth().signOut()
             userDefault.removeObject(forKey: "usersignedin")
@@ -65,7 +73,7 @@ class Firebase {
     }
     
     func getUserByID(id: String, onSuccess:@escaping (User)->Void){
-        ref.child("Users").child("123456").observeSingleEvent(of: .value) { (snapshot) in
+        ref.child("Users").child(getUserId()).observeSingleEvent(of: .value) { (snapshot) in
             if let value = snapshot.value as? [String:Any]{
                 let user = User(json: value)
                 onSuccess(user)
