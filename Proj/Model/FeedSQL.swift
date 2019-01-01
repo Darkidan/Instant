@@ -5,12 +5,11 @@
 //
 
 import Foundation
-
 extension Feed{
     
     static func createTable(database: OpaquePointer?)  {
         var errormsg: UnsafeMutablePointer<Int8>? = nil
-        let res = sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS Feeds (FEED_ID TEXT PRIMARY KEY, USENAME TEXT, LIKES TEXT, TEXTFEED TEXT)", nil, nil, &errormsg);
+        let res = sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS Feeds (FEED_ID TEXT PRIMARY KEY, USERNAME TEXT, LIKES TEXT, TEXTFEED TEXT)", nil, nil, &errormsg);
         if(res != 0){
             print("error creating table");
             return

@@ -59,7 +59,7 @@ class User_Manager {
     }
     
     func getAllFeeds(){
-        //1. read local students last update date
+        //1. read local feeds last update date
         var lastUpdated = Feed.getLastUpdateDate(database: sql.database)
         lastUpdated += 1;
         
@@ -73,14 +73,14 @@ class User_Manager {
                 }
             }
             
-            //4. update the local students last update date
+            //4. update the local feeds last update date
             Feed.setLastUpdateDate(database: self.sql.database, date: lastUpdated)
             
             //5. get the full data
             let feedFullData = Feed.getAll(database: self.sql.database)
             
             //6. notify observers with full data
-            UserManagerNotification.myfeedListNotification.notify(data: feedFullData)
+            UserManagerNotification.myfeedListNotification.notify(data: data)
         }
     }
     

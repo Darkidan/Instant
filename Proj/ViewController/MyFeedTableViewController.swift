@@ -18,23 +18,14 @@ class MyFeedTableViewController: UITableViewController {
         super.viewDidLoad()
         User_Manager.instance.getUsername()
 
-      //  self.tableView.rowHeight = 100
+       self.tableView.rowHeight = 500
         
-        myfeedListener = UserManagerNotification.myfeedListNotification.observe(){ (data:Any) in
-            self.data = data as! [Feed]
+        myfeedListener = UserManagerNotification.myfeedListNotification.observe(){ (data1:Any) in
+            self.data = data1 as! [Feed]
             self.tableView.reloadData()
         }
         
-        //User_Manager.instance.getAllFeeds()
-        
-        let ref = Database.database().reference()
-        ref.child("Feeds").observeSingleEvent(of: .value) { (DataSnapshot) in
-            let FeedData = DataSnapshot.value as? [String: Any]
-            for feed in FeedData! {
-               // print(feed)
-            }
-        }
-        
+        User_Manager.instance.getAllFeeds()
     }
     
     deinit{
@@ -66,7 +57,21 @@ class MyFeedTableViewController: UITableViewController {
         let cell:MyFeedTableViewCell = (tableView.dequeueReusableCell(withIdentifier: "MyFeedCell", for: indexPath) as! MyFeedTableViewCell)
         
         let feed = data[indexPath.row]
-        cell.usernameLabel.text = feed.username
+        cell.UsernameLabel.text = feed.username
+        cell.textLabelC.text = feed.text
+        
+        cell.imageView?.image = UIImage(named: "avatar")
+        cell.imageView!.tag = indexPath.row
+        //print("url: \(feed.urlImage)")
+        if feed.urlImage != "" {
+            User_Manager.instance.getImage(url: feed.urlImage) { (image:UIImage?) in
+                if (cell.imageView!.tag == indexPath.row){
+                    if image != nil {
+                        cell.imageView?.image = image!
+                    }
+                }
+            }
+        }
         
         return cell
     }

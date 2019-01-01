@@ -40,7 +40,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func SignIn(_ sender: Any) {
-        signInUser(email: email.text!,password: password.text!)
+        signInUser(email: email.text!, password: password.text!)
     }
     
     func addImagetoPlaceHolder(textfield: UITextField, andImage img: UIImage){

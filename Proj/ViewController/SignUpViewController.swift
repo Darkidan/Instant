@@ -21,7 +21,6 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
     var imagePicker = UIImagePickerController()
     var image:UIImage?
     var random: String = ""
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +37,7 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
     }
     
     
-    func signUpUser(email: String, password: String,url:String){
+    func signUpUser(email: String, password: String,url: String){
 
         User_Manager.instance.signUpUser(email: emailLabel.text!, password: password, username: usernameLabel.text!, url: url ,onSuccess: {
                             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -63,7 +62,7 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
                 return
         }
         guard password == confirmPass else {
-            alert(title: "Password Error", message: "Password does not match")
+            alert(title: "Password Error", message: "Passwords does not match")
             return
         }
         guard let email = emailLabel.text, !email.isEmpty else {

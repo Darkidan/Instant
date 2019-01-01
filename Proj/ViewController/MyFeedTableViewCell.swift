@@ -10,10 +10,15 @@ import UIKit
 
 class MyFeedTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var feedImage: UIImageView!
+    @IBOutlet weak var textLabelC: UILabel!
+    @IBOutlet weak var UsernameLabel: UILabel!
+    
+    //var username:String?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+      //  usernameLabel.text = username
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -21,5 +26,6 @@ class MyFeedTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
 
 }
