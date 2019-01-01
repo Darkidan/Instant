@@ -3,6 +3,7 @@
 //
 //  Copyright © 2018 All rights reserved.
 //
+
 import Foundation
 
 extension Feed{
@@ -55,7 +56,7 @@ extension Feed{
             sqlite3_bind_text(sqlite3_stmt, 3, likes,-1,nil);
             sqlite3_bind_text(sqlite3_stmt, 4, text,-1,nil);
             if(sqlite3_step(sqlite3_stmt) == SQLITE_DONE){
-                print("new row added succefully")
+                print("FeedSQL: new row added succefully")
             }
         }
         sqlite3_finalize(sqlite3_stmt)

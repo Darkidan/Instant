@@ -171,7 +171,6 @@
 			children = (
 				AC1EFBED21D67787002151DF /* GoogleService-Info.plist */,
 				AC2BEAC221A89A9700881016 /* Model */,
-				AC2BEAC121A89A8800881016 /* StoryBoard */,
 				AC2BEAC021A89A6300881016 /* ViewController */,
 				AC051D8F219AF59E001D134A /* AppDelegate.swift */,
 				AC1F0A6121B7225500792F83 /* Sign.storyboard */,
@@ -218,13 +217,6 @@
 				AC11D2E521D9302B00A3F260 /* MyFeedTableViewCell.swift */,
 			);
 			path = ViewController;
-			sourceTree = "<group>";
-		};
-		AC2BEAC121A89A8800881016 /* StoryBoard */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = StoryBoard;
 			sourceTree = "<group>";
 		};
 		AC2BEAC221A89A9700881016 /* Model */ = {

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import FirebaseDatabase
 class MyFeedTableViewController: UITableViewController {
     
     var data = [Feed]()
@@ -16,16 +16,25 @@ class MyFeedTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        User_Manager.instance.getUsername()
+
+      //  self.tableView.rowHeight = 100
         
-        self.tableView.rowHeight = 300
-        
-        myfeedListener = UserManagerNotification.myfeedListNotification.observe(){
-            (data:Any) in
+        myfeedListener = UserManagerNotification.myfeedListNotification.observe(){ (data:Any) in
             self.data = data as! [Feed]
             self.tableView.reloadData()
         }
         
-        User_Manager.instance.getAllFeeds()
+        //User_Manager.instance.getAllFeeds()
+        
+        let ref = Database.database().reference()
+        ref.child("Feeds").observeSingleEvent(of: .value) { (DataSnapshot) in
+            let FeedData = DataSnapshot.value as? [String: Any]
+            for feed in FeedData! {
+               // print(feed)
+            }
+        }
+        
     }
     
     deinit{
@@ -49,19 +58,15 @@ class MyFeedTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print ("Data Count: \(data.count)")
         return data.count
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
-    }
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell:MyFeedTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MyFeedCell", for: indexPath) as! MyFeedTableViewCell
+        let cell:MyFeedTableViewCell = (tableView.dequeueReusableCell(withIdentifier: "MyFeedCell", for: indexPath) as! MyFeedTableViewCell)
         
         let feed = data[indexPath.row]
         cell.usernameLabel.text = feed.username
-        //cell.textFeedLabel.text = feed.text
         
         return cell
     }

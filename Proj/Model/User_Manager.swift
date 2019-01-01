@@ -4,8 +4,6 @@
 //  Copyright © 2018 All rights reserved.
 //
 
-// Singlton
-
 import Foundation
 import UIKit
 
@@ -38,6 +36,10 @@ class User_Manager {
     
     func getUserId()->String{
         return firebase.getUserId()
+    }
+    
+    func getUsername(){
+        firebase.getUsername()
     }
     
     func logoutSignUp(onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
@@ -133,7 +135,7 @@ class User_Manager {
 }
 
 class UserManagerNotification{
-    static let myfeedListNotification = MyNotification<[Feed]>("instance.Project.feedlist")
+    static let myfeedListNotification = MyNotification<[Feed]>("Instant.Project.feedlist")
     
     class MyNotification<T>{
         let name:String

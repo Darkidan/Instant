@@ -16,8 +16,13 @@ class CreateNewFeedViewController: UIViewController, UITextFieldDelegate, UIImag
     var imagePicker = UIImagePickerController()
     var image:UIImage?
     
+    var random: String = ""
+    
+    var usernameText: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.random = randomNumber(MIN: 0, MAX: 100000)
         self.spinner.isHidden = true
     }
     
@@ -28,6 +33,37 @@ class CreateNewFeedViewController: UIViewController, UITextFieldDelegate, UIImag
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
+    
+
+    
+    @IBAction func CreateFeed(_ sender: UIButton) {
+        self.spinner.isHidden = false
+        self.spinner.startAnimating()
+        if image != nil {
+            User_Manager.instance.saveImage(image: image!, text: "photo" + self.random){ (url:String?) in
+                var _url = ""
+                if url != nil {
+                    _url = url!
+                }
+                self.saveFeedInfo(url: _url)
+            }
+        }else{
+            self.saveFeedInfo(url: "")
+        }
+    }
+    
+    func saveFeedInfo(url:String)  {
+       self.usernameText = UserDefaults.standard.string(forKey: "Username")!
+        let feed = Feed(_id: "photo" + self.random, _username: self.usernameText, _urlImage: url, _likes: "0", _text: textField.text!)
+        User_Manager.instance.addNewFeed(feed: feed)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func randomNumber(MIN: Int, MAX: Int)-> String{
+        return String(arc4random_uniform(UInt32(MAX-MIN)) + UInt32(MIN));
+    }
+    
+    // Avatar For User //
     
     @IBAction func choosePhoto(_ sender: Any) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -44,39 +80,10 @@ class CreateNewFeedViewController: UIViewController, UITextFieldDelegate, UIImag
         self.present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func CreateFeed(_ sender: UIButton) {
-        self.spinner.isHidden = false
-        self.spinner.startAnimating()
-        if image != nil {
-            User_Manager.instance.saveImage(image: image!, text: "photo" + randomNumber(MIN: 0, MAX: 100000)){ (url:String?) in
-                var _url = ""
-                if url != nil {
-                    _url = url!
-                }
-                self.saveFeedInfo(url: _url)
-            }
-        }else{
-            self.saveFeedInfo(url: "")
-        }
-    }
-    
-    func saveFeedInfo(url:String)  {
-        let feed = Feed(_id: "photo" + randomNumber(MIN: 0, MAX: 100000), _username: "", _urlImage: url, _likes: "0", _text: textField.text!)
-        User_Manager.instance.addNewFeed(feed: feed)
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    func randomNumber(MIN: Int, MAX: Int)-> String{
-        return String(arc4random_uniform(UInt32(MAX-MIN)) + UInt32(MIN));
-    }
-    
-    // Avatar For User //
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         // Design the avatar
         self.imageView.contentMode = .scaleAspectFill
-        self.imageView.layer.cornerRadius = 50
         self.imageView.clipsToBounds = true
     }
     

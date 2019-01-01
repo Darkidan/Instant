@@ -1,9 +1,7 @@
 //
 //  User_Manager_SQL.swift
-//  Proj
 //
-//  Created by Darkidan on 30/12/2018.
-//  Copyright © 2018 Darkidan. All rights reserved.
+//  Copyright © 2018 All rights reserved.
 //
 
 import Foundation
@@ -12,7 +10,6 @@ class User_Manager_SQL {
     var database: OpaquePointer? = nil
     
     init() {
-        // initialize the DB
         let dbFileName = "feed.db"
         if let dir = FileManager.default.urls(for: .documentDirectory, in:
             .userDomainMask).first{
@@ -21,10 +18,9 @@ class User_Manager_SQL {
                 print("Failed to open db file: \(path.absoluteString)")
                 return
             }
-            //dropTables()
+            dropTables()
             createTables()
         }
-        
     }
     
     func createTables() {
@@ -37,10 +33,4 @@ class User_Manager_SQL {
         LastUpdateDates.drop(database: database)
     }
     
-    
 }
-
-
-
-
-

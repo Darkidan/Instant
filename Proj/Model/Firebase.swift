@@ -1,9 +1,7 @@
 //
 //  Firebase.swift
-//  Proj
 //
-//  Created by Darkidan on 16/12/2018.
-//  Copyright © 2018 Darkidan. All rights reserved.
+//  Copyright © 2018 All rights reserved.
 //
 
 import Foundation
@@ -39,6 +37,7 @@ class Firebase {
     func signInUser(email: String, password: String, onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
         Auth.auth().signIn(withEmail: email, password: password) {(user,error) in
             if error == nil {
+                UserDefaults.standard.set(self.getUserId(), forKey: "uid")
                 print("User has Signed In!")
                 self.userDefault.set(true, forKey: "usersignedin")
                 self.userDefault.synchronize()
@@ -53,7 +52,9 @@ class Firebase {
     func signUpUser(email: String, password: String, username: String, url: String, onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
         Auth.auth().createUser(withEmail: email, password: password){(user, error) in
             if error == nil {
+                
                 let newUser = User(_id: self.getUserId(), _username: username, _email: email, _url: url)
+                UserDefaults.standard.set(self.getUserId(), forKey: "uid")
                 self.ref.child("Users").child(self.getUserId()).setValue(newUser.toJson())
                 print("User has Registerd!")
                 self.userDefault.set(true, forKey: "usersignedup")
@@ -69,7 +70,10 @@ class Firebase {
     func logoutSignUp(onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
         do {
             try Auth.auth().signOut()
+            print("User logging out...")
             userDefault.removeObject(forKey: "usersignedup")
+            userDefault.removeObject(forKey: "Username")
+            userDefault.removeObject(forKey: "uid")
             userDefault.synchronize()
             onSuccess();
         } catch let error as NSError {
@@ -81,7 +85,10 @@ class Firebase {
     func logoutSignIn(onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
         do {
             try Auth.auth().signOut()
+            print("User logging out...")
             userDefault.removeObject(forKey: "usersignedin")
+            userDefault.removeObject(forKey: "Username")
+            userDefault.removeObject(forKey: "uid")
             userDefault.synchronize()
             onSuccess();
         } catch let error as NSError {
@@ -99,13 +106,19 @@ class Firebase {
         }
     }
     
-    
+    func getUsername(){
+        let uid = UserDefaults.standard.string(forKey: "uid")
+        ref.child("Users/\(uid!)").observeSingleEvent(of: .value){
+            (DataSnapshot) in
+            let value = DataSnapshot.value as? [String:Any]
+            UserDefaults.standard.set(value!["username"]!, forKey: "Username")
+            print("Username: \(UserDefaults.standard.string(forKey: "Username")!)")
+        }
+    }
     
     func getUserId()->String{
         return Auth.auth().currentUser!.uid
     }
-
-
     
     // IMAGE = STORAGE
     

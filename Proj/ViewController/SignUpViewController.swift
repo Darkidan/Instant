@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SignUpViewController: UIViewController,UITextFieldDelegate {
+class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var imgAvatar: UIImageView!
     @IBOutlet weak var btnChooseAvatar: UIButton!
@@ -19,9 +19,13 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var registerBtn: UIButton!
     
     var imagePicker = UIImagePickerController()
+    var image:UIImage?
+    var random: String = ""
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.random = randomNumber(MIN: 0, MAX: 100000)
         self.spinner.isHidden = true
     }
     
@@ -29,10 +33,14 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
         self.view.endEditing(true)
     }
     
-    func signUpUser(email: String, password: String){
-        self.spinner.isHidden = false
-        self.spinner.startAnimating()
-        User_Manager.instance.signUpUser(email: emailLabel.text!, password: password, username: usernameLabel.text!, url: "" ,onSuccess: {
+    func randomNumber(MIN: Int, MAX: Int)-> String{
+        return String(arc4random_uniform(UInt32(MAX-MIN)) + UInt32(MIN));
+    }
+    
+    
+    func signUpUser(email: String, password: String,url:String){
+
+        User_Manager.instance.signUpUser(email: emailLabel.text!, password: password, username: usernameLabel.text!, url: url ,onSuccess: {
                             let storyboard = UIStoryboard(name: "Main", bundle: nil)
                             let vc = storyboard.instantiateInitialViewController()
                             self.present(vc!, animated: true, completion: nil)
@@ -66,7 +74,19 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
             alert(title: "Email Error", message: "Email is missing @")
             return
         }
-        signUpUser(email: emailLabel.text!, password: passwordLabel.text!)
+        self.spinner.isHidden = false
+        self.spinner.startAnimating()
+        if image != nil {
+            User_Manager.instance.saveImage(image: image!, text: "avatar" + self.random){ (url:String?) in
+                var _url = ""
+                if url != nil {
+                    _url = url!
+                }
+                self.signUpUser(email: self.emailLabel.text!, password: self.passwordLabel.text!,url: _url)
+            }
+        }else{
+           self.signUpUser(email: self.emailLabel.text!, password: self.passwordLabel.text!,url: "")
+        }
     }
     
     
@@ -121,21 +141,13 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
         imagePicker.delegate = self
         self.present(imagePicker, animated: true, completion: nil)
     }
-}
-
-extension SignUpViewController:  UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+    
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        var selectedImage: UIImage?
-        if let editedImage = info[.editedImage] as? UIImage {
-            selectedImage = editedImage
-            self.imgAvatar.image = selectedImage!
-            picker.dismiss(animated: true, completion: nil)
-        } else if let originalImage = info[.originalImage] as? UIImage {
-            selectedImage = originalImage
-            self.imgAvatar.image = selectedImage!
-            picker.dismiss(animated: true, completion: nil)
-        }
+        image = info[.originalImage] as? UIImage
+        self.imgAvatar.image = image
+        self.dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
