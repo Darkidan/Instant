@@ -22,7 +22,6 @@
 		AC11D2ED21D939A100A3F260 /* FeedSQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC11D2EC21D939A100A3F260 /* FeedSQL.swift */; };
 		AC11D2EF21D93C9500A3F260 /* LastUpdateDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC11D2EE21D93C9500A3F260 /* LastUpdateDates.swift */; };
 		AC1279A721B010060023BAA9 /* User_Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1279A621B010060023BAA9 /* User_Manager.swift */; };
-		AC141A8821B6CD1500D85EA7 /* MyFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC141A8721B6CD1500D85EA7 /* MyFeedViewController.swift */; };
 		AC15CBCE21A754D1009BAE3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC15CBCD21A754D0009BAE3C /* Assets.xcassets */; };
 		AC1EFBEE21D67787002151DF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC1EFBED21D67787002151DF /* GoogleService-Info.plist */; };
 		AC1F0A5521B7078600792F83 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1F0A5421B7078600792F83 /* LaunchViewController.swift */; };
@@ -82,7 +81,6 @@
 		AC11D2EC21D939A100A3F260 /* FeedSQL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSQL.swift; sourceTree = "<group>"; };
 		AC11D2EE21D93C9500A3F260 /* LastUpdateDates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUpdateDates.swift; sourceTree = "<group>"; };
 		AC1279A621B010060023BAA9 /* User_Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User_Manager.swift; sourceTree = "<group>"; };
-		AC141A8721B6CD1500D85EA7 /* MyFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedViewController.swift; sourceTree = "<group>"; };
 		AC15CBCD21A754D0009BAE3C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AC1EFBED21D67787002151DF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AC1F0A5421B7078600792F83 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
@@ -208,7 +206,6 @@
 				AC051D91219AF59E001D134A /* ViewController.swift */,
 				AC2BEABE21A8921300881016 /* SignUpViewController.swift */,
 				AC4D668821B463D80042E73B /* LoginViewController.swift */,
-				AC141A8721B6CD1500D85EA7 /* MyFeedViewController.swift */,
 				AC1F0A5421B7078600792F83 /* LaunchViewController.swift */,
 				AC3B546B21C6812400130BA0 /* ProfileViewController.swift */,
 				AC773F3C21D8D4920075C9CA /* CreateNewFeedViewController.swift */,
@@ -482,7 +479,6 @@
 				AC773F3F21D8F20A0075C9CA /* EditProfileViewController.swift in Sources */,
 				AC4D668921B463D80042E73B /* LoginViewController.swift in Sources */,
 				AC1279A721B010060023BAA9 /* User_Manager.swift in Sources */,
-				AC141A8821B6CD1500D85EA7 /* MyFeedViewController.swift in Sources */,
 				AC773F3D21D8D4920075C9CA /* CreateNewFeedViewController.swift in Sources */,
 				AC11D2E421D92E2900A3F260 /* MyFeedTableViewController.swift in Sources */,
 				AC2BEAC421A89AEF00881016 /* User.swift in Sources */,

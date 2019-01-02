@@ -114,14 +114,29 @@ class User_Manager {
     }
     
     /// File handling
-    func saveImageToFile(image:UIImage, name:String){
-        if let data = image.jpegData(compressionQuality: 80) {
-            let filename = getDocumentsDirectory().appendingPathComponent(name)
-            try? data.write(to: filename)
-        }
+    
+    func saveImageToFile(image: UIImage, name: String){
+        let data = image.jpegData(compressionQuality: 0.8) ?? image.pngData()
+        let directory = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) as NSURL
+        try? data!.write(to: directory!.appendingPathComponent(name)!)
     }
     
-    func getDocumentsDirectory() -> URL {
+    func getImageFromFile(name: String) -> UIImage? {
+        if let dir = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) {
+            print(URL(fileURLWithPath: dir.absoluteString).appendingPathComponent(name).path)
+            return UIImage(contentsOfFile: URL(fileURLWithPath: dir.absoluteString).appendingPathComponent(name).path)
+        }
+        return nil
+    }
+    
+  /*
+     func saveImageToFile(image:UIImage, name:String){
+     if let data = image.jpegData(compressionQuality: 0.8) {
+     let filename = getDocumentsDirectory().appendingPathComponent(name)
+     try? data.write(to: filename)
+     }
+     }
+     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in:
             .userDomainMask)
         let documentsDirectory = paths[0]
@@ -131,7 +146,11 @@ class User_Manager {
     func getImageFromFile(name:String)->UIImage?{
         let filename = getDocumentsDirectory().appendingPathComponent(name)
         return UIImage(contentsOfFile:filename.path)
-    }
+    }*/
+    
+ 
+    
+    
 }
 
 class UserManagerNotification{

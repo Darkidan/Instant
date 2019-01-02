@@ -13,12 +13,11 @@ class MyFeedTableViewController: UITableViewController {
     var data = [Feed]()
     var myfeedListener:NSObjectProtocol?
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         User_Manager.instance.getUsername()
 
-       self.tableView.rowHeight = 500
+       self.tableView.rowHeight = 450
         
         myfeedListener = UserManagerNotification.myfeedListNotification.observe(){ (data1:Any) in
             self.data = data1 as! [Feed]
@@ -41,6 +40,17 @@ class MyFeedTableViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    func setDate(dateTime:Double)-> String{
+        let date = NSDate(timeIntervalSince1970: (dateTime)/1000)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let myString = formatter.string(from: date as Date)
+        let yourDate = formatter.date(from: myString)
+        formatter.dateFormat = "dd/MM/yy, HH:mm"
+        let finaldate = formatter.string(from: yourDate!)
+        return finaldate
+    }
 
     // MARK: - Table view data source
 
@@ -53,21 +63,24 @@ class MyFeedTableViewController: UITableViewController {
         return data.count
     }
     
+
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:MyFeedTableViewCell = (tableView.dequeueReusableCell(withIdentifier: "MyFeedCell", for: indexPath) as! MyFeedTableViewCell)
         
         let feed = data[indexPath.row]
         cell.UsernameLabel.text = feed.username
         cell.textLabelC.text = feed.text
-        
-        cell.imageView?.image = UIImage(named: "avatar")
-        cell.imageView!.tag = indexPath.row
-        //print("url: \(feed.urlImage)")
+        cell.lastUpdate.text = setDate(dateTime: feed.lastUpdate!)
+
+        cell.feedImage.image = UIImage(named: "avatar")
+        cell.feedImage.tag = indexPath.row
         if feed.urlImage != "" {
             User_Manager.instance.getImage(url: feed.urlImage) { (image:UIImage?) in
-                if (cell.imageView!.tag == indexPath.row){
+                if (cell.feedImage!.tag == indexPath.row){
                     if image != nil {
-                        cell.imageView?.image = image!
+                        cell.feedImage.image = image!
+                        cell.feedImage.clipsToBounds = true
                     }
                 }
             }
