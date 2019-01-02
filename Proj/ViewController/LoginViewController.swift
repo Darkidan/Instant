@@ -10,7 +10,6 @@ import UIKit
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
-    @IBOutlet weak var addImageBtn: UIButton!
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var spinner: UIActivityIndicatorView!

@@ -77,7 +77,7 @@ class User_Manager {
             Feed.setLastUpdateDate(database: self.sql.database, date: lastUpdated)
             
             //5. get the full data
-            let feedFullData = Feed.getAll(database: self.sql.database)
+          //  let feedFullData = Feed.getAll(database: self.sql.database)
             
             //6. notify observers with full data
             UserManagerNotification.myfeedListNotification.notify(data: data)
