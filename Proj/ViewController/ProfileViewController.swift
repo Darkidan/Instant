@@ -30,6 +30,7 @@ class ProfileViewController: UIViewController {
             let url = URL(string: user.url)
             let data = try? Data(contentsOf: url!)
 
+          //  User_Manager.instance.getImage(url: user.url){} 
             if let imageData = data {
                 self.imageAvatar.image = UIImage(data: imageData)
             }

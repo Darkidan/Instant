@@ -59,7 +59,7 @@ class MyFeedTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print ("Data Count: \(data.count)")
+        print (data.count)
         return data.count
     }
     
@@ -71,7 +71,9 @@ class MyFeedTableViewController: UITableViewController {
         let feed = data[indexPath.row]
         cell.UsernameLabel.text = feed.username
         cell.textLabelC.text = feed.text
-        cell.lastUpdate.text = setDate(dateTime: feed.lastUpdate!)
+        if feed.lastUpdate != nil {
+            cell.lastUpdate.text = setDate(dateTime: feed.lastUpdate!)
+        }
 
         cell.feedImage.image = UIImage(named: "avatar")
         cell.feedImage.tag = indexPath.row

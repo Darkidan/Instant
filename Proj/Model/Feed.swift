@@ -15,12 +15,13 @@ class Feed {
     let text: String
     var lastUpdate:Double?
     
-    init(_id:String, _username:String, _urlImage:String = "", _likes:String ,_text:String){
+    init(_id:String, _username:String, _urlImage:String = "", _likes:String ,_text:String, _lastUpdate: Double = 0){
         id = _id
         username = _username
         urlImage = _urlImage
         likes = _likes
         text = _text
+        lastUpdate = _lastUpdate
 }
 
     init(json:[String:Any]) {
