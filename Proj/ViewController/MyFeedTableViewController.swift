@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FirebaseDatabase
+//import FirebaseDatabase
 class MyFeedTableViewController: UITableViewController {
     
     var data = [Feed]()

@@ -27,14 +27,13 @@ class ProfileViewController: UIViewController {
             self.username.text = user.username
             self.email.text = user.email
             
-            let url = URL(string: user.url)
-            let data = try? Data(contentsOf: url!)
-
-          //  User_Manager.instance.getImage(url: user.url){} 
-            if let imageData = data {
-                self.imageAvatar.image = UIImage(data: imageData)
+            if user.url != "" {
+                User_Manager.instance.getImage(url: user.url) { (image:UIImage?) in
+                    if image != nil {
+                        self.imageAvatar.image = image!
+                    }
+                }
             }
-
             self.spinner.isHidden = true
         }
     }
