@@ -94,9 +94,9 @@
 		AC2BEAC521A89B0300881016 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		AC3B546B21C6812400130BA0 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		AC3B546D21C6827500130BA0 /* Firebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Firebase.swift; sourceTree = "<group>"; };
-		AC4AC1BA21DD484F0048B9C9 /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomCell.swift; path = ../../../../Downloads/CustomCell.swift; sourceTree = "<group>"; };
-		AC4AC1BB21DD484F0048B9C9 /* CustomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CustomCell.xib; path = ../../../../Downloads/CustomCell.xib; sourceTree = "<group>"; };
-		AC4AC1BE21DD48650048B9C9 /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendsViewController.swift; path = ../../../../Downloads/FriendsViewController.swift; sourceTree = "<group>"; };
+		AC4AC1BA21DD484F0048B9C9 /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
+		AC4AC1BB21DD484F0048B9C9 /* CustomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCell.xib; sourceTree = "<group>"; };
+		AC4AC1BE21DD48650048B9C9 /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		AC4D668821B463D80042E73B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AC773F3C21D8D4920075C9CA /* CreateNewFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewFeedViewController.swift; sourceTree = "<group>"; };
 		AC773F3E21D8F20A0075C9CA /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };

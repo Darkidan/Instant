@@ -16,7 +16,6 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
     var EveryUser = [String]()
     let userid = UserDefaults.standard.string(forKey: "uid")
     
-    
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
@@ -113,9 +112,6 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
             tableView.endUpdates()
         }
     }
-    
-    
-    
 }
 
 extension FriendsViewController: FriendCellDelegate{
@@ -178,6 +174,4 @@ extension FriendsViewController: UISearchBarDelegate{
         searchBar.text = ""
         tableView.reloadData()
     }
-    
 }
-
