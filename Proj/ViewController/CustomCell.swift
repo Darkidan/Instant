@@ -15,12 +15,12 @@ protocol FriendCellDelegate {
                       buttonText: String,
                       currentCell: CustomCell,
                       indexPath: IndexPath
-    )
+                    )
     
 }
 
 class CustomCell: UITableViewCell {
-    
+
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var name: UILabel!
     var cellIndex: IndexPath?
@@ -31,13 +31,13 @@ class CustomCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
+
         // Configure the view for the selected state
     }
-    
+
     @IBAction func clickButton(_ sender: UIButton) {
         
         // Get friend UID by username
