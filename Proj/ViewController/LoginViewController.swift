@@ -17,7 +17,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.spinner.isHidden = true
-
+        
         let usernameImage = UIImage(named: "username_icon")
         addImagetoPlaceHolder(textfield: email, andImage: usernameImage!)
         

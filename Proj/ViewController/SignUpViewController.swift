@@ -38,11 +38,11 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
     
     
     func signUpUser(email: String, password: String,url: String){
-
+        
         User_Manager.instance.signUpUser(email: emailLabel.text!, password: password, username: usernameLabel.text!, url: url ,onSuccess: {
-                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                            let vc = storyboard.instantiateInitialViewController()
-                            self.present(vc!, animated: true, completion: nil)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateInitialViewController()
+            self.present(vc!, animated: true, completion: nil)
         }) { (error) in
             print(error?.localizedDescription as Any)
         }
@@ -54,12 +54,12 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
             return
         }
         guard let password = passwordLabel.text, !password.isEmpty else {
-                alert(title: "Password Error", message: "Password is empty")
-                return
+            alert(title: "Password Error", message: "Password is empty")
+            return
         }
         guard let confirmPass = confirmPasswordLabel.text, !confirmPass.isEmpty else {
-                alert(title: "Confirm Password Error", message: "Confirm Password is empty")
-                return
+            alert(title: "Confirm Password Error", message: "Confirm Password is empty")
+            return
         }
         guard password == confirmPass else {
             alert(title: "Password Error", message: "Passwords does not match")
@@ -73,10 +73,14 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
             alert(title: "Email Error", message: "Email is missing @")
             return
         }
+        
         self.spinner.isHidden = false
         self.spinner.startAnimating()
+        
+        let avatarName = "avatar_" + self.random
+        
         if image != nil {
-            User_Manager.instance.saveImage(image: image!, text: "avatar" + self.random){ (url:String?) in
+            User_Manager.instance.saveImage(image: image!, text: avatarName){ (url:String?) in
                 var _url = ""
                 if url != nil {
                     _url = url!
@@ -84,8 +88,9 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
                 self.signUpUser(email: self.emailLabel.text!, password: self.passwordLabel.text!,url: _url)
             }
         }else{
-           self.signUpUser(email: self.emailLabel.text!, password: self.passwordLabel.text!,url: "")
+            self.signUpUser(email: self.emailLabel.text!, password: self.passwordLabel.text!,url: "")
         }
+        UserDefaults.standard.set(avatarName, forKey: "AvatarName")
     }
     
     
@@ -104,6 +109,8 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
         self.imgAvatar.layer.cornerRadius = 50
         self.imgAvatar.clipsToBounds = true
     }
+    
+    // Avatar for user
     
     @IBAction func btnChooseAvatarOnClick(_ sender: UIButton) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -133,7 +140,6 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
         }
     }
     
-    //MARK: - Choose image from camera roll
     func openGallary(){
         imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
         imagePicker.allowsEditing = true

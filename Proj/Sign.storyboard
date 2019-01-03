@@ -23,7 +23,6 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Iyg-PJ-0sP"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="OQi-M3-Fbq"/>
-                                    <constraint firstAttribute="width" secondItem="de7-is-LOK" secondAttribute="height" multiplier="6:1" id="SBb-Yb-lp8"/>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -50,10 +49,8 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xw8-Yt-UkP">
                                 <rect key="frame" x="37" y="505" width="300" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="2PR-In-oVW"/>
                                     <constraint firstAttribute="width" constant="300" id="J74-Kz-Zch"/>
                                     <constraint firstAttribute="height" constant="50" id="ayt-Df-ugs"/>
-                                    <constraint firstAttribute="width" secondItem="xw8-Yt-UkP" secondAttribute="height" multiplier="6:1" id="gBu-40-scs"/>
                                 </constraints>
                                 <state key="normal" title="Register" image="Sign In"/>
                                 <connections>
@@ -83,7 +80,7 @@
                                 </constraints>
                             </imageView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="0N6-aA-h5W">
-                                <rect key="frame" x="169" y="589" width="36" height="37"/>
+                                <rect key="frame" x="169" y="589" width="37" height="37"/>
                                 <color key="color" red="0.40138431390000001" green="0.77065112849999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Username" textAlignment="natural" minimumFontSize="17" background="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="LyV-QU-ESu">
@@ -107,9 +104,7 @@
                             <constraint firstItem="fOG-rz-K2l" firstAttribute="leading" secondItem="a36-34-4DR" secondAttribute="leading" constant="138" id="DY6-D6-efT"/>
                             <constraint firstItem="a36-34-4DR" firstAttribute="trailing" secondItem="LyV-QU-ESu" secondAttribute="trailing" constant="37" id="E9d-Pg-Rkx"/>
                             <constraint firstItem="mLx-Ih-W6v" firstAttribute="leading" secondItem="a36-34-4DR" secondAttribute="leading" constant="38" id="K9H-Zq-4Ny"/>
-                            <constraint firstItem="xw8-Yt-UkP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="a36-34-4DR" secondAttribute="leading" id="KrH-yg-wm8"/>
                             <constraint firstItem="0N6-aA-h5W" firstAttribute="top" secondItem="xw8-Yt-UkP" secondAttribute="bottom" constant="34" id="NSB-N4-Bjr"/>
-                            <constraint firstItem="0N6-aA-h5W" firstAttribute="centerX" secondItem="xw8-Yt-UkP" secondAttribute="centerX" id="Pam-ex-mvu"/>
                             <constraint firstItem="a36-34-4DR" firstAttribute="trailing" secondItem="yBy-IA-AAs" secondAttribute="trailing" constant="87" id="Qo7-Ar-6Ym"/>
                             <constraint firstItem="LyV-QU-ESu" firstAttribute="top" secondItem="yBy-IA-AAs" secondAttribute="bottom" constant="29" id="R6n-pu-sbP"/>
                             <constraint firstItem="a36-34-4DR" firstAttribute="trailing" secondItem="mLx-Ih-W6v" secondAttribute="trailing" constant="37" id="X6M-4d-wbO"/>
@@ -238,7 +233,6 @@
                                 <rect key="frame" x="37" y="244" width="301" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="PYL-F5-ODl"/>
-                                    <constraint firstAttribute="width" secondItem="NSL-V4-dcQ" secondAttribute="height" multiplier="301:50" id="jKe-tj-gKJ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" backgroundImage="Sign In"/>

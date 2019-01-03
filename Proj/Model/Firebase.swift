@@ -11,10 +11,10 @@ import FirebaseDatabase
 class Firebase {
     var ref: DatabaseReference!
     let userDefault = UserDefaults.standard
-
+    
     init() {
         ref = Database.database().reference()
-}
+    }
     
     func getAllFeedsAndObserve(from:Double, callback:@escaping ([Feed])->Void){
         let feedRef = ref.child("Feeds")
@@ -32,6 +32,22 @@ class Firebase {
     
     func addNewFeed(feed:Feed){
         ref.child("Feeds").child(feed.id).setValue(feed.toJson())
+    }
+    
+    func EditUser(user: User){
+        ref.child("Users").child(user.id).setValue(user.toJson())
+    }
+    
+    func ChangePass(password: String){
+        Auth.auth().currentUser?.updatePassword(to: password) { (error) in
+            if error == nil {
+                print("Changed Password")
+                // onSuccess()
+            } else {
+                print(error?.localizedDescription as Any)
+                //onFailure(error)
+            }
+        }
     }
     
     func signInUser(email: String, password: String, onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
@@ -125,6 +141,48 @@ class Firebase {
     lazy var storageRef = Storage.storage().reference(forURL:"gs://instant-872f9.appspot.com")
     
     func saveImage(image:UIImage, text:(String), callback:@escaping (String?)->Void){
+        
+        let jpegData = image.jpegData(compressionQuality: 80)
+        let imageRef = storageRef.child(text)
+        
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        
+        imageRef.putData(jpegData!, metadata: metadata) { (metadata, error) in
+            imageRef.downloadURL { (url, error) in
+                guard let downloadURL = url else {
+                    // Uh-oh, an error occurred!
+                    return
+                }
+                print("url: \(downloadURL)")
+                callback(downloadURL.absoluteString)
+            }
+        }
+    }
+    
+    func deleteImage(text:(String)){
+        let uid = UserDefaults.standard.string(forKey: "uid")
+        // 1. delete the image from Storage
+        print("name of image: \(text)")
+        let avatarImage = storageRef.child(text)
+        
+        // Delete the file
+        avatarImage.delete { error in
+            if error != nil {
+                // Uh-oh, an error occurred!
+            } else {
+                print("File deleted successfully")
+            }
+        }
+        
+        // 2. delete the image from database
+        print(ref.child("Users").child(uid!).child("url"))
+        ref.child("Users").child(uid!).child("url").setValue("")
+        
+    }
+    
+    func editImage(image:UIImage, text:(String), callback:@escaping (String?)->Void){
+        deleteImage(text:text)
         
         let jpegData = image.jpegData(compressionQuality: 80)
         let imageRef = storageRef.child(text)

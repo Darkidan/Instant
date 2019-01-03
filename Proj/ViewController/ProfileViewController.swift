@@ -8,13 +8,14 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
-
+    
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var email: UILabel!
     @IBOutlet weak var imageAvatar: UIImageView!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
     var user: User?
     
-    @IBOutlet weak var spinner: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.spinner.isHidden = false
@@ -28,7 +29,7 @@ class ProfileViewController: UIViewController {
             self.email.text = user.email
             
             if user.url != "" {
-                User_Manager.instance.getImage(url: user.url) { (image:UIImage?) in
+                User_Manager.instance.getImageProfile(url: user.url) { (image:UIImage?) in
                     if image != nil {
                         self.imageAvatar.image = image!
                     }
@@ -40,7 +41,6 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        // Design the avatar
         self.imageAvatar.contentMode = .scaleAspectFill
         self.imageAvatar.layer.cornerRadius = 50
         self.imageAvatar.clipsToBounds = true
@@ -65,7 +65,5 @@ class ProfileViewController: UIViewController {
                 print(error?.localizedDescription as Any)
             }
         }
-            
-        }
     }
-
+}

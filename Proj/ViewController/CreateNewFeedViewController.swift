@@ -1,9 +1,8 @@
 //
 //  CreateNewFeedViewController.swift
-//  Proj
+//  Instant
 //
-//  Created by Darkidan on 30/12/2018.
-//  Copyright © 2018 Darkidan. All rights reserved.
+//  Copyright © 2018 All rights reserved.
 //
 
 import UIKit
@@ -11,13 +10,11 @@ import UIKit
 class CreateNewFeedViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var imageView: UIImageView!
-    
     @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
     var imagePicker = UIImagePickerController()
     var image:UIImage?
-    
     var random: String = ""
-    
     var usernameText: String = ""
     
     override func viewDidLoad() {
@@ -33,8 +30,6 @@ class CreateNewFeedViewController: UIViewController, UITextFieldDelegate, UIImag
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    
-
     
     @IBAction func CreateFeed(_ sender: UIButton) {
         self.spinner.isHidden = false
@@ -53,8 +48,9 @@ class CreateNewFeedViewController: UIViewController, UITextFieldDelegate, UIImag
     }
     
     func saveFeedInfo(url:String)  {
-       self.usernameText = UserDefaults.standard.string(forKey: "Username")!
-        let feed = Feed(_id: "photo" + self.random, _username: self.usernameText, _urlImage: url, _likes: "0", _text: textField.text!)
+        let userid = UserDefaults.standard.string(forKey: "uid")
+        self.usernameText = UserDefaults.standard.string(forKey: "Username")!
+        let feed = Feed(_id: "photo" + self.random, _username: self.usernameText, _urlImage: url, _likes: "0", _text: textField.text!,_uid: userid!)
         User_Manager.instance.addNewFeed(feed: feed)
         self.navigationController?.popViewController(animated: true)
     }
@@ -80,14 +76,6 @@ class CreateNewFeedViewController: UIViewController, UITextFieldDelegate, UIImag
         self.present(alert, animated: true, completion: nil)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        // Design the avatar
-        self.imageView.contentMode = .scaleAspectFill
-        self.imageView.clipsToBounds = true
-    }
-    
-    
     func openCamera(){
         if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera)){
             imagePicker.sourceType = UIImagePickerController.SourceType.camera
@@ -101,7 +89,6 @@ class CreateNewFeedViewController: UIViewController, UITextFieldDelegate, UIImag
         }
     }
     
-    //MARK: - Choose image from camera roll
     func openGallary(){
         imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
         imagePicker.allowsEditing = true
@@ -113,8 +100,8 @@ class CreateNewFeedViewController: UIViewController, UITextFieldDelegate, UIImag
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         image = info[.originalImage] as? UIImage
-            self.imageView.image = image
-            self.dismiss(animated: true, completion: nil)
+        self.imageView.image = image
+        self.dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

@@ -49,7 +49,7 @@ class User_Manager {
             onFailure(error)
         })
     }
-
+    
     func logoutSignIn(onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
         self.firebase.logoutSignIn(onSuccess: {
             onSuccess()
@@ -77,7 +77,7 @@ class User_Manager {
             Feed.setLastUpdateDate(database: self.sql.database, date: lastUpdated)
             
             //5. get the full data
-          //  let feedFullData = Feed.getAll(database: self.sql.database)
+            //  let feedFullData = Feed.getAll(database: self.sql.database)
             
             //6. notify observers with full data
             UserManagerNotification.myfeedListNotification.notify(data: data)
@@ -85,11 +85,24 @@ class User_Manager {
     }
     
     func addNewFeed(feed:Feed){
-        firebase.addNewFeed(feed: feed);
+        firebase.addNewFeed(feed: feed)
     }
+    
+    func EditUser(user: User){
+        firebase.EditUser(user: user)
+    }
+    
+    func ChangePass(password: String){
+        firebase.ChangePass(password: password)
+    }
+    
     
     func saveImage(image:UIImage, text:(String),callback:@escaping (String?)->Void){
         firebase.saveImage(image: image, text: text, callback: callback)
+    }
+    
+    func editImage(image:UIImage, text:(String),callback:@escaping (String?)->Void){
+        firebase.editImage(image: image, text: text, callback: callback)
     }
     
     func getImage(url:String, callback:@escaping (UIImage?)->Void){
@@ -113,6 +126,18 @@ class User_Manager {
         }
     }
     
+    func getImageProfile(url:String, callback:@escaping (UIImage?)->Void){
+        let _url = URL(string: url)
+        let localImageName = _url!.lastPathComponent
+        firebase.getImage(url: url){(image:UIImage?) in
+            if (image != nil){
+                self.saveImageToFile(image: image!, name: localImageName)
+            }
+            callback(image)
+            print("got image from firebase \(localImageName)")
+        }
+    }
+    
     /// File handling
     
     func saveImageToFile(image: UIImage, name: String){
@@ -123,7 +148,7 @@ class User_Manager {
     
     func getImageFromFile(name: String) -> UIImage? {
         if let dir = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) {
-            print(URL(fileURLWithPath: dir.absoluteString).appendingPathComponent(name).path)
+            // print(URL(fileURLWithPath: dir.absoluteString).appendingPathComponent(name).path)
             return UIImage(contentsOfFile: URL(fileURLWithPath: dir.absoluteString).appendingPathComponent(name).path)
         }
         return nil

@@ -1,29 +1,27 @@
 //
 //  MyFeedTableViewController.swift
-//  Proj
+//  Instant
 //
-//  Created by Darkidan on 30/12/2018.
-//  Copyright © 2018 Darkidan. All rights reserved.
+//  Copyright © 2018 All rights reserved.
 //
 
 import UIKit
-//import FirebaseDatabase
+import FirebaseDatabase
 class MyFeedTableViewController: UITableViewController {
     
     var data = [Feed]()
     var myfeedListener:NSObjectProtocol?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         User_Manager.instance.getUsername()
-
-       self.tableView.rowHeight = 450
+        self.tableView.rowHeight = 450
         
         myfeedListener = UserManagerNotification.myfeedListNotification.observe(){ (data1:Any) in
             self.data = data1 as! [Feed]
             self.tableView.reloadData()
         }
-        
         User_Manager.instance.getAllFeeds()
     }
     
@@ -51,19 +49,15 @@ class MyFeedTableViewController: UITableViewController {
         let finaldate = formatter.string(from: yourDate!)
         return finaldate
     }
-
-    // MARK: - Table view data source
-
+    
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print (data.count)
         return data.count
     }
-    
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:MyFeedTableViewCell = (tableView.dequeueReusableCell(withIdentifier: "MyFeedCell", for: indexPath) as! MyFeedTableViewCell)
@@ -74,8 +68,8 @@ class MyFeedTableViewController: UITableViewController {
         if feed.lastUpdate != nil {
             cell.lastUpdate.text = setDate(dateTime: feed.lastUpdate!)
         }
-
-        cell.feedImage.image = UIImage(named: "avatar")
+        
+        cell.feedImage.image = UIImage(named: "wait_for_it")
         cell.feedImage.tag = indexPath.row
         if feed.urlImage != "" {
             User_Manager.instance.getImage(url: feed.urlImage) { (image:UIImage?) in
@@ -87,7 +81,6 @@ class MyFeedTableViewController: UITableViewController {
                 }
             }
         }
-        
         return cell
     }
 }

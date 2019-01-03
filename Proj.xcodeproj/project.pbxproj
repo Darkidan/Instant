@@ -683,27 +683,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3C854CZ2G2;
-				FRAMEWORK_SEARCH_PATHS = (
-					"//:configuration",
-					"=",
-					DebugFRAMEWORK_SEARCH_PATHS,
-					"=",
-					"$(inherited)",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuth\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseDatabase\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseStorage\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/leveldb-library\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb\"",
-					"\"${PODS_ROOT}/FirebaseAnalytics/Frameworks\"",
-					"\"${PODS_ROOT}/FirebaseInstanceID/Frameworks\"",
-					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"//:completeSettings",
-					"=",
-					"none
-",
-				);
 				INFOPLIST_FILE = Proj/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -726,27 +705,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3C854CZ2G2;
-				FRAMEWORK_SEARCH_PATHS = (
-					"//:configuration",
-					"=",
-					DebugFRAMEWORK_SEARCH_PATHS,
-					"=",
-					"$(inherited)",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuth\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseDatabase\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseStorage\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/leveldb-library\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb\"",
-					"\"${PODS_ROOT}/FirebaseAnalytics/Frameworks\"",
-					"\"${PODS_ROOT}/FirebaseInstanceID/Frameworks\"",
-					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"//:completeSettings",
-					"=",
-					"none
-",
-				);
 				INFOPLIST_FILE = Proj/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
