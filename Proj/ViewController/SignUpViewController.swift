@@ -20,11 +20,9 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
     
     var imagePicker = UIImagePickerController()
     var image:UIImage?
-    var random: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.random = randomNumber(MIN: 0, MAX: 100000)
         self.spinner.isHidden = true
     }
     
@@ -32,10 +30,11 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
         self.view.endEditing(true)
     }
     
-    func randomNumber(MIN: Int, MAX: Int)-> String{
-        return String(arc4random_uniform(UInt32(MAX-MIN)) + UInt32(MIN));
+    func alert(title: String, message: String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
-    
     
     func signUpUser(email: String, password: String,url: String){
         
@@ -77,7 +76,7 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
         self.spinner.isHidden = false
         self.spinner.startAnimating()
         
-        let avatarName = "avatar_" + self.random
+        let avatarName = "avatar_" + self.emailLabel.text!
         
         if image != nil {
             User_Manager.instance.saveImage(image: image!, text: avatarName){ (url:String?) in
@@ -87,17 +86,10 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
                 }
                 self.signUpUser(email: self.emailLabel.text!, password: self.passwordLabel.text!,url: _url)
             }
-        }else{
+        } else {
             self.signUpUser(email: self.emailLabel.text!, password: self.passwordLabel.text!,url: "")
         }
         UserDefaults.standard.set(avatarName, forKey: "AvatarName")
-    }
-    
-    
-    func alert(title: String, message: String){
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
     }
     
     // Avatar For User //

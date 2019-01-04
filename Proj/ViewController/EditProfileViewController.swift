@@ -61,7 +61,7 @@ class EditProfileViewController: UIViewController,UITextFieldDelegate, UIImagePi
         }
         
         let avatarName = UserDefaults.standard.string(forKey: "AvatarName")
-        
+
         self.spinner.isHidden = false
         self.spinner.startAnimating()
         
@@ -80,7 +80,7 @@ class EditProfileViewController: UIViewController,UITextFieldDelegate, UIImagePi
     }
     
     func EditUserInfo(url:String)  {
-        let userid = UserDefaults.standard.string(forKey: "uid")
+        let userid = User_Manager.instance.user?.id
         if self.newPasswordText.text! != "" {
             User_Manager.instance.ChangePass(password: self.newPasswordText.text!)
         }

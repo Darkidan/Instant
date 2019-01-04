@@ -16,7 +16,7 @@ class Feed {
     let uid: String
     var lastUpdate:Double?
     
-    init(_id:String, _username:String, _urlImage:String = "", _likes:String ,_text:String,_uid:String, _lastUpdate: Double = 0){
+    init(_id:String, _username:String, _urlImage:String = "", _likes:String = "0" ,_text:String,_uid:String, _lastUpdate: Double = 0){
         id = _id
         username = _username
         urlImage = _urlImage

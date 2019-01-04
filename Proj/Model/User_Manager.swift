@@ -48,10 +48,6 @@ class User_Manager {
         return firebase.getUserId()
     }
     
-    func getUsername(){
-        firebase.getUsername()
-    }
-    
     func logoutSignUp(onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
         self.firebase.logoutSignUp(onSuccess: {
             onSuccess()
@@ -90,16 +86,20 @@ class User_Manager {
             let feedFullData = Feed.getAll(database: self.sql.database)
             
             //6. notify observers with full data
-            UserManagerNotification.myfeedListNotification.notify(data: feedFullData)
+            UserManagerNotification.myfeedListNotification.notify(data: data)
             
             self.feeds = data
         }
     }
     
-    func getFeedsFromStringList(feedsString: [String]) -> [Feed]{
+    func getFeedsFromStringList(feedsString: [String]?) -> [Feed]{
+        if feedsString == nil {
+            return []
+        }
+        
         var feed = [Feed]()
         for f in self.feeds {
-            if feedsString.contains(f.uid){
+            if feedsString!.contains(f.uid){
                 feed.append(f);
             }
         }
@@ -176,7 +176,7 @@ class User_Manager {
         return nil
     }
     
-  
+    
     
 }
 

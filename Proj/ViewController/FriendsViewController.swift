@@ -24,8 +24,7 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.register(UINib(nibName: "CustomCell", bundle: nil),
-                                forCellReuseIdentifier: "custom")
+        self.tableView.register(UINib(nibName: "CustomCell", bundle: nil), forCellReuseIdentifier: "custom")
         
         // Get Friends List
         
@@ -70,6 +69,10 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
             }
         })
         
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

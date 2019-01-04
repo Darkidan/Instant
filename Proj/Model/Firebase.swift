@@ -12,6 +12,10 @@ class Firebase {
     var ref: DatabaseReference!
     let userDefault = UserDefaults.standard
     
+    var Friends = [String]()
+    var FriendsImg = [String]()
+    var EveryUser = [String]()
+    
     init() {
         ref = Database.database().reference()
     }
@@ -53,11 +57,9 @@ class Firebase {
     func signInUser(email: String, password: String, onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
         Auth.auth().signIn(withEmail: email, password: password) {(user,error) in
             if error == nil {
-                UserDefaults.standard.set(self.getUserId(), forKey: "uid")
-                
                 print("User has Signed In!")
                 self.userDefault.set(true, forKey: "usersignedin")
-                self.userDefault.synchronize()
+                self.userDefault.set(self.getUserId(), forKey: "uid")
                 onSuccess()
             } else {
                 print(error?.localizedDescription as Any)
@@ -69,13 +71,11 @@ class Firebase {
     func signUpUser(email: String, password: String, username: String, url: String, onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
         Auth.auth().createUser(withEmail: email, password: password){(user, error) in
             if error == nil {
-                
                 let newUser = User(_id: self.getUserId(), _username: username, _email: email, _url: url)
-                UserDefaults.standard.set(self.getUserId(), forKey: "uid")
+                self.userDefault.set(self.getUserId(), forKey: "uid")
                 self.ref.child("Users").child(self.getUserId()).setValue(newUser.toJson())
                 print("User has Registerd!")
                 self.userDefault.set(true, forKey: "usersignedup")
-                self.userDefault.synchronize()
                 onSuccess()
             } else {
                 print(error?.localizedDescription as Any)
@@ -89,9 +89,8 @@ class Firebase {
             try Auth.auth().signOut()
             print("User logging out...")
             userDefault.removeObject(forKey: "usersignedup")
-            userDefault.removeObject(forKey: "Username")
             userDefault.removeObject(forKey: "uid")
-            userDefault.synchronize()
+
             onSuccess();
         } catch let error as NSError {
             print(error.localizedDescription)
@@ -104,9 +103,6 @@ class Firebase {
             try Auth.auth().signOut()
             print("User logging out...")
             userDefault.removeObject(forKey: "usersignedin")
-            userDefault.removeObject(forKey: "Username")
-            userDefault.removeObject(forKey: "uid")
-            userDefault.synchronize()
             onSuccess();
         } catch let error as NSError {
             print(error.localizedDescription)
@@ -123,14 +119,43 @@ class Firebase {
         }
     }
     
-    func getUsername(){
-        let uid = UserDefaults.standard.string(forKey: "uid")
-        ref.child("Users/\(uid!)").observeSingleEvent(of: .value){
+    func getFriendsList() {
+        ref.child("Friends/\(getUserId())").observeSingleEvent(of: .value){
             (DataSnapshot) in
-            let value = DataSnapshot.value as? [String:Any]
-            UserDefaults.standard.set(value!["username"]!, forKey: "Username")
-            print("Username: \(UserDefaults.standard.string(forKey: "Username")!)")
+            let friendsData = DataSnapshot.value as? [String:Any]
+            if (friendsData != nil){
+                for friendUID in friendsData!{
+                    self.ref.child("Users/\(friendUID.value)").observeSingleEvent(of: .value){ (DataSnapshot2) in
+                        let userData = DataSnapshot2.value as? [String:Any]
+                        if ( DataSnapshot2.childrenCount != 0 ){
+                            self.Friends.append(userData!["username"] as! String)
+                            self.FriendsImg.append(userData!["url"] as! String)
+                        }
+                    }
+                }
+            }
         }
+    }
+    
+    func getUserList() {
+        ref.child("Users").observeSingleEvent(of: .value, with: { (DataSnapshot) in
+            for child in DataSnapshot.children{
+                let firstSnap = child as! DataSnapshot
+                let k = firstSnap.key
+                
+                if ( k != self.getUserId() ){// Dont take my user as a friend
+                    for item in firstSnap.children {
+                        let secondSnap = item as! DataSnapshot
+                        let key = secondSnap.key
+                        let val = secondSnap.value
+                        if (key == "username"){
+                            self.EveryUser.append((val as! String))
+                        }
+                    }
+                }
+                
+            }
+        })
     }
     
     func getUserId()->String{
@@ -162,7 +187,7 @@ class Firebase {
     }
     
     func deleteImage(text:(String)){
-        let uid = UserDefaults.standard.string(forKey: "uid")
+        let uid = User_Manager.instance.user?.id
         // 1. delete the image from Storage
         print("name of image: \(text)")
         let avatarImage = storageRef.child(text)

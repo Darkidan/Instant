@@ -12,14 +12,13 @@ class MyFeedTableViewController: UITableViewController {
     
     var data = [Feed]()
     var myfeedListener:NSObjectProtocol?
-    let userid = UserDefaults.standard.string(forKey: "uid")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        User_Manager.instance.getUsername()
         self.tableView.rowHeight = 450
         
+        // happens only once - need to find out why!!!
         myfeedListener = UserManagerNotification.myfeedListNotification.observe(){ (data1:Any) in
             self.data = data1 as! [Feed]
             self.tableView.reloadData()
@@ -45,6 +44,7 @@ class MyFeedTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
     }
     
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -56,6 +56,8 @@ class MyFeedTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:MyFeedTableViewCell = (tableView.dequeueReusableCell(withIdentifier: "MyFeedCell", for: indexPath) as! MyFeedTableViewCell)
         cell.delegate = self
+        let userid = User_Manager.instance.user?.id
+
         // Check for each cell - if there is a true value for this feed
         
         // go to cell inside and change to full heart else empty

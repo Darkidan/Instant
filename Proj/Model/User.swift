@@ -25,8 +25,7 @@ class User {
         email = json["email"] as! String
         url = json["url"] as! String
         
-        //TODO: Add a func that get a list of feeds uuid (Strings) and returns a list of feed from firebase
-       // feeds = User_Manager.instance.getFeedsFromStringList(feedsString: json["feeds"] as! [String])
+        feeds = User_Manager.instance.getFeedsFromStringList(feedsString: json["feeds"] as? [String])
     }
 
     
@@ -41,7 +40,7 @@ class User {
         var feedsString = [String]()
 
         for f in feeds ?? []{
-            feedsString.append(f.uid)
+            feedsString.append(f.id)
         }
         json["feed"] = feedsString
 
