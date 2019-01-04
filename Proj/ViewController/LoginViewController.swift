@@ -12,6 +12,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
+    
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     override func viewDidLoad() {

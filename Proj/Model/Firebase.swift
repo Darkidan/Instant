@@ -54,6 +54,7 @@ class Firebase {
         Auth.auth().signIn(withEmail: email, password: password) {(user,error) in
             if error == nil {
                 UserDefaults.standard.set(self.getUserId(), forKey: "uid")
+                
                 print("User has Signed In!")
                 self.userDefault.set(true, forKey: "usersignedin")
                 self.userDefault.synchronize()

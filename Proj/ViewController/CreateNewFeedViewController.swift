@@ -45,12 +45,14 @@ class CreateNewFeedViewController: UIViewController, UITextFieldDelegate, UIImag
         }else{
             self.saveFeedInfo(url: "")
         }
+        
     }
     
     func saveFeedInfo(url:String)  {
         let userid = UserDefaults.standard.string(forKey: "uid")
         self.usernameText = UserDefaults.standard.string(forKey: "Username")!
-        let feed = Feed(_id: "photo" + self.random, _username: self.usernameText, _urlImage: url, _likes: "0", _text: textField.text!,_uid: userid!)
+        let feed = Feed(_id: "feed" + self.random, _username: self.usernameText, _urlImage: url, _likes: "0", _text: textField.text!,_uid: userid!)
+        User_Manager.instance.user?.feeds?.append(feed)
         User_Manager.instance.addNewFeed(feed: feed)
         self.navigationController?.popViewController(animated: true)
     }

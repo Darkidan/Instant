@@ -54,12 +54,16 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
         ref.child("Users").observeSingleEvent(of: .value, with: { (DataSnapshot) in
             for child in DataSnapshot.children{
                 let firstSnap = child as! DataSnapshot
-                for item in firstSnap.children {
-                    let secondSnap = item as! DataSnapshot
-                    let key = secondSnap.key
-                    let val = secondSnap.value
-                    if (key == "username"){
-                        self.EveryUser.append((val as! String))
+                let k = firstSnap.key
+                
+                if ( k != self.userid ){// Dont take my user as a friend
+                    for item in firstSnap.children {
+                        let secondSnap = item as! DataSnapshot
+                        let key = secondSnap.key
+                        let val = secondSnap.value
+                        if (key == "username"){
+                            self.EveryUser.append((val as! String))
+                        }
                     }
                 }
                 
@@ -112,6 +116,9 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
             tableView.endUpdates()
         }
     }
+    
+    
+    
 }
 
 extension FriendsViewController: FriendCellDelegate{
@@ -133,6 +140,7 @@ extension FriendsViewController: FriendCellDelegate{
                             if ( buttonText == "+"){
                                 // Add Friend to this user UID
                                 ref.child("Friends/\(self.userid!)").child("Friend_\(uid)").setValue(uid)
+                                ref.child("Friends/\(uid)").child("Friend_\(self.userid!)").setValue(self.userid!)
                                 // change + to Added
                                 currentCell.addButton.setTitle("V",for: .normal)
                                 self.Friends.append(name)
@@ -140,6 +148,7 @@ extension FriendsViewController: FriendCellDelegate{
                             } else {
                                 // Remove Friend
                                 ref.child("Friends/\(self.userid!)").child("Friend_\(uid)").removeValue()
+                                ref.child("Friends/\(uid)").child("Friend_\(self.userid!)").removeValue()
                                 self.Friends.remove(at: indexPath.row)
                                 self.EveryUser.append(name)
                                 self.tableView.reloadData()
@@ -174,4 +183,6 @@ extension FriendsViewController: UISearchBarDelegate{
         searchBar.text = ""
         tableView.reloadData()
     }
+    
 }
+

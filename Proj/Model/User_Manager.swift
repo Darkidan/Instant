@@ -12,9 +12,12 @@ class User_Manager {
     var sql = User_Manager_SQL();
     var firebase = Firebase();
     static let instance:User_Manager = User_Manager()
+    var feeds = [Feed]()
+    var user:User?
     
     func signInUser(email: String, password: String, onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
         self.firebase.signInUser(email: email, password: password, onSuccess: {
+            self.setUser()
             onSuccess()
         }, onFailure: { (error) in
             onFailure(error)
@@ -22,10 +25,17 @@ class User_Manager {
     }
     func signUpUser(email: String, password: String, username: String, url: String ,onSuccess:@escaping ()->Void, onFailure:@escaping (Error?)->Void){
         self.firebase.signUpUser(email: email, password: password, username: username, url: url, onSuccess: {
+            self.user = User(_id: self.getUserId(), _username: username, _email: email, _url: url)
             onSuccess()
         }, onFailure: { (error) in
             onFailure(error)
         })
+    }
+    
+    func setUser(){
+        User_Manager.instance.getUser { (user) in
+            self.user = user
+        }
     }
     
     func getUser(onSuccess:@escaping (User)->Void){
@@ -77,11 +87,23 @@ class User_Manager {
             Feed.setLastUpdateDate(database: self.sql.database, date: lastUpdated)
             
             //5. get the full data
-            //  let feedFullData = Feed.getAll(database: self.sql.database)
+            let feedFullData = Feed.getAll(database: self.sql.database)
             
             //6. notify observers with full data
-            UserManagerNotification.myfeedListNotification.notify(data: data)
+            UserManagerNotification.myfeedListNotification.notify(data: feedFullData)
+            
+            self.feeds = data
         }
+    }
+    
+    func getFeedsFromStringList(feedsString: [String]) -> [Feed]{
+        var feed = [Feed]()
+        for f in self.feeds {
+            if feedsString.contains(f.uid){
+                feed.append(f);
+            }
+        }
+        return feed
     }
     
     func addNewFeed(feed:Feed){
@@ -153,6 +175,9 @@ class User_Manager {
         }
         return nil
     }
+    
+  
+    
 }
 
 class UserManagerNotification{

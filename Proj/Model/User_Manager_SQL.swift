@@ -11,8 +11,7 @@ class User_Manager_SQL {
     
     init() {
         let dbFileName = "feed.db"
-        if let dir = FileManager.default.urls(for: .documentDirectory, in:
-            .userDomainMask).first{
+        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first{
             let path = dir.appendingPathComponent(dbFileName)
             if sqlite3_open(path.absoluteString, &database) != SQLITE_OK {
                 print("Failed to open db file: \(path.absoluteString)")

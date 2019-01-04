@@ -10,8 +10,7 @@ class User {
     var username:String
     let email:String
     var url:String
-    // TODO : Friends
-    //var friends:[User]?
+    var feeds:[Feed]?
     
     init(_id:String, _username:String, _email:String,_url:String){
         id = _id
@@ -26,13 +25,10 @@ class User {
         email = json["email"] as! String
         url = json["url"] as! String
         
-    //    var friendsId:[String]
-     //   friendsId = json["friendsId"] as! [String]
-        
-     //   for _ in friendsId {
-            //Todo for each id get friend from firebase
-      //  }
+        //TODO: Add a func that get a list of feeds uuid (Strings) and returns a list of feed from firebase
+       // feeds = User_Manager.instance.getFeedsFromStringList(feedsString: json["feeds"] as! [String])
     }
+
     
     func toJson() -> [String:Any] {
         var json = [String:Any]()
@@ -41,11 +37,13 @@ class User {
         json["email"] = email
         json["url"] = url
         
-     //   var friendsId = [String]()
-     //   for friend in friends! {
-     //       friendsId.append(friend.id)
-      //  }
-      //  json["friendsId"] = friendsId;
-        
+        // feeds by id
+        var feedsString = [String]()
+
+        for f in feeds ?? []{
+            feedsString.append(f.uid)
+        }
+        json["feed"] = feedsString
+
         return json
     }}

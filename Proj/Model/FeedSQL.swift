@@ -36,8 +36,8 @@ extension Feed{
                 let username = String(cString:sqlite3_column_text(sqlite3_stmt,1)!)
                 let likes = String(cString:sqlite3_column_text(sqlite3_stmt,2)!)
                 let text = String(cString:sqlite3_column_text(sqlite3_stmt,3)!)
-                let url = String(cString:sqlite3_column_text(sqlite3_stmt,4)!)
-                let uid = String(cString:sqlite3_column_text(sqlite3_stmt,5)!)
+                let uid = String(cString:sqlite3_column_text(sqlite3_stmt,4)!)
+                let url = String(cString:sqlite3_column_text(sqlite3_stmt,5)!)
                 if(sqlite3_step(sqlite3_stmt) == SQLITE_ROW){
                     lud = sqlite3_column_double(sqlite3_stmt,6)
                 }
@@ -63,8 +63,8 @@ extension Feed{
             sqlite3_bind_text(sqlite3_stmt, 2, username,-1,nil);
             sqlite3_bind_text(sqlite3_stmt, 3, likes,-1,nil);
             sqlite3_bind_text(sqlite3_stmt, 4, text,-1,nil);
-            sqlite3_bind_text(sqlite3_stmt, 5, url,-1,nil);
-            sqlite3_bind_text(sqlite3_stmt, 6, uid,-1,nil);
+            sqlite3_bind_text(sqlite3_stmt, 5, uid,-1,nil);
+            sqlite3_bind_text(sqlite3_stmt, 6, url,-1,nil);
             sqlite3_bind_double(sqlite3_stmt, 7, timestamp!);
             
             if(sqlite3_step(sqlite3_stmt) == SQLITE_DONE){
