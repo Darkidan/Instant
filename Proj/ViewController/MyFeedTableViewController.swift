@@ -12,6 +12,7 @@ class MyFeedTableViewController: UITableViewController {
     
     var data = [Feed]()
     var myfeedListener:NSObjectProtocol?
+    let userid = UserDefaults.standard.string(forKey: "uid")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +57,6 @@ class MyFeedTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:MyFeedTableViewCell = (tableView.dequeueReusableCell(withIdentifier: "MyFeedCell", for: indexPath) as! MyFeedTableViewCell)
         cell.delegate = self
-        let userid = User_Manager.instance.user?.id
 
         // Check for each cell - if there is a true value for this feed
         
@@ -100,7 +100,7 @@ class MyFeedTableViewController: UITableViewController {
             }
         }
         
-        
+        // take it and use it in profileTableViewController
         cell.feedImage.image = UIImage(named: "wait_for_it")
         cell.feedImage.tag = indexPath.row
         if feed.urlImage != "" {

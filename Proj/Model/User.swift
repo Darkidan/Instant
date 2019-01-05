@@ -5,6 +5,7 @@
 
 import Foundation
 
+
 class User {
     let id:String
     var username:String
@@ -25,7 +26,7 @@ class User {
         email = json["email"] as! String
         url = json["url"] as! String
         
-        feeds = User_Manager.instance.getFeedsFromStringList(feedsString: json["feeds"] as? [String])
+       feeds = User_Manager.instance.getFeedsFromStringList(feedsString: json["feed"] as? [String])
     }
 
     
@@ -43,6 +44,6 @@ class User {
             feedsString.append(f.id)
         }
         json["feed"] = feedsString
-
+ 
         return json
     }}

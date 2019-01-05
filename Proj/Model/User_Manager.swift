@@ -68,7 +68,6 @@ class User_Manager {
         //1. read local feeds last update date
         var lastUpdated = Feed.getLastUpdateDate(database: sql.database)
         lastUpdated += 1;
-        
         //2. get updates from firebase and observe
         firebase.getAllFeedsAndObserve(from:lastUpdated){ (data:[Feed]) in
             //3. write new records to the local DB
@@ -78,7 +77,7 @@ class User_Manager {
                     lastUpdated = feed.lastUpdate!
                 }
             }
-            
+
             //4. update the local feeds last update date
             Feed.setLastUpdateDate(database: self.sql.database, date: lastUpdated)
             
@@ -86,9 +85,9 @@ class User_Manager {
             let feedFullData = Feed.getAll(database: self.sql.database)
             
             //6. notify observers with full data
-            UserManagerNotification.myfeedListNotification.notify(data: data)
+            UserManagerNotification.myfeedListNotification.notify(data: feedFullData)
             
-            self.feeds = data
+            self.feeds = feedFullData
         }
     }
     
@@ -99,7 +98,7 @@ class User_Manager {
         
         var feed = [Feed]()
         for f in self.feeds {
-            if feedsString!.contains(f.uid){
+            if feedsString!.contains(f.id){
                 feed.append(f);
             }
         }
@@ -160,6 +159,28 @@ class User_Manager {
         }
     }
     
+    func getEveryUser(onSuccess: @escaping ()->[String]){
+        
+    }
+    
+    func getFriendsList(tableView: UITableView,onSuccess:@escaping (UITableView)->Void) {
+        firebase.getFriendsList(tableView: tableView, onSuccess: {_ in
+            onSuccess(tableView)
+        })
+    }
+    
+    func getEveryUserArray() -> [String] {
+        return firebase.getEveryUserArray()
+    }
+    
+    func getFriendsImgArray() -> [String] {
+        return firebase.getFriendsImgArray()
+    }
+    
+    func getFriendsArray() -> [String] {
+        return firebase.getFriendsArray()
+    }
+    
     /// File handling
     
     func saveImageToFile(image: UIImage, name: String){
@@ -170,7 +191,6 @@ class User_Manager {
     
     func getImageFromFile(name: String) -> UIImage? {
         if let dir = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) {
-            // print(URL(fileURLWithPath: dir.absoluteString).appendingPathComponent(name).path)
             return UIImage(contentsOfFile: URL(fileURLWithPath: dir.absoluteString).appendingPathComponent(name).path)
         }
         return nil

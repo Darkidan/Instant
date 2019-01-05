@@ -25,6 +25,7 @@ class Firebase {
         let fbQuery = feedRef.queryOrdered(byChild: "lastUpdate").queryStarting(atValue: from)
         fbQuery.observe(.value) { (snapshot) in
             var data = [Feed]()
+           // print(snapshot.value ?? "BLA")
             if let value = snapshot.value as? [String:Any] {
                 for (_, json) in value{
                     data.append(Feed(json: json as! [String : Any]))
@@ -39,7 +40,9 @@ class Firebase {
     }
     
     func EditUser(user: User){
+        // save feeds array
         ref.child("Users").child(user.id).setValue(user.toJson())
+        //ref.child("Users").child(user.id).child("feed").childByAutoId().setValue(user.toJson())
     }
     
     func ChangePass(password: String){
@@ -137,27 +140,6 @@ class Firebase {
         }
     }
     
-    func getUserList() {
-        ref.child("Users").observeSingleEvent(of: .value, with: { (DataSnapshot) in
-            for child in DataSnapshot.children{
-                let firstSnap = child as! DataSnapshot
-                let k = firstSnap.key
-                
-                if ( k != self.getUserId() ){// Dont take my user as a friend
-                    for item in firstSnap.children {
-                        let secondSnap = item as! DataSnapshot
-                        let key = secondSnap.key
-                        let val = secondSnap.value
-                        if (key == "username"){
-                            self.EveryUser.append((val as! String))
-                        }
-                    }
-                }
-                
-            }
-        })
-    }
-    
     func getUserId()->String{
         return Auth.auth().currentUser!.uid
     }
@@ -202,7 +184,6 @@ class Firebase {
         }
         
         // 2. delete the image from database
-        print(ref.child("Users").child(uid!).child("url"))
         ref.child("Users").child(uid!).child("url").setValue("")
         
     }
@@ -238,6 +219,60 @@ class Firebase {
                 callback(image)
             }
         }
+    }
+    
+    func getFriendsList(tableView: UITableView,onSuccess:@escaping (UITableView)->Void) {
+        
+        ref.child("Friends/\(getUserId())").observeSingleEvent(of: .value){
+            (DataSnapshot) in
+            let friendsData = DataSnapshot.value as? [String:Any]
+            if (friendsData != nil){
+                for friendUID in friendsData!{
+                    self.ref.child("Users/\(friendUID.value)").observeSingleEvent(of: .value){ (DataSnapshot2) in
+                        let userData = DataSnapshot2.value as? [String:Any]
+                        if ( DataSnapshot2.childrenCount != 0 ){
+                            self.Friends.append(userData!["username"] as! String)
+                            self.FriendsImg.append(userData!["url"] as! String)
+                            onSuccess(tableView)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+
+    func getEveryUserArray() -> [String] {
+        return EveryUser
+    }
+    
+    func getFriendsImgArray() -> [String] {
+        return FriendsImg
+    }
+    
+    func getFriendsArray() -> [String] {
+        return Friends
+    }
+    
+    func getUserList() {
+        ref.child("Users").observeSingleEvent(of: .value, with: { (DataSnapshot) in
+            for child in DataSnapshot.children{
+                let firstSnap = child as! DataSnapshot
+                let k = firstSnap.key
+                
+                if ( k != self.getUserId() ){// Dont take my user as a friend
+                    for item in firstSnap.children {
+                        let secondSnap = item as! DataSnapshot
+                        let key = secondSnap.key
+                        let val = secondSnap.value
+                        if (key == "username"){
+                            self.EveryUser.append((val as! String))
+                        }
+                    }
+                }
+                
+            }
+        })
     }
     
 }

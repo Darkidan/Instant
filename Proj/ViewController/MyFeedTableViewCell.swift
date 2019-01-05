@@ -23,7 +23,7 @@ class MyFeedTableViewCell: UITableViewCell {
     
     var feedID: String?
     var likesAmount: String?
-    let userid = User_Manager.instance.user?.id
+    let userid = UserDefaults.standard.string(forKey: "uid")
     var delegate: FeedCellDelegate?
     
     override func awakeFromNib() {

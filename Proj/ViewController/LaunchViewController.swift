@@ -11,10 +11,12 @@ class LaunchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        User_Manager.instance.getAllFeeds()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         if UserDefaults.standard.bool(forKey: "usersignedin") || UserDefaults.standard.bool(forKey: "usersignedup"){
+            
             User_Manager.instance.setUser()
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateInitialViewController()

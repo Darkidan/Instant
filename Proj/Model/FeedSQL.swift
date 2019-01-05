@@ -28,9 +28,7 @@ extension Feed{
     static func getAll(database: OpaquePointer?)->[Feed]{
         var sqlite3_stmt: OpaquePointer? = nil
         var data = [Feed]()
-        var lud:Double = 0
-        if (sqlite3_prepare_v2(database,"SELECT * from Feeds;",-1,&sqlite3_stmt,nil)
-            == SQLITE_OK){
+        if (sqlite3_prepare_v2(database,"SELECT * from Feeds;",-1,&sqlite3_stmt,nil) == SQLITE_OK){
             while(sqlite3_step(sqlite3_stmt) == SQLITE_ROW){
                 let id = String(cString:sqlite3_column_text(sqlite3_stmt,0)!)
                 let username = String(cString:sqlite3_column_text(sqlite3_stmt,1)!)
@@ -38,10 +36,23 @@ extension Feed{
                 let text = String(cString:sqlite3_column_text(sqlite3_stmt,3)!)
                 let uid = String(cString:sqlite3_column_text(sqlite3_stmt,4)!)
                 let url = String(cString:sqlite3_column_text(sqlite3_stmt,5)!)
-                if(sqlite3_step(sqlite3_stmt) == SQLITE_ROW){
-                    lud = sqlite3_column_double(sqlite3_stmt,6)
-                }
+                let lud = sqlite3_column_double(sqlite3_stmt,6)
+
                 data.append(Feed(_id: id, _username: username, _urlImage: url, _likes: likes, _text: text, _uid: uid, _lastUpdate: lud))
+            }
+        }
+        sqlite3_finalize(sqlite3_stmt)
+        return data
+    }
+    
+    static func update(database: OpaquePointer?)->[Feed]{
+        var sqlite3_stmt: OpaquePointer? = nil
+        var data = [Feed]()
+        var lud:Double = 0
+        if (sqlite3_prepare_v2(database,"SELECT min(lastUpdate) from Feeds;",-1,&sqlite3_stmt,nil) == SQLITE_OK){
+            while(sqlite3_step(sqlite3_stmt) == SQLITE_ROW){
+                lud = sqlite3_column_double(sqlite3_stmt,6)
+                print("lud: \(lud)")
             }
         }
         sqlite3_finalize(sqlite3_stmt)
@@ -79,10 +90,10 @@ extension Feed{
     }
     
     static func getLastUpdateDate(database: OpaquePointer?)->Double{
-        return LastUpdateDates.get(database: database, tabeName: "feeds")
+        return LastUpdateDates.get(database: database, tabeName: "Feeds")
     }
     
     static func setLastUpdateDate(database: OpaquePointer?, date:Double){
-        LastUpdateDates.set(database: database, tabeName: "feeds", date: date);
+        LastUpdateDates.set(database: database, tabeName: "Feeds", date: date);
     }
 }

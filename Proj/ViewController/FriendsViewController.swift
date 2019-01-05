@@ -28,25 +28,29 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
         
         // Get Friends List
         
+        User_Manager.instance.getFriendsList(tableView: self.tableView,onSuccess: {_ in
+            self.Friends = User_Manager.instance.getFriendsArray()
+            self.FriendsImg = User_Manager.instance.getFriendsImgArray()
+            self.tableView.reloadData()
+        })
+        
         let ref = Database.database().reference()
-        ref.child("Friends/\(userid!)").observeSingleEvent(of: .value){
-            (DataSnapshot) in
-            let friendsData = DataSnapshot.value as? [String:Any]
-            if ( friendsData != nil){
-                for friendUID in friendsData!{
-                    ref.child("Users/\(friendUID.value)").observeSingleEvent(of: .value)
-                    {
-                        (DataSnapshot2) in
-                        let userData = DataSnapshot2.value as? [String:Any]
-                        if ( DataSnapshot2.childrenCount != 0 ){
-                            self.Friends.append(userData!["username"] as! String)
-                            self.FriendsImg.append(userData!["url"] as! String)
-                            self.tableView.reloadData()
-                        }
-                    }
-                }
-            }
-        }
+        
+        /*var currentFeeds = [String]()
+         
+         ref.child("Users/\(userid!)/feed").observeSingleEvent(of: .value, with: { (DataSnapshot) in
+         for child in DataSnapshot.children{
+         let firstSnap = child as! DataSnapshot
+         //let k = firstSnap.key
+         currentFeeds.append(firstSnap.value as! String)
+         }
+         print("Current: \(currentFeeds)")
+         // Update User
+         
+         // Add feeds
+         
+         ref.child("Users/lH6U52gkyjaLgY5fwQqYryewyoE3/feed").setValue(currentFeeds)
+         })*/
         
         // Get a list of every user to later filter search results
         
