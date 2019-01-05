@@ -45,20 +45,6 @@ extension Feed{
         return data
     }
     
-    static func update(database: OpaquePointer?)->[Feed]{
-        var sqlite3_stmt: OpaquePointer? = nil
-        var data = [Feed]()
-        var lud:Double = 0
-        if (sqlite3_prepare_v2(database,"SELECT min(lastUpdate) from Feeds;",-1,&sqlite3_stmt,nil) == SQLITE_OK){
-            while(sqlite3_step(sqlite3_stmt) == SQLITE_ROW){
-                lud = sqlite3_column_double(sqlite3_stmt,6)
-                print("lud: \(lud)")
-            }
-        }
-        sqlite3_finalize(sqlite3_stmt)
-        return data
-    }
-    
     static func addNew(database: OpaquePointer?, feed:Feed){
         var sqlite3_stmt: OpaquePointer? = nil
         if (sqlite3_prepare_v2(database,"INSERT OR REPLACE INTO Feeds(FEED_ID, USERNAME, LIKES, TEXTFEED, UID, URL, TIMESTAMP) VALUES (?,?,?,?,?,?,?);",-1, &sqlite3_stmt,nil) == SQLITE_OK){

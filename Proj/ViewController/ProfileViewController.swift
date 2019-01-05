@@ -19,7 +19,7 @@ class ProfileViewController: UIViewController {
     var user: User?
     let userid = UserDefaults.standard.string(forKey: "uid")
     var feedsDataSnapshotArray = [DataSnapshot]()
-    
+    var selectedIndex: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,32 +27,27 @@ class ProfileViewController: UIViewController {
         self.spinner.startAnimating()
         
         self.tableView.register(UINib(nibName: "profileCustomCell", bundle: nil), forCellReuseIdentifier: "profileCell")
-        self.tableView.rowHeight = 370
+        self.tableView.rowHeight = 350
         
         // get all feeds by user id
         
         let ref = Database.database().reference()
-        
-        ref.child("Feeds").observeSingleEvent(of: .value, with: { (DataSnapshot) in
-            for child in DataSnapshot.children{
-                let firstSnap = child as! DataSnapshot
-                
-                for item in firstSnap.children {
-                    let secondSnap = item as! DataSnapshot
-                    let key = secondSnap.key
-                    let val = secondSnap.value
-                    //print("Key: \(key) Value: \(val!)")
-                    if (key == "uid" && (val as! String) == self.userid){ // My Post
-                        self.feedsDataSnapshotArray.append(firstSnap)
-                        //print("My UID: \(self.userid!) Feed uid: \(val!)")
-                        //print(firstSnap)
+        print("get feeds from user")
+        // Get feeds from user id
+        ref.child("Users/\(userid!)/feed").observeSingleEvent(of: .value, with: { (DataSnapshot) in
+            let arr = DataSnapshot.value as! [String]
+            // Get all feeds by lastUpdate order
+            // Select only those that belong to current logged user.
+            ref.child("Feeds").queryOrdered(byChild: "lastUpdate").observeSingleEvent(of: .value, with: {snapshot in
+                for child in snapshot.children {
+                    let snap = child as! DataSnapshot
+                    if ( arr.contains(snap.key) ){
+                        self.feedsDataSnapshotArray.append(snap)
                     }
                 }
-                
-            }
-            self.tableView.reloadData()
-            //print("-----------------------------------------")
-            //print(feedsDataSnapshotArray)
+                self.feedsDataSnapshotArray.reverse()
+                self.tableView.reloadData()
+            })
         })
         
     }
@@ -112,13 +107,16 @@ extension ProfileViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ProfileTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: "profileCell") as! ProfileTableViewCell
         
+        cell.delegate = self
+        cell.currentCellIndex = indexPath.row
+        
         for item in feedsDataSnapshotArray[indexPath.row].children{
             let secondSnap = item as! DataSnapshot
             let key = secondSnap.key
             let val = secondSnap.value
             
             if ( key == "text") {
-                cell.ptext!.text = val as! String
+                cell.ptext!.text = val as? String
             }
             if ( key == "likes"){
                 cell.likesButton.setTitle("\(val!) Likes",for: .normal)
@@ -130,26 +128,57 @@ extension ProfileViewController: UITableViewDataSource{
             }
             
             if ( key == "urlImage"){
-                
+                cell.pimage.image = UIImage(named: "wait_for_it")
+                cell.pimage.tag = indexPath.row
+                if (val as! String) != "" {
+                    User_Manager.instance.getImage(url: val as! String) { (image:UIImage?) in
+                        if (cell.pimage!.tag == indexPath.row){
+                            if image != nil {
+                                cell.pimage.image = image!
+                                cell.pimage.clipsToBounds = true
+                            }
+                        }
+                    }
+                }
             }
         }
-        
-        cell.pimage.image = UIImage(named: "wait_for_it")
-        /*cell.pimage.tag = indexPath.row
-         if feed.urlImage != "" {
-         User_Manager.instance.getImage(url: feed.urlImage) { (image:UIImage?) in
-         if (cell.feedImage!.tag == indexPath.row){
-         if image != nil {
-         cell.feedImage.image = image!
-         cell.feedImage.clipsToBounds = true
-         }
-         }
-         }
-         }*/
         
         return cell
     }
     
     
     
+}
+
+extension ProfileViewController: ProfileCellDelegate{
+    func handleEdit(cellIndex: Int) {
+        self.selectedIndex = cellIndex
+        performSegue(withIdentifier: "editFeed", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        if ( segue.identifier == "editFeed" ){
+            let vc: EditFeedViewController = segue.destination as! EditFeedViewController
+            
+            print(self.selectedIndex!)
+            
+            for item in feedsDataSnapshotArray[self.selectedIndex!].children{
+                let secondSnap = item as! DataSnapshot
+                let key = secondSnap.key
+                let val = secondSnap.value
+                
+                if ( key == "text") {
+                    vc.beforeText = val as? String
+                }
+                
+                if ( key == "id" ){
+                    vc.feedID = val as? String
+                }
+                
+                if ( key == "urlImage"){
+                    vc.imageURL = val as? String
+                }
+            }
+        }
+    }
 }

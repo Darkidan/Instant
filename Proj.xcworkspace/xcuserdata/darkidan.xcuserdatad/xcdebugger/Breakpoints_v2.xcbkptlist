@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Proj/Model/FeedSQL.swift"
-            timestampString = "568404639.553349"
+            timestampString = "568417806.970471"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "19"
@@ -249,102 +249,8 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Proj/ViewController/ProfileTableViewCell.swift"
-            timestampString = "568402635.782063"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "16"
-            endingLineNumber = "16"
-            landmarkName = "ProfileTableViewCell"
-            landmarkType = "3">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Proj.ProfileTableViewCell.date.getter : weak Swift.Optional&lt;__C.UILabel&gt;"
-                  moduleName = "Proj"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/darkidan/Desktop/Proj/Proj/ViewController/ProfileTableViewCell.swift"
-                  timestampString = "568401335.142565"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "86">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Proj.ProfileTableViewCell.date.setter : weak Swift.Optional&lt;__C.UILabel&gt;"
-                  moduleName = "Proj"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/darkidan/Desktop/Proj/Proj/ViewController/ProfileTableViewCell.swift"
-                  timestampString = "568401335.14579"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "106">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Proj.ProfileTableViewCell.init(style: __C.UITableViewCellStyle, reuseIdentifier: Swift.Optional&lt;Swift.String&gt;) -&gt; Proj.ProfileTableViewCell"
-                  moduleName = "Proj"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/darkidan/Desktop/Proj/Proj/ViewController/ProfileTableViewCell.swift"
-                  timestampString = "568401335.149242"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "347">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Proj.ProfileTableViewCell.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;Proj.ProfileTableViewCell&gt;"
-                  moduleName = "Proj"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/darkidan/Desktop/Proj/Proj/ViewController/ProfileTableViewCell.swift"
-                  timestampString = "568401335.152374"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "311">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Proj/Model/FeedSQL.swift"
-            timestampString = "568404639.553672"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "update(database:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Proj/Model/FeedSQL.swift"
-            timestampString = "568404639.55371"
+            timestampString = "568417806.970711"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "32"

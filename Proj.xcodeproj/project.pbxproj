@@ -17,6 +17,7 @@
 		AC051DB0219AF59F001D134A /* ProjUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC051DAF219AF59F001D134A /* ProjUITests.swift */; };
 		AC1085EC21E11C1400D6592F /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1085EB21E11C1400D6592F /* ProfileTableViewCell.swift */; };
 		AC1085EE21E11C4D00D6592F /* profileCustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC1085ED21E11C4D00D6592F /* profileCustomCell.xib */; };
+		AC113F6A21E1554800EF4DDF /* EditFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC113F6921E1554800EF4DDF /* EditFeedViewController.swift */; };
 		AC11D2E421D92E2900A3F260 /* MyFeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC11D2E321D92E2900A3F260 /* MyFeedTableViewController.swift */; };
 		AC11D2E621D9302B00A3F260 /* MyFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC11D2E521D9302B00A3F260 /* MyFeedTableViewCell.swift */; };
 		AC11D2E821D9372F00A3F260 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AC11D2E721D9372F00A3F260 /* libsqlite3.0.tbd */; };
@@ -81,6 +82,7 @@
 		AC051DB1219AF59F001D134A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC1085EB21E11C1400D6592F /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		AC1085ED21E11C4D00D6592F /* profileCustomCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = profileCustomCell.xib; sourceTree = "<group>"; };
+		AC113F6921E1554800EF4DDF /* EditFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFeedViewController.swift; sourceTree = "<group>"; };
 		AC11D2E321D92E2900A3F260 /* MyFeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedTableViewController.swift; sourceTree = "<group>"; };
 		AC11D2E521D9302B00A3F260 /* MyFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedTableViewCell.swift; sourceTree = "<group>"; };
 		AC11D2E721D9372F00A3F260 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
@@ -222,12 +224,13 @@
 				AC2BEABE21A8921300881016 /* SignUpViewController.swift */,
 				AC4D668821B463D80042E73B /* LoginViewController.swift */,
 				AC1F0A5421B7078600792F83 /* LaunchViewController.swift */,
-				AC3B546B21C6812400130BA0 /* ProfileViewController.swift */,
 				AC773F3C21D8D4920075C9CA /* CreateNewFeedViewController.swift */,
 				AC773F3E21D8F20A0075C9CA /* EditProfileViewController.swift */,
+				AC113F6921E1554800EF4DDF /* EditFeedViewController.swift */,
 				AC11D2E321D92E2900A3F260 /* MyFeedTableViewController.swift */,
 				AC11D2E521D9302B00A3F260 /* MyFeedTableViewCell.swift */,
 				AC4E390121DF644900E0AE57 /* CustomViewController.swift */,
+				AC3B546B21C6812400130BA0 /* ProfileViewController.swift */,
 				AC1085EB21E11C1400D6592F /* ProfileTableViewCell.swift */,
 				AC1085ED21E11C4D00D6592F /* profileCustomCell.xib */,
 			);
@@ -502,6 +505,7 @@
 				AC773F3D21D8D4920075C9CA /* CreateNewFeedViewController.swift in Sources */,
 				AC11D2E421D92E2900A3F260 /* MyFeedTableViewController.swift in Sources */,
 				AC2BEAC421A89AEF00881016 /* User.swift in Sources */,
+				AC113F6A21E1554800EF4DDF /* EditFeedViewController.swift in Sources */,
 				AC2BEAC621A89B0300881016 /* Feed.swift in Sources */,
 				AC4E390221DF644900E0AE57 /* CustomViewController.swift in Sources */,
 				AC2BEABF21A8921300881016 /* SignUpViewController.swift in Sources */,
