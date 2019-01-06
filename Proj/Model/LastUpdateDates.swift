@@ -1,7 +1,7 @@
 //
 //  LastUpdateDates.swift
 //
-//  Copyright © 2018 All rights reserved.
+//  Copyright © 2018-2019 All rights reserved.
 //
 
 import Foundation

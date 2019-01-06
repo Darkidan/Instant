@@ -23,5 +23,4 @@ class CustomViewController: UIViewController {
         let finaldate = formatter.string(from: yourDate!)
         return finaldate
     }
-
 }

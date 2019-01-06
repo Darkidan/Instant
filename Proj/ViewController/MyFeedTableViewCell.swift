@@ -8,7 +8,6 @@
 import UIKit
 
 protocol FeedCellDelegate {
-    
     func handleLike(uid: String,feedID: String,likeCurrentState: Bool,currentHeartButton: UIButton,likesAmount: String)
 }
 
@@ -43,9 +42,7 @@ class MyFeedTableViewCell: UITableViewCell {
         }
     }
     
-    
     @IBAction func heartButtonClick(_ sender: Any) {
         delegate?.handleLike(uid: userid!, feedID: feedID!,likeCurrentState: likeState(),currentHeartButton: heartButton,likesAmount: likesAmount!)
     }
-    
 }

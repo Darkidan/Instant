@@ -1,7 +1,8 @@
 //
 //  FriendsViewController.swift
+//  Instant
 //
-//  Copyright © 2019 All rights reserved.
+//  Copyright © 2018-2019 All rights reserved.
 //
 
 import UIKit
@@ -27,7 +28,6 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
         self.tableView.register(UINib(nibName: "CustomCell", bundle: nil), forCellReuseIdentifier: "custom")
         
         // Get Friends List
-        
         User_Manager.instance.getFriendsList(tableView: self.tableView,onSuccess: {_ in
             self.Friends = User_Manager.instance.getFriendsArray()
             self.FriendsImg = User_Manager.instance.getFriendsImgArray()
@@ -35,31 +35,13 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
         })
         
         let ref = Database.database().reference()
-        
-        /*var currentFeeds = [String]()
-         
-         ref.child("Users/\(userid!)/feed").observeSingleEvent(of: .value, with: { (DataSnapshot) in
-         for child in DataSnapshot.children{
-         let firstSnap = child as! DataSnapshot
-         //let k = firstSnap.key
-         currentFeeds.append(firstSnap.value as! String)
-         }
-         print("Current: \(currentFeeds)")
-         // Update User
-         
-         // Add feeds
-         
-         ref.child("Users/lH6U52gkyjaLgY5fwQqYryewyoE3/feed").setValue(currentFeeds)
-         })*/
-        
         // Get a list of every user to later filter search results
-        
         ref.child("Users").observeSingleEvent(of: .value, with: { (DataSnapshot) in
             for child in DataSnapshot.children{
                 let firstSnap = child as! DataSnapshot
                 let k = firstSnap.key
                 
-                if ( k != self.userid ){// Dont take my user as a friend
+                if ( k != self.userid ){// Don't take my user as a friend
                     for item in firstSnap.children {
                         let secondSnap = item as! DataSnapshot
                         let key = secondSnap.key
@@ -69,10 +51,8 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
                         }
                     }
                 }
-                
             }
         })
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -80,7 +60,7 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if ( searching ){
+        if (searching){
             return self.searchFiltered.count
         } else {
             return self.Friends.count
@@ -88,24 +68,12 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell: CustomCell = self.tableView.dequeueReusableCell(withIdentifier: "custom") as! CustomCell
         
         cell.delegate = self
         cell.cellIndex = indexPath
-        
-        /** Assign User Profile Image
-         let imgURL = self.FriendsImg[indexPath.row]
-         let url = URL(string: imgURL)
-         if ( url != nil ){
-         let data = try? Data(contentsOf: (url!))
-         
-         if let imageData = data {
-         cell.img.image = UIImage(data: imageData)
-         }
-         }**/
-        
-        if ( searching ){
+
+        if (searching){
             cell.name.text = self.searchFiltered[indexPath.row]
             cell.addButton.setTitle("+", for:.normal)
         } else {
@@ -123,9 +91,6 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
             tableView.endUpdates()
         }
     }
-    
-    
-    
 }
 
 extension FriendsViewController: FriendCellDelegate{
@@ -151,7 +116,6 @@ extension FriendsViewController: FriendCellDelegate{
                                 // change + to Added
                                 currentCell.addButton.setTitle("V",for: .normal)
                                 self.Friends.append(name)
-                                
                             } else {
                                 // Remove Friend
                                 ref.child("Friends/\(self.userid!)").child("Friend_\(uid)").removeValue()
@@ -164,15 +128,12 @@ extension FriendsViewController: FriendCellDelegate{
                         }
                     }
                 }
-                
             }
         })
     }
-    
 }
 
 extension FriendsViewController: UISearchBarDelegate{
-    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if ( searchText.count == 0 ){ // Show Friends
             searchFiltered = Friends
@@ -190,6 +151,4 @@ extension FriendsViewController: UISearchBarDelegate{
         searchBar.text = ""
         tableView.reloadData()
     }
-    
 }
-
