@@ -44,6 +44,12 @@ class User_Manager {
         }
     }
     
+    func getFeed(feedId: String,onSuccess:@escaping (Feed)->Void){
+        firebase.getFeedByID(feedId: feedId) { (feed) in
+            onSuccess(feed)
+        }
+    }
+    
     func getUserId()->String{
         return firebase.getUserId()
     }
@@ -180,6 +186,12 @@ class User_Manager {
     func getFriendsArray() -> [String] {
         return firebase.getFriendsArray()
     }
+
+    func saveFeedsForUser(onSuccess:@escaping ([String])->Void) {
+        firebase.saveFeedsForUser(onSuccess: { (feeds) in
+            onSuccess(feeds)
+        })
+    }
     
     /// File handling
     
@@ -195,9 +207,6 @@ class User_Manager {
         }
         return nil
     }
-    
-    
-    
 }
 
 class UserManagerNotification{

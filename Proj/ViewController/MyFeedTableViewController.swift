@@ -2,7 +2,7 @@
 //  MyFeedTableViewController.swift
 //  Instant
 //
-//  Copyright © 2018 All rights reserved.
+//  Copyright © 2018-2019 All rights reserved.
 //
 
 import UIKit
@@ -19,12 +19,10 @@ class MyFeedTableViewController: UITableViewController {
         
         self.tableView.rowHeight = 450
         
-        // happens only once - need to find out why!!!
-        myfeedListener = UserManagerNotification.myfeedListNotification.observe(){ (data1:Any) in
-            self.data = data1 as! [Feed]
+        myfeedListener = UserManagerNotification.myfeedListNotification.observe(){ (data:Any) in
+            self.data = data as! [Feed]
             self.tableView.reloadData()
         }
-        User_Manager.instance.getAllFeeds()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -39,12 +37,11 @@ class MyFeedTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -143,8 +140,7 @@ extension MyFeedTableViewController: FeedCellDelegate {
                 print("true")
             }
             
-        }  else {
-            
+        } else {
             // -1 like, change image to empty heart
             if let image = UIImage(named: "icon-like.png") {
                 currentHeartButton.setImage(image, for: .normal)
@@ -161,5 +157,4 @@ extension MyFeedTableViewController: FeedCellDelegate {
         }
         currentHeartButton.isEnabled = true
     }
-    
 }

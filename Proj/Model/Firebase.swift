@@ -15,6 +15,7 @@ class Firebase {
     var Friends = [String]()
     var FriendsImg = [String]()
     var EveryUser = [String]()
+    var FriendsUID = [String]() // used to filter feeds
     
     init() {
         ref = Database.database().reference()
@@ -24,8 +25,71 @@ class Firebase {
         let feedRef = ref.child("Feeds")
         let fbQuery = feedRef.queryOrdered(byChild: "lastUpdate").queryStarting(atValue: from)
         fbQuery.observe(.value) { (snapshot) in
+            // find my friends + adds to firends uid array my uid
+            self.ref.child("Friends/\(self.getUserId())").observeSingleEvent(of: .value, with: { (DataSnapshot) in
+                
+                for child in DataSnapshot.children {
+                    let firstSnap = child as! DataSnapshot
+                    let v = firstSnap.value as? String
+                    self.FriendsUID.append(v!)
+                }
+                
+                self.FriendsUID.append(self.getUserId()) // Adding me , so i can see my feed also
+                
+                //print("Friends and me: \(self.FriendsUID.count)")
+                
+                // check for each feed if its uid is contained in friends array
+                var data = [Feed]()
+                var bool = false
+                var feedID: String?
+                for feed in snapshot.children{ // for every feed
+                    let firstSnap = feed as! DataSnapshot
+                    
+                    for item in firstSnap.children{ // for every key value
+                        let secondSnap = item as! DataSnapshot
+                        let key = secondSnap.key
+                        let val = secondSnap.value as? String
+                        
+                        if ( key == "id"){
+                            feedID = val!
+                        }
+                        if ( key == "uid" ){
+                            if ( self.FriendsUID.contains(val!)){
+                                //print("Found Post From: \(val!)")
+                                bool = true
+                                break
+                            } else {
+                                bool = false
+                            }
+                        }
+                    } // end for
+                    
+                    if ( bool ){
+                        if let value = snapshot.childSnapshot(forPath: feedID!).value as? [String:Any] {
+
+                            data.append(Feed(_id: value["id"]! as! String,
+                                             _username: value["username"]! as! String,
+                                             _urlImage: value["urlImage"]! as! String,
+                                             _likes: value["likes"]! as! String,
+                                             _text: value["text"]! as! String,
+                                             _uid: value["uid"]! as! String,
+                                             _lastUpdate: value["lastUpdate"]! as! Double))
+                        }
+                    }
+                } // end feed for
+                //print("Data amount: \(data.count)")
+                callback(data.reversed())
+            })
+            
+        }
+    }
+    
+    /*
+    func getAllFeedsAndObserve(from:Double, callback:@escaping ([Feed])->Void){
+        let feedRef = ref.child("Feeds")
+        let fbQuery = feedRef.queryOrdered(byChild: "lastUpdate").queryStarting(atValue: from)
+        fbQuery.observe(.value) { (snapshot) in
             var data = [Feed]()
-           // print(snapshot.value ?? "BLA")
             if let value = snapshot.value as? [String:Any] {
                 for (_, json) in value{
                     data.append(Feed(json: json as! [String : Any]))
@@ -33,7 +97,7 @@ class Firebase {
             }
             callback(data)
         }
-    }
+    }*/
     
     func addNewFeed(feed:Feed){
         ref.child("Feeds").child(feed.id).setValue(feed.toJson())
@@ -122,6 +186,16 @@ class Firebase {
         }
     }
     
+    func getFeedByID(feedId: String, onSuccess:@escaping (Feed)->Void){
+        ref.child("Feeds").child(feedId).observeSingleEvent(of: .value) { (snapshot) in
+            if let value = snapshot.value as? [String:Any]{
+                let feed = Feed(json: value)
+                onSuccess(feed)
+            }
+        }
+    }
+    
+    
     func getFriendsList() {
         ref.child("Friends/\(getUserId())").observeSingleEvent(of: .value){
             (DataSnapshot) in
@@ -189,7 +263,9 @@ class Firebase {
     }
     
     func editImage(image:UIImage, text:(String), callback:@escaping (String?)->Void){
-        deleteImage(text:text)
+        if text != ""{
+            deleteImage(text:text)
+        }
         
         let jpegData = image.jpegData(compressionQuality: 80)
         let imageRef = storageRef.child(text)
@@ -253,6 +329,17 @@ class Firebase {
     func getFriendsArray() -> [String] {
         return Friends
     }
+    
+    func saveFeedsForUser(onSuccess:@escaping ([String])->Void){
+        var currentFeeds = [String]()
+        ref.child("Users/\(getUserId())/feed").observeSingleEvent(of: .value, with: { (DataSnapshot) in
+            for child in DataSnapshot.children{
+                let firstSnap = child as! DataSnapshot
+                currentFeeds.append(firstSnap.value as! String)
+            }
+            onSuccess(currentFeeds)
+        })
+}
     
     func getUserList() {
         ref.child("Users").observeSingleEvent(of: .value, with: { (DataSnapshot) in

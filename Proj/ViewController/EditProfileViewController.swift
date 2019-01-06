@@ -2,12 +2,12 @@
 //  EditProfileViewController.swift
 //  Instant
 //
-//  Copyright © 2018 All rights reserved.
+//  Copyright © 2018-2019 All rights reserved.
 //
 
 import UIKit
 
-class EditProfileViewController: UIViewController,UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class EditProfileViewController: UIViewController,UITextFieldDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var chooseAvatar: UIButton!
     @IBOutlet weak var avatar: UIImageView!
@@ -20,6 +20,7 @@ class EditProfileViewController: UIViewController,UITextFieldDelegate, UIImagePi
     var imagePicker = UIImagePickerController()
     var image:UIImage?
     var user: User?
+    var urlFromUser = UserDefaults.standard.string(forKey: "AvatarName")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,13 +75,16 @@ class EditProfileViewController: UIViewController,UITextFieldDelegate, UIImagePi
                 self.EditUserInfo(url: _url)
             }
         } else {
-            self.EditUserInfo(url: "")
+            self.EditUserInfo(url: (user?.url)!)
         }
         print("User was edited!")
     }
     
     func EditUserInfo(url:String)  {
         let userid = User_Manager.instance.user?.id
+        
+       // User_Manager.instance.saveFeedsForUser{ (feeds) in
+       
         if self.newPasswordText.text! != "" {
             User_Manager.instance.ChangePass(password: self.newPasswordText.text!)
         }
@@ -96,7 +100,6 @@ class EditProfileViewController: UIViewController,UITextFieldDelegate, UIImagePi
     }
     
     // Camera + Gallery
-    
     
     @IBAction func chooseAvatar(_ sender: Any) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -133,7 +136,6 @@ class EditProfileViewController: UIViewController,UITextFieldDelegate, UIImagePi
         self.present(imagePicker, animated: true, completion: nil)
     }
     
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         image = info[.originalImage] as? UIImage
@@ -145,6 +147,4 @@ class EditProfileViewController: UIViewController,UITextFieldDelegate, UIImagePi
         picker.isNavigationBarHidden = false
         self.dismiss(animated: true, completion: nil)
     }
-    
-    
 }

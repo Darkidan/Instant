@@ -2,7 +2,7 @@
 //  CreateNewFeedViewController.swift
 //  Instant
 //
-//  Copyright © 2018 All rights reserved.
+//  Copyright © 2018-2019 All rights reserved.
 //
 
 import UIKit
@@ -100,7 +100,7 @@ class CreateNewFeedViewController: UIViewController, UITextFieldDelegate, UIImag
         self.present(imagePicker, animated: true, completion: nil)
     }
     
-    
+
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         image = info[.originalImage] as? UIImage

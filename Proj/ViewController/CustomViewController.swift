@@ -1,9 +1,8 @@
 //
 //  CustomViewController.swift
-//  Proj
+//  Instant
 //
-//  Created by Darkidan on 04/01/2019.
-//  Copyright © 2019 Darkidan. All rights reserved.
+//  Copyright © 2018-2019 All rights reserved.
 //
 
 import UIKit

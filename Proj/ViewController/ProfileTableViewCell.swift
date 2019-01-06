@@ -1,9 +1,8 @@
 //
 //  ProfileTableViewCell.swift
-//  Proj
+//  Instant
 //
-//  Created by admin on 05/01/2019.
-//  Copyright © 2019 Darkidan. All rights reserved.
+//  Copyright © 2018-2019 All rights reserved.
 //
 
 import UIKit
@@ -22,7 +21,6 @@ class ProfileTableViewCell: UITableViewCell {
     
     var delegate: ProfileCellDelegate?
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -33,7 +31,6 @@ class ProfileTableViewCell: UITableViewCell {
     
     @IBAction func editClicked(_ sender: Any) {
         delegate?.handleEdit(cellIndex: currentCellIndex!)
-        
     }
     
 }

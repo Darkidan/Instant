@@ -101,7 +101,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="jmc-Xc-8hA">
-                                <rect key="frame" x="0.0" y="21" width="375" height="294"/>
+                                <rect key="frame" x="0.0" y="65" width="375" height="250"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SH9-7n-wzE">
                                 <rect key="frame" x="157" y="491" width="47" height="30"/>
@@ -122,6 +122,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
+                                    <action selector="chooseFeedImage:" destination="rcq-7A-YJM" eventType="touchUpInside" id="WsH-Rw-rym"/>
                                     <action selector="choosePhoto:" destination="GMH-Yd-hgh" eventType="touchUpInside" id="A4d-GZ-PyK"/>
                                 </connections>
                             </button>
@@ -163,6 +164,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="D8D-lW-e5V"/>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="jmc-Xc-8hA" id="nR7-Bg-p7V"/>
+                        <outlet property="spinner" destination="TsJ-sE-RNa" id="iXH-uZ-ofE"/>
+                        <outlet property="textField" destination="wH9-H5-i6w" id="hx4-4y-RJO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bCX-r1-3MQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -527,6 +533,7 @@
                         <outlet property="spinner" destination="E0o-9d-f6J" id="nyO-SB-LZ0"/>
                         <outlet property="tableView" destination="BTp-lE-D4N" id="vZx-ty-wJf"/>
                         <outlet property="username" destination="vby-rc-7Kg" id="Erc-Uh-Upj"/>
+                        <segue destination="rcq-7A-YJM" kind="show" identifier="editFeed" id="xdv-lb-hCo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gT7-Rn-Y14" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -2,7 +2,7 @@
 //  ProfileViewController.swift
 //  Instant
 //
-//  Copyright © 2018 All rights reserved.
+//  Copyright © 2018-2019 All rights reserved.
 //
 
 import UIKit
@@ -35,21 +35,22 @@ class ProfileViewController: UIViewController {
         print("get feeds from user")
         // Get feeds from user id
         ref.child("Users/\(userid!)/feed").observeSingleEvent(of: .value, with: { (DataSnapshot) in
-            let arr = DataSnapshot.value as! [String]
+            if(DataSnapshot.childrenCount != 0){
+                let arr = DataSnapshot.value as! [String]
             // Get all feeds by lastUpdate order
             // Select only those that belong to current logged user.
-            ref.child("Feeds").queryOrdered(byChild: "lastUpdate").observeSingleEvent(of: .value, with: {snapshot in
-                for child in snapshot.children {
-                    let snap = child as! DataSnapshot
-                    if ( arr.contains(snap.key) ){
-                        self.feedsDataSnapshotArray.append(snap)
+                ref.child("Feeds").queryOrdered(byChild: "lastUpdate").observeSingleEvent(of: .value, with: {snapshot in
+                    for child in snapshot.children {
+                        let snap = child as! DataSnapshot
+                        if ( arr.contains(snap.key) ){
+                            self.feedsDataSnapshotArray.append(snap)
+                        }
                     }
-                }
-                self.feedsDataSnapshotArray.reverse()
-                self.tableView.reloadData()
-            })
+                    self.feedsDataSnapshotArray.reverse()
+                    self.tableView.reloadData()
+                })
+        }
         })
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -100,7 +101,6 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(feedsDataSnapshotArray.count)
         return feedsDataSnapshotArray.count
     }
     
