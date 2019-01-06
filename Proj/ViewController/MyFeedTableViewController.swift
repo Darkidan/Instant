@@ -36,7 +36,6 @@ class MyFeedTableViewController: UITableViewController {
     
     @objc
     func Request(){
-        self.tableView.reloadData()
         refresher.endRefreshing()
     }
     

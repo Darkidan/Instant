@@ -103,10 +103,8 @@ class Firebase {
         ref.child("Feeds").child(feed.id).setValue(feed.toJson())
     }
     
-    func EditUser(user: User){
-        // save feeds array
+    func UpdateUser(user: User){
         ref.child("Users").child(user.id).setValue(user.toJson())
-        //ref.child("Users").child(user.id).child("feed").childByAutoId().setValue(user.toJson())
     }
     
     func ChangePass(password: String){

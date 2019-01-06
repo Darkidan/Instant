@@ -115,8 +115,8 @@ class User_Manager {
         firebase.addNewFeed(feed: feed)
     }
     
-    func EditUser(user: User){
-        firebase.EditUser(user: user)
+    func UpdateUser(){
+        firebase.UpdateUser(user: self.user!)
     }
     
     func ChangePass(password: String){

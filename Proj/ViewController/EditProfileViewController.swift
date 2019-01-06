@@ -20,6 +20,8 @@ class EditProfileViewController: UIViewController,UITextFieldDelegate,UIImagePic
     var imagePicker = UIImagePickerController()
     var image:UIImage?
     var user: User?
+    var feeds: [String] = [""]
+    let autoImage = "https://firebasestorage.googleapis.com/v0/b/instant-872f9.appspot.com/o/unnamed-3.png?alt=media&token=aa435932-d50b-456d-92bd-c130386882cc"
     var urlFromUser = UserDefaults.standard.string(forKey: "AvatarName")
     
     override func viewDidLoad() {
@@ -75,21 +77,25 @@ class EditProfileViewController: UIViewController,UITextFieldDelegate,UIImagePic
                 self.EditUserInfo(url: _url)
             }
         } else {
-            self.EditUserInfo(url: (user?.url)!)
+            self.EditUserInfo(url: autoImage)
         }
         print("User was edited!")
     }
     
     func EditUserInfo(url:String)  {
-        let userid = User_Manager.instance.user?.id
-        
-       // User_Manager.instance.saveFeedsForUser{ (feeds) in
+        User_Manager.instance.saveFeedsForUser { (feeds) in
+            self.feeds = feeds
+        }
        
         if self.newPasswordText.text! != "" {
             User_Manager.instance.ChangePass(password: self.newPasswordText.text!)
         }
-        let user = User(_id: userid!, _username: self.usernameText.text!, _email: self.emailText.text!, _url: url)
-        User_Manager.instance.EditUser(user: user)
+        
+        
+        User_Manager.instance.user?.username = self.usernameText.text!
+        User_Manager.instance.user?.url = url
+
+        User_Manager.instance.UpdateUser()
         self.navigationController?.popViewController(animated: true)
     }
     

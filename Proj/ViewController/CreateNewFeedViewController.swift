@@ -54,7 +54,7 @@ class CreateNewFeedViewController: UIViewController, UITextFieldDelegate, UIImag
         // after this work - need to remove the uid from Feed Ctor
         let feed = Feed(_id: "feed" + self.random, _username: self.usernameText, _urlImage: url, _text: textField.text!,_uid: userid!)
         User_Manager.instance.user?.feeds?.append(feed)
-        User_Manager.instance.EditUser(user: User_Manager.instance.user!)
+        User_Manager.instance.UpdateUser()
         User_Manager.instance.addNewFeed(feed: feed)
         self.navigationController?.popViewController(animated: true)
     }

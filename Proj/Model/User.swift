@@ -18,6 +18,7 @@ class User {
         username = _username
         email = _email
         url = _url
+        feeds = [Feed]()
     }
     
     init(json:[String:Any]) {
