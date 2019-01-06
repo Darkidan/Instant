@@ -14,6 +14,14 @@ class MyFeedTableViewController: UITableViewController {
     var myfeedListener:NSObjectProtocol?
     let userid = UserDefaults.standard.string(forKey: "uid")
     
+    lazy var refresher: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .blue
+        refreshControl.addTarget(self, action: #selector(Request), for: .valueChanged)
+        
+        return refreshControl
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,6 +31,13 @@ class MyFeedTableViewController: UITableViewController {
             self.data = data as! [Feed]
             self.tableView.reloadData()
         }
+        tableView.refreshControl = refresher
+    }
+    
+    @objc
+    func Request(){
+        self.tableView.reloadData()
+        refresher.endRefreshing()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -37,6 +52,9 @@ class MyFeedTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+            if userid != nil {
+                User_Manager.instance.getAllFeeds()
+            }
     }
     
     override func didReceiveMemoryWarning() {

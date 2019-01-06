@@ -36,6 +36,11 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
         self.present(alert, animated: true, completion: nil)
     }
     
+    @IBAction func backButton(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
     func signUpUser(email: String, password: String,url: String){
         
         User_Manager.instance.signUpUser(email: emailLabel.text!, password: password, username: usernameLabel.text!, url: url ,onSuccess: {

@@ -170,6 +170,7 @@ class Firebase {
             try Auth.auth().signOut()
             print("User logging out...")
             userDefault.removeObject(forKey: "usersignedin")
+            userDefault.removeObject(forKey: "uid")
             onSuccess();
         } catch let error as NSError {
             print(error.localizedDescription)

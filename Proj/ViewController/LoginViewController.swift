@@ -26,6 +26,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         addImagetoPlaceHolder(textfield: password, andImage: passwordImage!)
         
     }
+    @IBAction func backButton(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
     
     func signInUser(email: String, password: String){
         self.spinner.isHidden = false
