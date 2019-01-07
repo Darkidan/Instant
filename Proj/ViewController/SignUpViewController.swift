@@ -19,15 +19,21 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
     @IBOutlet weak var registerBtn: UIButton!
     
     var imagePicker = UIImagePickerController()
+    var random: String = ""
     var image:UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.random = randomNumber(MIN: 0, MAX: 100000)
         self.spinner.isHidden = true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+    
+    func randomNumber(MIN: Int, MAX: Int)-> String{
+        return String(arc4random_uniform(UInt32(MAX-MIN)) + UInt32(MIN));
     }
     
     func alert(title: String, message: String){
@@ -81,7 +87,7 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
         self.spinner.isHidden = false
         self.spinner.startAnimating()
         
-        let avatarName = "avatar_" + self.emailLabel.text!
+        let avatarName = "avatar_" + self.random
         
         if image != nil {
             User_Manager.instance.saveImage(image: image!, text: avatarName){ (url:String?) in

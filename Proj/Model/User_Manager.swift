@@ -70,7 +70,7 @@ class User_Manager {
         })
     }
     
-    func getAllFeeds(){
+    func getAllFeeds(onFinish:@escaping ()->Void){
         //1. read local feeds last update date
         var lastUpdated = Feed.getLastUpdateDate(database: sql.database)
         lastUpdated += 1;
@@ -93,8 +93,17 @@ class User_Manager {
             //6. notify observers with full data
             UserManagerNotification.myfeedListNotification.notify(data: feedFullData)
             
-            self.feeds = feedFullData
+            self.feeds = feedFullData;
+            onFinish()
         }
+    }
+    
+    
+    func getUserAndFeeds(callback:@escaping ()->Void){
+        User_Manager.instance.getAllFeeds {
+            User_Manager.instance.setUser()
+        }
+        callback();
     }
     
     func getFeedsFromStringList(feedsString: [String]?) -> [Feed]{

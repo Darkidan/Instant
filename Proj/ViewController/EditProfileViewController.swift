@@ -21,7 +21,6 @@ class EditProfileViewController: UIViewController,UITextFieldDelegate,UIImagePic
     var image:UIImage?
     var user: User?
     var feeds: [String] = [""]
-    let autoImage = "https://firebasestorage.googleapis.com/v0/b/instant-872f9.appspot.com/o/unnamed-3.png?alt=media&token=aa435932-d50b-456d-92bd-c130386882cc"
     var urlFromUser = UserDefaults.standard.string(forKey: "AvatarName")
     
     override func viewDidLoad() {
@@ -63,13 +62,13 @@ class EditProfileViewController: UIViewController,UITextFieldDelegate,UIImagePic
             return
         }
         
-        let avatarName = UserDefaults.standard.string(forKey: "AvatarName")
+        let avatar = User_Manager.instance.user?.url
 
         self.spinner.isHidden = false
         self.spinner.startAnimating()
         
         if image != nil {
-            User_Manager.instance.editImage(image: image!, text: avatarName!){ (url:String?) in
+            User_Manager.instance.editImage(image: image!, text: urlFromUser!){ (url:String?) in
                 var _url = ""
                 if url != nil {
                     _url = url!
@@ -77,9 +76,8 @@ class EditProfileViewController: UIViewController,UITextFieldDelegate,UIImagePic
                 self.EditUserInfo(url: _url)
             }
         } else {
-            self.EditUserInfo(url: autoImage)
+            self.EditUserInfo(url: avatar!)
         }
-        print("User was edited!")
     }
     
     func EditUserInfo(url:String)  {
@@ -90,7 +88,6 @@ class EditProfileViewController: UIViewController,UITextFieldDelegate,UIImagePic
         if self.newPasswordText.text! != "" {
             User_Manager.instance.ChangePass(password: self.newPasswordText.text!)
         }
-        
         
         User_Manager.instance.user?.username = self.usernameText.text!
         User_Manager.instance.user?.url = url

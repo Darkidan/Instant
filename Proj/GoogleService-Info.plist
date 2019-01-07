@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>980759216885-u38npbnaf4i30812j4uva3v7v4i6cg80.apps.googleusercontent.com</string>
+	<string>848101905623-44bjre9pvi8htdcjo85h3pjkkagk2238.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.980759216885-u38npbnaf4i30812j4uva3v7v4i6cg80</string>
+	<string>com.googleusercontent.apps.848101905623-44bjre9pvi8htdcjo85h3pjkkagk2238</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAwnl6ecpkd_HeLavH6Pa6PAudgEE5dOyw</string>
+	<string>AIzaSyCWqLhiCPXDXyh98VicCIfeHyfaT_WOj-8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>980759216885</string>
+	<string>848101905623</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>Instant.Project</string>
 	<key>PROJECT_ID</key>
-	<string>instant-872f9</string>
+	<string>instant-927b1</string>
 	<key>STORAGE_BUCKET</key>
-	<string>instant-872f9.appspot.com</string>
+	<string>instant-927b1.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:980759216885:ios:6105f5243371161e</string>
+	<string>1:848101905623:ios:6105f5243371161e</string>
 	<key>DATABASE_URL</key>
-	<string>https://instant-872f9.firebaseio.com</string>
+	<string>https://instant-927b1.firebaseio.com</string>
 </dict>
 </plist>

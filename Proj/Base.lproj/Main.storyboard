@@ -116,6 +116,9 @@
                                 <state key="normal" title="Edit" backgroundImage="button">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="EditClicked:" destination="rcq-7A-YJM" eventType="touchUpInside" id="Dtx-XR-8Pq"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I2Z-5a-dNd">
                                 <rect key="frame" x="87" y="324" width="201" height="40"/>
@@ -170,6 +173,7 @@
                         <viewLayoutGuide key="safeArea" id="D8D-lW-e5V"/>
                     </view>
                     <connections>
+                        <outlet property="editButton" destination="SH9-7n-wzE" id="prZ-0x-v10"/>
                         <outlet property="imageView" destination="jmc-Xc-8hA" id="nR7-Bg-p7V"/>
                         <outlet property="spinner" destination="TsJ-sE-RNa" id="iXH-uZ-ofE"/>
                         <outlet property="textField" destination="wH9-H5-i6w" id="hx4-4y-RJO"/>

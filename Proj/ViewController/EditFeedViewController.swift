@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 class EditFeedViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet var editButton: UIButton!
+
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     var imagePicker = UIImagePickerController()
@@ -18,27 +21,56 @@ class EditFeedViewController: UIViewController, UIImagePickerControllerDelegate,
     var feedID: String?
     var imageURL: String?
     var beforeText: String?
+    var user: User?
+    var random: String = ""
+    var once = true
     
     override func viewDidLoad() {
-    //    print("Text Passed: \(beforeText!) ImageURL: \(imageURL ?? "defaulturl") feedID: \(feedID ?? "defaultid")")
         self.spinner.isHidden = false
         self.spinner.startAnimating()
+        self.random = randomNumber(MIN: 0, MAX: 100000)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        User_Manager.instance.getFeed(feedId: feedID!, onSuccess: { (feed) in
-            
-            self.textField.text = self.beforeText
-            
-            if self.imageURL != "" {
-                User_Manager.instance.getImage(url: self.imageURL!) { (image:UIImage?) in
-                    if image != nil {
-                        self.imageView.image = image!
+        if ( once ){
+            User_Manager.instance.getFeed(feedId: feedID!, onSuccess: { (feed) in
+                
+                self.textField.text = self.beforeText
+                
+                if self.imageURL != "" {
+                    User_Manager.instance.getImage(url: self.imageURL!) { (image:UIImage?) in
+                        if image != nil {
+                            self.imageView.image = image!
+                        }
                     }
                 }
+                self.spinner.isHidden = true
+                self.once = false
+            })
+        }
+    }
+    
+    @IBAction func EditClicked(_ sender: Any) {
+        let ref = Database.database().reference()
+        self.editButton.isHidden = true
+        if image != nil {
+            User_Manager.instance.saveImage(image: image!, text: "photo" + self.random){ (url:String?) in
+                var _url = ""
+                if url != nil {
+                    _url = url!
+                    ref.child("Feeds").child(self.feedID!).updateChildValues(["text": self.textField.text!,
+                                                                              "urlImage":_url])
+                    //self.editButton.isEnabled = false
+                    self.dismiss(animated: true, completion: nil)
+                }
             }
-            self.spinner.isHidden = true
-        })
+        } else {
+            ref.child("Feeds").child(self.feedID!).updateChildValues(["text": self.textField.text!])
+            //self.editButton.isEnabled = false
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+        self.spinner.isHidden = false
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -49,7 +81,9 @@ class EditFeedViewController: UIViewController, UIImagePickerControllerDelegate,
         super.awakeFromNib()
     }
     
-    
+    func randomNumber(MIN: Int, MAX: Int)-> String{
+        return String(arc4random_uniform(UInt32(MAX-MIN)) + UInt32(MIN));
+    }
     // Camera + Gallery
     
     @IBAction func chooseFeedImage(_ sender: Any) {

@@ -51,9 +51,6 @@ class MyFeedTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-            if userid != nil {
-                User_Manager.instance.getAllFeeds()
-            }
     }
     
     override func didReceiveMemoryWarning() {

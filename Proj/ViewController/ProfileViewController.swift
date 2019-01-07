@@ -54,12 +54,12 @@ class ProfileViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        User_Manager.instance.getUser { (user) in
+       User_Manager.instance.getUser { (user) in
             self.user = user
             self.username.text = user.username
             self.email.text = user.email
-            
-            if user.url != "" {
+        print("user URL: \(user.url)")
+             if user.url != "" {
                 User_Manager.instance.getImageProfile(url: user.url) { (image:UIImage?) in
                     if image != nil {
                         self.imageAvatar.image = image!

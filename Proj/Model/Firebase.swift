@@ -26,7 +26,7 @@ class Firebase {
         let fbQuery = feedRef.queryOrdered(byChild: "lastUpdate").queryStarting(atValue: from)
         fbQuery.observe(.value) { (snapshot) in
             // find my friends + adds to firends uid array my uid
-            self.ref.child("Friends/\(self.getUserId())").observeSingleEvent(of: .value, with: { (DataSnapshot) in
+            self.ref.child("Friends/\(self.getUserId())").observe(.value, with: { (DataSnapshot) in
                 
                 for child in DataSnapshot.children {
                     let firstSnap = child as! DataSnapshot
@@ -196,12 +196,11 @@ class Firebase {
     
     
     func getFriendsList() {
-        ref.child("Friends/\(getUserId())").observeSingleEvent(of: .value){
-            (DataSnapshot) in
+        ref.child("Friends/\(getUserId())").observe(.value){(DataSnapshot) in
             let friendsData = DataSnapshot.value as? [String:Any]
             if (friendsData != nil){
                 for friendUID in friendsData!{
-                    self.ref.child("Users/\(friendUID.value)").observeSingleEvent(of: .value){ (DataSnapshot2) in
+                    self.ref.child("Users/\(friendUID.value)").observe(.value){ (DataSnapshot2) in
                         let userData = DataSnapshot2.value as? [String:Any]
                         if ( DataSnapshot2.childrenCount != 0 ){
                             self.Friends.append(userData!["username"] as! String)
@@ -219,7 +218,7 @@ class Firebase {
     
     // IMAGE = STORAGE
     
-    lazy var storageRef = Storage.storage().reference(forURL:"gs://instant-872f9.appspot.com")
+    lazy var storageRef = Storage.storage().reference(forURL:"gs://instant-927b1.appspot.com")
     
     func saveImage(image:UIImage, text:(String), callback:@escaping (String?)->Void){
         
