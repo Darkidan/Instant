@@ -36,7 +36,7 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
         
         let ref = Database.database().reference()
         // Get a list of every user to later filter search results
-        ref.child("Users").observeSingleEvent(of: .value, with: { (DataSnapshot) in
+        ref.child("Users").observe(.value, with: { (DataSnapshot) in
             for child in DataSnapshot.children{
                 let firstSnap = child as! DataSnapshot
                 let k = firstSnap.key
@@ -98,7 +98,7 @@ extension FriendsViewController: FriendCellDelegate{
     func handleFriend(name: String,buttonText: String,currentCell: CustomCell,indexPath: IndexPath) {
         let ref = Database.database().reference()
         
-        ref.child("Users").observeSingleEvent(of: .value, with: { (DataSnapshot) in
+        ref.child("Users").observe(.value, with: { (DataSnapshot) in
             for child in DataSnapshot.children{
                 let firstSnap = child as! DataSnapshot
                 let firstKey = firstSnap.key

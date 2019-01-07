@@ -125,6 +125,7 @@ class Firebase {
                 print("User has Signed In!")
                 self.userDefault.set(true, forKey: "usersignedin")
                 self.userDefault.set(self.getUserId(), forKey: "uid")
+                User_Manager.instance.getUserAndFeeds(callback: {})
                 onSuccess()
             } else {
                 print(error?.localizedDescription as Any)
@@ -297,12 +298,12 @@ class Firebase {
     
     func getFriendsList(tableView: UITableView,onSuccess:@escaping (UITableView)->Void) {
         
-        ref.child("Friends/\(getUserId())").observeSingleEvent(of: .value){
+        ref.child("Friends/\(getUserId())").observe(.value){
             (DataSnapshot) in
             let friendsData = DataSnapshot.value as? [String:Any]
             if (friendsData != nil){
                 for friendUID in friendsData!{
-                    self.ref.child("Users/\(friendUID.value)").observeSingleEvent(of: .value){ (DataSnapshot2) in
+                    self.ref.child("Users/\(friendUID.value)").observe(.value){ (DataSnapshot2) in
                         let userData = DataSnapshot2.value as? [String:Any]
                         if ( DataSnapshot2.childrenCount != 0 ){
                             self.Friends.append(userData!["username"] as! String)
@@ -340,7 +341,7 @@ class Firebase {
 }
     
     func getUserList() {
-        ref.child("Users").observeSingleEvent(of: .value, with: { (DataSnapshot) in
+        ref.child("Users").observe(.value, with: { (DataSnapshot) in
             for child in DataSnapshot.children{
                 let firstSnap = child as! DataSnapshot
                 let k = firstSnap.key
@@ -359,5 +360,4 @@ class Firebase {
             }
         })
     }
-    
 }
