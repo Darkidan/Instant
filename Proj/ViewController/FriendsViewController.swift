@@ -34,25 +34,10 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
             self.tableView.reloadData()
         })
         
-        let ref = Database.database().reference()
         // Get a list of every user to later filter search results
-        ref.child("Users").observeSingleEvent(of: .value, with: { (DataSnapshot) in
-            for child in DataSnapshot.children{
-                let firstSnap = child as! DataSnapshot
-                let k = firstSnap.key
-                
-                if ( k != self.userid ){// Don't take my user as a friend
-                    for item in firstSnap.children {
-                        let secondSnap = item as! DataSnapshot
-                        let key = secondSnap.key
-                        let val = secondSnap.value
-                        if (key == "username"){
-                            self.EveryUser.append((val as! String))
-                        }
-                    }
-                }
-            }
-        })
+        User_Manager.instance.getUserList { (list) in
+            self.EveryUser = list
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

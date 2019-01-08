@@ -343,7 +343,6 @@ class Firebase {
         }
     }
     
-    
     func plusLikes(uid: String,feedID: String,likes: Int){
         
         ref.child("Likes/\(uid)/\(feedID)").setValue(["Like": true])
@@ -359,10 +358,7 @@ class Firebase {
         }
     }
     
-    
-    
     func updateFeed(feedID:String,text: String,url: String?){
-        
         if ( url == nil ){
             ref.child("Feeds").child(feedID).updateChildValues(["text": text])
         } else {
@@ -383,7 +379,7 @@ class Firebase {
         })
 }
     
-    func getUserList() {
+    func getUserList(onSuccess:@escaping ([String])->Void) {
         ref.child("Users").observe(.value, with: { (DataSnapshot) in
             for child in DataSnapshot.children{
                 let firstSnap = child as! DataSnapshot
@@ -401,6 +397,7 @@ class Firebase {
                 }
                 
             }
+            onSuccess(self.EveryUser)
         })
     }
 }

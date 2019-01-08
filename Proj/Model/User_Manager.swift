@@ -104,7 +104,7 @@ class User_Manager {
         }
         callback();
     }
-    
+
     func setHeart(feed: Feed,cell:MyFeedTableViewCell,onSuccess: @escaping (String)->Void ){
         firebase.setHeart(feed: feed, cell: cell,onSuccess:{(b) in
             onSuccess(b)
@@ -206,6 +206,12 @@ class User_Manager {
     
     func getFriendsArray() -> [String] {
         return firebase.getFriendsArray()
+    }
+    
+    func getUserList(onSuccess:@escaping ([String])->Void) {
+        firebase.getUserList { (list) in
+            onSuccess(list)
+        }
     }
     
     func saveFeedsForUser(onSuccess:@escaping ([String])->Void) {

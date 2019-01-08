@@ -36,8 +36,8 @@ class ProfileViewController: UIViewController {
         let ref = Database.database().reference()
         print("get feeds from user")
         // Get feeds from user id
-        print(User_Manager.instance.user?.feeds as Any)
-        ref.child("Users/\(userid!)/feed").observeSingleEvent(of: .value, with: { (DataSnapshot) in
+       // print((User_Manager.instance.user?.feeds)?.count)
+        ref.child("Users/\(User_Manager.instance.user?.id ?? "userid")/feed").observeSingleEvent(of: .value, with: { (DataSnapshot) in
             if(DataSnapshot.childrenCount != 0){
                 let arr = DataSnapshot.value as! [String]
                 // Get all feeds by lastUpdate order
