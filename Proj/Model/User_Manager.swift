@@ -98,7 +98,6 @@ class User_Manager {
         }
     }
     
-    
     func getUserAndFeeds(callback:@escaping ()->Void){
         User_Manager.instance.getAllFeeds {
             User_Manager.instance.setUser()
@@ -146,7 +145,6 @@ class User_Manager {
         firebase.ChangePass(password: password)
     }
     
-    
     func saveImage(image:UIImage, text:(String),callback:@escaping (String?)->Void){
         firebase.saveImage(image: image, text: text, callback: callback)
     }
@@ -188,17 +186,12 @@ class User_Manager {
         }
     }
     
-    
     func plusLikes(uid: String,feedID: String,likes: Int){
         firebase.plusLikes(uid: uid, feedID: feedID, likes: likes)
     }
     
     func minusLikes(uid: String,feedID: String,likes: Int){
         firebase.minusLikes(uid: uid, feedID: feedID, likes: likes)
-    }
-    
-    func getEveryUser(onSuccess: @escaping ()->[String]){
-        
     }
     
     func getFriendsList(tableView: UITableView,onSuccess:@escaping (UITableView)->Void) {
@@ -215,8 +208,6 @@ class User_Manager {
         return firebase.getFriendsArray()
     }
     
-
-
     func saveFeedsForUser(onSuccess:@escaping ([String])->Void) {
         firebase.saveFeedsForUser(onSuccess: { (feeds) in
             onSuccess(feeds)

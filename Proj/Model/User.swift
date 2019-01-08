@@ -26,11 +26,9 @@ class User {
         username = json["username"] as! String
         email = json["email"] as! String
         url = json["url"] as! String
-        
-       feeds = User_Manager.instance.getFeedsFromStringList(feedsString: json["feed"] as? [String])
+        feeds = User_Manager.instance.getFeedsFromStringList(feedsString: json["feed"] as? [String])
     }
 
-    
     func toJson() -> [String:Any] {
         var json = [String:Any]()
         json["id"] = id

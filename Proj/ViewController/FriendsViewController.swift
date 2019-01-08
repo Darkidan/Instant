@@ -27,9 +27,7 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.register(UINib(nibName: "CustomCell", bundle: nil), forCellReuseIdentifier: "custom")
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
+        
         // Get Friends List
         User_Manager.instance.getFriendsList(tableView: self.tableView,onSuccess: {_ in
             self.Friends = User_Manager.instance.getFriendsArray()

@@ -35,9 +35,6 @@ class Firebase {
                 }
                 
                 self.FriendsUID.append(self.getUserId()) // Adding me , so i can see my feed also
-                
-                //print("Friends and me: \(self.FriendsUID.count)")
-                
                 // check for each feed if its uid is contained in friends array
                 var data = [Feed]()
                 var bool = false
@@ -50,12 +47,11 @@ class Firebase {
                         let key = secondSnap.key
                         let val = secondSnap.value as? String
                         
-                        if ( key == "id"){
+                        if (key == "id"){
                             feedID = val!
                         }
-                        if ( key == "uid" ){
+                        if (key == "uid" ){
                             if ( self.FriendsUID.contains(val!)){
-                                //print("Found Post From: \(val!)")
                                 bool = true
                                 break
                             } else {
@@ -77,7 +73,6 @@ class Firebase {
                         }
                     }
                 } // end feed for
-                //print("Data amount: \(data.count)")
                 callback(data.reversed())
             })
             
@@ -111,10 +106,8 @@ class Firebase {
         Auth.auth().currentUser?.updatePassword(to: password) { (error) in
             if error == nil {
                 print("Changed Password")
-                // onSuccess()
             } else {
                 print(error?.localizedDescription as Any)
-                //onFailure(error)
             }
         }
     }
