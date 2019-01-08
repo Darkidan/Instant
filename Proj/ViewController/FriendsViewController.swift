@@ -13,7 +13,6 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
     var Friends = [String]()
     var FriendsImg = [String]()
     var EveryUser = [String]()
-    let userid = User_Manager.instance.user?.id
     var once: Bool = true
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -92,16 +91,16 @@ extension FriendsViewController: FriendCellDelegate{
                             let uid = firstKey
                             if ( buttonText == "+"){
                                 // Add Friend to this user UID
-                                ref.child("Friends/\(self.userid ?? "userid")").child("Friend_\(uid)").setValue(uid)
-                                ref.child("Friends/\(uid)").child("Friend_\(self.userid ?? "userid")").setValue(self.userid ?? "userid")
+                                ref.child("Friends/\(User_Manager.instance.user?.id ?? "userid")").child("Friend_\(uid)").setValue(uid)
+                                ref.child("Friends/\(uid)").child("Friend_\(User_Manager.instance.user?.id ?? "userid")").setValue(User_Manager.instance.user?.id ?? "userid")
                                 // change + to Added
                                 currentCell.addButton.setTitle("V",for: .normal)
                                 self.Friends.append(name)
                                 //self.Friends = Array(Set(self.Friends).insert(name))
                             } else {
                                 // Remove Friend
-                                ref.child("Friends/\(self.userid ?? "userid")").child("Friend_\(uid)").removeValue()
-                                ref.child("Friends/\(uid)").child("Friend_\(self.userid ?? "Userid")").removeValue()
+                                ref.child("Friends/\(User_Manager.instance.user?.id ?? "userid")").child("Friend_\(uid)").removeValue()
+                                ref.child("Friends/\(uid)").child("Friend_\(User_Manager.instance.user?.id ?? "Userid")").removeValue()
                                 self.Friends.remove(at: indexPath.row)
                                 self.EveryUser.append(name)
                                 self.tableView.reloadData()

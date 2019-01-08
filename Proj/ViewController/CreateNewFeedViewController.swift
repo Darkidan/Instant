@@ -48,9 +48,8 @@ class CreateNewFeedViewController: UIViewController, UITextFieldDelegate, UIImag
     }
     
     func saveFeedInfo(url:String)  {
-        let userid = User_Manager.instance.user?.id
         self.usernameText = (User_Manager.instance.user?.username)!
-        let feed = Feed(_id: "feed" + self.random, _username: self.usernameText, _urlImage: url, _text: textField.text!,_uid: userid!)
+        let feed = Feed(_id: "feed" + self.random, _username: self.usernameText, _urlImage: url, _text: textField.text!,_uid: User_Manager.instance.user?.id ?? "userid")
         User_Manager.instance.user?.feeds?.append(feed)
         User_Manager.instance.UpdateUser()
         User_Manager.instance.addNewFeed(feed: feed)
