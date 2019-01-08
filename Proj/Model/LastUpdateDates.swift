@@ -12,7 +12,6 @@ class LastUpdateDates{
         var errormsg: UnsafeMutablePointer<Int8>? = nil
         let res = sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS LAST_UPDATE (TABLE_NAME TEXT PRIMARY KEY, DATE DOUBLE)", nil, nil, &errormsg);
         if(res != 0){
-            print("error creating table");
             return
         }
     }
@@ -21,7 +20,6 @@ class LastUpdateDates{
         var errormsg: UnsafeMutablePointer<Int8>? = nil
         let res = sqlite3_exec(database, "DROP TABLE LAST_UPDATE;", nil, nil, &errormsg);
         if(res != 0){
-            print("error creating table");
             return
         }
     }

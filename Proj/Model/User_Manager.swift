@@ -8,7 +8,6 @@ import Foundation
 import UIKit
 
 class User_Manager {
-    
     var sql = User_Manager_SQL();
     var firebase = Firebase();
     static let instance:User_Manager = User_Manager()
@@ -154,22 +153,18 @@ class User_Manager {
     }
     
     func getImage(url:String, callback:@escaping (UIImage?)->Void){
-        //1. try to get the image from local store
         let _url = URL(string: url)
         let localImageName = _url!.lastPathComponent
         if let image = self.getImageFromFile(name: localImageName){
             callback(image)
-            print("got image from cache \(localImageName)")
-        }else{
-            //2. get the image from Firebase
+            print("Image(cache): \(localImageName)")
+        } else {
             firebase.getImage(url: url){(image:UIImage?) in
                 if (image != nil){
-                    //3. save the image localy
                     self.saveImageToFile(image: image!, name: localImageName)
                 }
-                //4. return the image to the user
                 callback(image)
-                print("got image from firebase \(localImageName)")
+                print("Image(firebase): \(localImageName)")
             }
         }
     }
@@ -182,7 +177,6 @@ class User_Manager {
                 self.saveImageToFile(image: image!, name: localImageName)
             }
             callback(image)
-            print("got image from firebase \(localImageName)")
         }
     }
     
@@ -219,8 +213,6 @@ class User_Manager {
             onSuccess(feeds)
         })
     }
-    
-    /// File handling
     
     func saveImageToFile(image: UIImage, name: String){
         let data = image.jpegData(compressionQuality: 0.8) ?? image.pngData()

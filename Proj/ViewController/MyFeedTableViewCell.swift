@@ -22,7 +22,6 @@ class MyFeedTableViewCell: UITableViewCell {
     
     var feedID: String?
     var likesAmount: String?
-    let userid = UserDefaults.standard.string(forKey: "uid")
     var delegate: FeedCellDelegate?
     
     override func awakeFromNib() {
@@ -43,6 +42,6 @@ class MyFeedTableViewCell: UITableViewCell {
     }
     
     @IBAction func heartButtonClick(_ sender: Any) {
-        delegate?.handleLike(uid: userid!, feedID: feedID!,likeCurrentState: likeState(),currentHeartButton: heartButton,likesAmount: likesAmount!)
+        delegate?.handleLike(uid: User_Manager.instance.user?.id ?? "userid", feedID: feedID!,likeCurrentState: likeState(),currentHeartButton: heartButton,likesAmount: likesAmount!)
     }
 }

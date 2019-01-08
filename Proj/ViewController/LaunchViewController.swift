@@ -20,7 +20,6 @@ class LaunchViewController: UIViewController {
                 let vc = storyboard.instantiateInitialViewController()
                 self.present(vc!, animated: true, completion: nil)
             }
-            
         } else {
             let storyboard = UIStoryboard(name: "Sign", bundle: nil)
             let vc = storyboard.instantiateInitialViewController()

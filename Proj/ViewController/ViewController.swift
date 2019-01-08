@@ -8,7 +8,6 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
     let backgroundImageView = UIImageView()
     
     override func viewDidLoad() {
@@ -27,4 +26,3 @@ class ViewController: UIViewController {
         view.sendSubviewToBack(backgroundImageView)
     }
 }
-

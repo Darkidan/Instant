@@ -17,7 +17,6 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var user: User?
-    let userid = UserDefaults.standard.string(forKey: "uid")
     var feedsDataSnapshotArray = [DataSnapshot]()
     var selectedIndex: Int?
     
@@ -34,7 +33,6 @@ class ProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         // get all feeds by user id
         let ref = Database.database().reference()
-        print("get feeds from user")
         // Get feeds from user id
        // print((User_Manager.instance.user?.feeds)?.count)
         ref.child("Users/\(User_Manager.instance.user?.id ?? "userid")/feed").observeSingleEvent(of: .value, with: { (DataSnapshot) in
@@ -61,7 +59,6 @@ class ProfileViewController: UIViewController {
             self.user = user
             self.username.text = user.username
             self.email.text = user.email
-        print("user URL: \(user.url)")
              if user.url != "" {
                 User_Manager.instance.getImageProfile(url: user.url) { (image:UIImage?) in
                     if image != nil {
@@ -158,9 +155,7 @@ extension ProfileViewController: ProfileCellDelegate{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         if ( segue.identifier == "editFeed" ){
             let vc: EditFeedViewController = segue.destination as! EditFeedViewController
-            
-            print(self.selectedIndex!)
-            
+                        
             for item in feedsDataSnapshotArray[self.selectedIndex!].children{
                 let secondSnap = item as! DataSnapshot
                 let key = secondSnap.key

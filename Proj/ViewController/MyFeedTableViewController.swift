@@ -11,7 +11,6 @@ class MyFeedTableViewController: UITableViewController {
     
     var data = [Feed]()
     var myfeedListener:NSObjectProtocol?
-    let userid = UserDefaults.standard.string(forKey: "uid")
     
     lazy var refresher: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -66,12 +65,9 @@ class MyFeedTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:MyFeedTableViewCell = (tableView.dequeueReusableCell(withIdentifier: "MyFeedCell", for: indexPath) as! MyFeedTableViewCell)
+        
         cell.delegate = self
-        
-        // Check for each cell - if there is a true value for this feed
-        
-        // go to cell inside and change to full heart else empty
-        
+
         let feed = data[indexPath.row]
         cell.likesAmount = feed.likes
         cell.feedID = feed.id
@@ -80,21 +76,14 @@ class MyFeedTableViewController: UITableViewController {
         if feed.lastUpdate != nil {
             cell.lastUpdate.text = CustomViewController.setDate(dateTime: feed.lastUpdate!)
         }
-        
         // Check if already liked this feed then change to full heart
-        
         User_Manager.instance.setHeart(feed: feed, cell: cell,onSuccess:{(b) in
-            
             if let image = UIImage(named: b) {
                 cell.heartButton.setImage(image, for: .normal)
             }
-            
             // Update Likes Text
-            
             User_Manager.instance.setLikesAmount(feed: feed, cell: cell)
         })
-        
-        
         
         // take it and use it in profileTableViewController
         cell.feedImage.image = UIImage(named: "wait_for_it")
@@ -114,28 +103,19 @@ class MyFeedTableViewController: UITableViewController {
 }
 
 extension MyFeedTableViewController: FeedCellDelegate {
-    
     // Add a check in cell to put full heart and change to true
-    
     func handleLike(uid: String, feedID: String,likeCurrentState: Bool,currentHeartButton: UIButton,likesAmount: String) {
-        
         let likes: Int = Int(likesAmount)!
         
-        print(likes)
-        
-        if ( likeCurrentState ){
-            
+        if (likeCurrentState){
             // +1 Like , changeimage to full heart
-            
             if let image = UIImage(named: "fullheart.png") {
-                
                 currentHeartButton.setImage(image, for: .normal)
                 currentHeartButton.isEnabled = false
                 User_Manager.instance.plusLikes(uid: uid, feedID: feedID, likes: likes)
                 currentHeartButton.setTitle("\(likes+1) Likes",for: .normal)
-                print("true")
             }
-            
+    
         } else {
             // -1 like, change image to empty heart
             if let image = UIImage(named: "icon-like.png") {
@@ -143,7 +123,6 @@ extension MyFeedTableViewController: FeedCellDelegate {
                 currentHeartButton.isEnabled = false
                 User_Manager.instance.minusLikes(uid: uid, feedID: feedID, likes: likes)
                 currentHeartButton.setTitle("\(likes-1) Likes",for: .normal)
-                print("false")
             }
         }
         currentHeartButton.isEnabled = true

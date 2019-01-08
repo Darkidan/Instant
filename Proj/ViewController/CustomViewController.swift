@@ -23,4 +23,8 @@ class CustomViewController: UIViewController {
         let finaldate = formatter.string(from: yourDate!)
         return finaldate
     }
+    
+    static func randomNumber(MIN: Int, MAX: Int)-> String{
+        return String(arc4random_uniform(UInt32(MAX-MIN)) + UInt32(MIN));
+    }
 }

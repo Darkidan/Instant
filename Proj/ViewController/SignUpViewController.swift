@@ -24,16 +24,12 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.random = randomNumber(MIN: 0, MAX: 100000)
+        self.random = CustomViewController.randomNumber(MIN: 0, MAX: 100000)
         self.spinner.isHidden = true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
-    }
-    
-    func randomNumber(MIN: Int, MAX: Int)-> String{
-        return String(arc4random_uniform(UInt32(MAX-MIN)) + UInt32(MIN));
     }
     
     func alert(title: String, message: String){
@@ -48,7 +44,6 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
     
     
     func signUpUser(email: String, password: String,url: String){
-        
         User_Manager.instance.signUpUser(email: emailLabel.text!, password: password, username: usernameLabel.text!, url: url ,onSuccess: {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateInitialViewController()
@@ -149,7 +144,6 @@ class SignUpViewController: UIViewController,UITextFieldDelegate, UIImagePickerC
         imagePicker.delegate = self
         self.present(imagePicker, animated: true, completion: nil)
     }
-    
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         

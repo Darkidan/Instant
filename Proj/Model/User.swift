@@ -2,9 +2,9 @@
 //  User.swift
 //
 //  Copyright © 2018-2019 All rights reserved.
+//
 
 import Foundation
-
 
 class User {
     let id:String

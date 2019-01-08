@@ -117,7 +117,6 @@ class Firebase {
             if error == nil {
                 print("User has Signed In!")
                 self.userDefault.set(true, forKey: "usersignedin")
-                self.userDefault.set(self.getUserId(), forKey: "uid")
                 User_Manager.instance.getUserAndFeeds(callback: {})
                 onSuccess()
             } else {
@@ -131,7 +130,6 @@ class Firebase {
         Auth.auth().createUser(withEmail: email, password: password){(user, error) in
             if error == nil {
                 let newUser = User(_id: self.getUserId(), _username: username, _email: email, _url: url)
-                self.userDefault.set(self.getUserId(), forKey: "uid")
                 self.ref.child("Users").child(self.getUserId()).setValue(newUser.toJson())
                 print("User has Registerd!")
                 self.userDefault.set(true, forKey: "usersignedup")
@@ -148,8 +146,6 @@ class Firebase {
             try Auth.auth().signOut()
             print("User logging out...")
             userDefault.removeObject(forKey: "usersignedup")
-            userDefault.removeObject(forKey: "uid")
-
             onSuccess();
         } catch let error as NSError {
             print(error.localizedDescription)
@@ -162,7 +158,6 @@ class Firebase {
             try Auth.auth().signOut()
             print("User logging out...")
             userDefault.removeObject(forKey: "usersignedin")
-            userDefault.removeObject(forKey: "uid")
             onSuccess();
         } catch let error as NSError {
             print(error.localizedDescription)
@@ -188,7 +183,6 @@ class Firebase {
         }
     }
     
-    
     func getFriendsList() {
         ref.child("Friends/\(getUserId())").observe(.value){(DataSnapshot) in
             let friendsData = DataSnapshot.value as? [String:Any]
@@ -210,8 +204,6 @@ class Firebase {
         return Auth.auth().currentUser!.uid
     }
     
-    // IMAGE = STORAGE
-    
     lazy var storageRef = Storage.storage().reference(forURL:"gs://instant-927b1.appspot.com")
     
     func saveImage(image:UIImage, text:(String), callback:@escaping (String?)->Void){
@@ -225,7 +217,6 @@ class Firebase {
         imageRef.putData(jpegData!, metadata: metadata) { (metadata, error) in
             imageRef.downloadURL { (url, error) in
                 guard let downloadURL = url else {
-                    // Uh-oh, an error occurred!
                     return
                 }
                 print("url: \(downloadURL)")
@@ -236,20 +227,16 @@ class Firebase {
     
     func deleteImage(text:(String)){
         let uid = User_Manager.instance.user?.id
-        // 1. delete the image from Storage
-        print("name of image: \(text)")
         let avatarImage = storageRef.child(text)
         
         // Delete the file
         avatarImage.delete { error in
             if error != nil {
-                // Uh-oh, an error occurred!
             } else {
                 print("File deleted successfully")
             }
         }
         
-        // 2. delete the image from database
         ref.child("Users").child(uid!).child("url").setValue("")
         
     }
@@ -268,7 +255,6 @@ class Firebase {
         imageRef.putData(jpegData!, metadata: metadata) { (metadata, error) in
             imageRef.downloadURL { (url, error) in
                 guard let downloadURL = url else {
-                    // Uh-oh, an error occurred!
                     return
                 }
                 print("url: \(downloadURL)")
@@ -306,7 +292,6 @@ class Firebase {
         })
     }
     
-
     func getEveryUserArray() -> [String] {
         return EveryUser
     }
@@ -323,8 +308,7 @@ class Firebase {
         ref.child("Likes/\(getUserId())/\(feed.id)/Like").observeSingleEvent(of: .value) {
             (snapshot) in
             if let heartBool = snapshot.value as? Bool {
-                
-                if ( heartBool == true){
+                if (heartBool == true){
                     onSuccess("fullheart.png")
                 } else {
                     onSuccess("icon-like.png")
@@ -335,8 +319,7 @@ class Firebase {
     }
     
     func setLikesAmount(feed: Feed,cell:MyFeedTableViewCell){
-        ref.child("Feeds/\(feed.id)/likes").observeSingleEvent(of: .value) {
-            (snapshot) in
+        ref.child("Feeds/\(feed.id)/likes").observeSingleEvent(of: .value) {(snapshot) in
             if let likesAmount = snapshot.value as? String {
                 cell.likeButton.setTitle("Likes \(likesAmount)", for: .normal)
             }
@@ -344,7 +327,6 @@ class Firebase {
     }
     
     func plusLikes(uid: String,feedID: String,likes: Int){
-        
         ref.child("Likes/\(uid)/\(feedID)").setValue(["Like": true])
         ref.child("Feeds/\(feedID)/likes").setValue(String(likes+1))
     }
@@ -365,7 +347,6 @@ class Firebase {
             ref.child("Feeds").child(feedID).updateChildValues(
                 ["text": text,"urlImage":url!])
         }
-        
     }
     
     func saveFeedsForUser(onSuccess:@escaping ([String])->Void){
@@ -395,7 +376,6 @@ class Firebase {
                         }
                     }
                 }
-                
             }
             onSuccess(self.EveryUser)
         })

@@ -41,7 +41,6 @@ class Feed {
         }
     }
     
-    
     func toJson() -> [String:Any] {
         var json = [String:Any]()
         json["id"] = id

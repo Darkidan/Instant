@@ -19,7 +19,7 @@ class CreateNewFeedViewController: UIViewController, UITextFieldDelegate, UIImag
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.random = randomNumber(MIN: 0, MAX: 100000)
+        self.random = CustomViewController.randomNumber(MIN: 0, MAX: 100000)
         self.spinner.isHidden = true
     }
     
@@ -42,25 +42,19 @@ class CreateNewFeedViewController: UIViewController, UITextFieldDelegate, UIImag
                 }
                 self.saveFeedInfo(url: _url)
             }
-        }else{
+        } else {
             self.saveFeedInfo(url: "")
         }
-        
     }
     
     func saveFeedInfo(url:String)  {
         let userid = User_Manager.instance.user?.id
         self.usernameText = (User_Manager.instance.user?.username)!
-        // after this work - need to remove the uid from Feed Ctor
         let feed = Feed(_id: "feed" + self.random, _username: self.usernameText, _urlImage: url, _text: textField.text!,_uid: userid!)
         User_Manager.instance.user?.feeds?.append(feed)
         User_Manager.instance.UpdateUser()
         User_Manager.instance.addNewFeed(feed: feed)
         self.navigationController?.popViewController(animated: true)
-    }
-    
-    func randomNumber(MIN: Int, MAX: Int)-> String{
-        return String(arc4random_uniform(UInt32(MAX-MIN)) + UInt32(MIN));
     }
     
     // Avatar For User //
@@ -112,5 +106,4 @@ class CreateNewFeedViewController: UIViewController, UITextFieldDelegate, UIImag
         picker.isNavigationBarHidden = false
         self.dismiss(animated: true, completion: nil)
     }
-    
 }

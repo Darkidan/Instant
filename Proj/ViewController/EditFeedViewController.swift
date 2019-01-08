@@ -27,13 +27,12 @@ class EditFeedViewController: UIViewController, UIImagePickerControllerDelegate,
     override func viewDidLoad() {
         self.spinner.isHidden = false
         self.spinner.startAnimating()
-        self.random = randomNumber(MIN: 0, MAX: 100000)
+        self.random = CustomViewController.randomNumber(MIN: 0, MAX: 100000)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if ( once ){
+        if (once){
             User_Manager.instance.getFeed(feedId: feedID!, onSuccess: { (feed) in
-                
                 self.textField.text = self.beforeText
                 
                 if self.imageURL != "" {
@@ -58,13 +57,11 @@ class EditFeedViewController: UIViewController, UIImagePickerControllerDelegate,
                     _url = url!
                     
                     User_Manager.instance.updateFeed(feedID: self.feedID!, text: self.textField.text!, url: _url)
-                    
                     self.dismiss(animated: true, completion: nil)
                 }
             }
         } else {
             User_Manager.instance.updateFeed(feedID: self.feedID!, text: self.textField.text!, url: nil)
-            
             self.dismiss(animated: true, completion: nil)
         }
         
@@ -79,9 +76,6 @@ class EditFeedViewController: UIViewController, UIImagePickerControllerDelegate,
         super.awakeFromNib()
     }
     
-    func randomNumber(MIN: Int, MAX: Int)-> String{
-        return String(arc4random_uniform(UInt32(MAX-MIN)) + UInt32(MIN));
-    }
     // Camera + Gallery
     
     @IBAction func chooseFeedImage(_ sender: Any) {
@@ -105,7 +99,7 @@ class EditFeedViewController: UIViewController, UIImagePickerControllerDelegate,
             imagePicker.allowsEditing = true
             imagePicker.delegate = self
             self.present(imagePicker, animated: true, completion: nil)
-        } else{
+        } else {
             let alert = UIAlertController(title: "Warning", message: "You don't have a camera", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
@@ -120,7 +114,6 @@ class EditFeedViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
         image = info[.originalImage] as? UIImage
         self.imageView.image = image
         self.dismiss(animated: true, completion: nil)

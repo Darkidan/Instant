@@ -12,7 +12,6 @@ protocol ProfileCellDelegate {
 }
 
 class ProfileTableViewCell: UITableViewCell {
-    
     @IBOutlet var pimage: UIImageView!
     @IBOutlet weak var likesButton: UIButton!
     @IBOutlet var ptext: UILabel!
@@ -32,5 +31,4 @@ class ProfileTableViewCell: UITableViewCell {
     @IBAction func editClicked(_ sender: Any) {
         delegate?.handleEdit(cellIndex: currentCellIndex!)
     }
-    
 }

@@ -10,12 +10,10 @@ import FirebaseDatabase
 
 class FriendsViewController: UIViewController,UITableViewDataSource{
     
-    // Get friends by logged user id from firebase
-    
     var Friends = [String]()
     var FriendsImg = [String]()
     var EveryUser = [String]()
-    let userid = UserDefaults.standard.string(forKey: "uid")
+    let userid = User_Manager.instance.user?.id
     var once: Bool = true
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -79,10 +77,8 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
 }
 
 extension FriendsViewController: FriendCellDelegate{
-    
     func handleFriend(name: String,buttonText: String,currentCell: CustomCell,indexPath: IndexPath) {
         let ref = Database.database().reference()
-        
         ref.child("Users").observeSingleEvent(of: .value, with: { (DataSnapshot) in
             for child in DataSnapshot.children{
                 let firstSnap = child as! DataSnapshot
@@ -96,17 +92,16 @@ extension FriendsViewController: FriendCellDelegate{
                             let uid = firstKey
                             if ( buttonText == "+"){
                                 // Add Friend to this user UID
-                                ref.child("Friends/\(self.userid!)").child("Friend_\(uid)").setValue(uid)
-                                ref.child("Friends/\(uid)").child("Friend_\(self.userid!)").setValue(self.userid!)
+                                ref.child("Friends/\(self.userid ?? "userid")").child("Friend_\(uid)").setValue(uid)
+                                ref.child("Friends/\(uid)").child("Friend_\(self.userid ?? "userid")").setValue(self.userid ?? "userid")
                                 // change + to Added
                                 currentCell.addButton.setTitle("V",for: .normal)
-                                // Array(Set(self.EveryUser).subtracting(self.Friends))
                                 self.Friends.append(name)
                                 //self.Friends = Array(Set(self.Friends).insert(name))
                             } else {
                                 // Remove Friend
-                                ref.child("Friends/\(self.userid!)").child("Friend_\(uid)").removeValue()
-                                ref.child("Friends/\(uid)").child("Friend_\(self.userid!)").removeValue()
+                                ref.child("Friends/\(self.userid ?? "userid")").child("Friend_\(uid)").removeValue()
+                                ref.child("Friends/\(uid)").child("Friend_\(self.userid ?? "Userid")").removeValue()
                                 self.Friends.remove(at: indexPath.row)
                                 self.EveryUser.append(name)
                                 self.tableView.reloadData()

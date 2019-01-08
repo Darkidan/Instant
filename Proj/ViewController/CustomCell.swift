@@ -8,7 +8,6 @@
 import UIKit
 
 protocol FriendCellDelegate {
-    
     func handleFriend(name: String, buttonText: String, currentCell: CustomCell,indexPath: IndexPath)
 }
 
