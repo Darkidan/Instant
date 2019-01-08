@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FirebaseDatabase
 
 class MyFeedTableViewController: UITableViewController {
     
@@ -68,7 +67,7 @@ class MyFeedTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:MyFeedTableViewCell = (tableView.dequeueReusableCell(withIdentifier: "MyFeedCell", for: indexPath) as! MyFeedTableViewCell)
         cell.delegate = self
-
+        
         // Check for each cell - if there is a true value for this feed
         
         // go to cell inside and change to full heart else empty
@@ -84,32 +83,18 @@ class MyFeedTableViewController: UITableViewController {
         
         // Check if already liked this feed then change to full heart
         
-        let ref = Database.database().reference()
-        
-        ref.child("Likes/\(userid!)/\(feed.id)/Like").observeSingleEvent(of: .value) {
-            (snapshot) in
-            if let heartBool = snapshot.value as? Int {
-                
-                if ( heartBool == 1){
-                    if let image = UIImage(named: "fullheart.png") {
-                        cell.heartButton.setImage(image, for: .normal)
-                    }
-                } else {
-                    if let image = UIImage(named: "icon-like.png") {
-                        cell.heartButton.setImage(image, for: .normal)
-                    }
-                }
-                
+        User_Manager.instance.setHeart(feed: feed, cell: cell,onSuccess:{(b) in
+            
+            if let image = UIImage(named: b) {
+                cell.heartButton.setImage(image, for: .normal)
             }
-        }
+            
+            // Update Likes Text
+            
+            User_Manager.instance.setLikesAmount(feed: feed, cell: cell)
+        })
         
-        // Update Likes Text
-        ref.child("Feeds/\(feed.id)/likes").observeSingleEvent(of: .value) {
-            (snapshot) in
-            if let likesAmount = snapshot.value as? String {
-                cell.likeButton.setTitle("Likes \(likesAmount)", for: .normal)
-            }
-        }
+        
         
         // take it and use it in profileTableViewController
         cell.feedImage.image = UIImage(named: "wait_for_it")
@@ -134,8 +119,6 @@ extension MyFeedTableViewController: FeedCellDelegate {
     
     func handleLike(uid: String, feedID: String,likeCurrentState: Bool,currentHeartButton: UIButton,likesAmount: String) {
         
-        let ref = Database.database().reference()
-        
         let likes: Int = Int(likesAmount)!
         
         print(likes)
@@ -148,8 +131,7 @@ extension MyFeedTableViewController: FeedCellDelegate {
                 
                 currentHeartButton.setImage(image, for: .normal)
                 currentHeartButton.isEnabled = false
-                ref.child("Likes/\(uid)/\(feedID)").setValue(["Like": true])
-                ref.child("Feeds/\(feedID)/likes").setValue(String(likes+1))
+                User_Manager.instance.plusLikes(uid: uid, feedID: feedID, likes: likes)
                 currentHeartButton.setTitle("\(likes+1) Likes",for: .normal)
                 print("true")
             }
@@ -159,14 +141,9 @@ extension MyFeedTableViewController: FeedCellDelegate {
             if let image = UIImage(named: "icon-like.png") {
                 currentHeartButton.setImage(image, for: .normal)
                 currentHeartButton.isEnabled = false
-                ref.child("Likes/\(uid)/\(feedID)").setValue(["Like": false])
-                if ( likes-1 < 0 ){
-                    ref.child("Feeds/\(feedID)/likes").setValue("0")
-                } else {
-                    ref.child("Feeds/\(feedID)/likes").setValue(String(likes-1))
-                }
+                User_Manager.instance.minusLikes(uid: uid, feedID: feedID, likes: likes)
                 currentHeartButton.setTitle("\(likes-1) Likes",for: .normal)
-                print(false)
+                print("false")
             }
         }
         currentHeartButton.isEnabled = true

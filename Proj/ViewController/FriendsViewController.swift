@@ -16,6 +16,7 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
     var FriendsImg = [String]()
     var EveryUser = [String]()
     let userid = UserDefaults.standard.string(forKey: "uid")
+    var once: Bool = true
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
@@ -26,17 +27,18 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.register(UINib(nibName: "CustomCell", bundle: nil), forCellReuseIdentifier: "custom")
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         // Get Friends List
         User_Manager.instance.getFriendsList(tableView: self.tableView,onSuccess: {_ in
             self.Friends = User_Manager.instance.getFriendsArray()
-            self.FriendsImg = User_Manager.instance.getFriendsImgArray()
             self.tableView.reloadData()
         })
         
         let ref = Database.database().reference()
         // Get a list of every user to later filter search results
-        ref.child("Users").observe(.value, with: { (DataSnapshot) in
+        ref.child("Users").observeSingleEvent(of: .value, with: { (DataSnapshot) in
             for child in DataSnapshot.children{
                 let firstSnap = child as! DataSnapshot
                 let k = firstSnap.key
@@ -98,7 +100,7 @@ extension FriendsViewController: FriendCellDelegate{
     func handleFriend(name: String,buttonText: String,currentCell: CustomCell,indexPath: IndexPath) {
         let ref = Database.database().reference()
         
-        ref.child("Users").observe(.value, with: { (DataSnapshot) in
+        ref.child("Users").observeSingleEvent(of: .value, with: { (DataSnapshot) in
             for child in DataSnapshot.children{
                 let firstSnap = child as! DataSnapshot
                 let firstKey = firstSnap.key
@@ -115,7 +117,9 @@ extension FriendsViewController: FriendCellDelegate{
                                 ref.child("Friends/\(uid)").child("Friend_\(self.userid!)").setValue(self.userid!)
                                 // change + to Added
                                 currentCell.addButton.setTitle("V",for: .normal)
+                                // Array(Set(self.EveryUser).subtracting(self.Friends))
                                 self.Friends.append(name)
+                                //self.Friends = Array(Set(self.Friends).insert(name))
                             } else {
                                 // Remove Friend
                                 ref.child("Friends/\(self.userid!)").child("Friend_\(uid)").removeValue()

@@ -297,23 +297,20 @@ class Firebase {
     }
     
     func getFriendsList(tableView: UITableView,onSuccess:@escaping (UITableView)->Void) {
-        
-        ref.child("Friends/\(getUserId())").observe(.value){
-            (DataSnapshot) in
+        ref.child("Friends/\(getUserId())").observeSingleEvent(of: .value,with: {(DataSnapshot) in
             let friendsData = DataSnapshot.value as? [String:Any]
             if (friendsData != nil){
                 for friendUID in friendsData!{
-                    self.ref.child("Users/\(friendUID.value)").observe(.value){ (DataSnapshot2) in
+                    self.ref.child("Users/\(friendUID.value)").observeSingleEvent(of: .value,with: {(DataSnapshot2) in
                         let userData = DataSnapshot2.value as? [String:Any]
                         if ( DataSnapshot2.childrenCount != 0 ){
                             self.Friends.append(userData!["username"] as! String)
-                            self.FriendsImg.append(userData!["url"] as! String)
                             onSuccess(tableView)
                         }
-                    }
+                    })
                 }
             }
-        }
+        })
     }
     
 
@@ -327,6 +324,59 @@ class Firebase {
     
     func getFriendsArray() -> [String] {
         return Friends
+    }
+
+    func setHeart(feed: Feed,cell:MyFeedTableViewCell,onSuccess: @escaping (_ b: String)->Void ){
+        ref.child("Likes/\(getUserId())/\(feed.id)/Like").observeSingleEvent(of: .value) {
+            (snapshot) in
+            if let heartBool = snapshot.value as? Bool {
+                
+                if ( heartBool == true){
+                    onSuccess("fullheart.png")
+                } else {
+                    onSuccess("icon-like.png")
+                }
+                
+            }
+        }
+    }
+    
+    func setLikesAmount(feed: Feed,cell:MyFeedTableViewCell){
+        ref.child("Feeds/\(feed.id)/likes").observeSingleEvent(of: .value) {
+            (snapshot) in
+            if let likesAmount = snapshot.value as? String {
+                cell.likeButton.setTitle("Likes \(likesAmount)", for: .normal)
+            }
+        }
+    }
+    
+    
+    func plusLikes(uid: String,feedID: String,likes: Int){
+        
+        ref.child("Likes/\(uid)/\(feedID)").setValue(["Like": true])
+        ref.child("Feeds/\(feedID)/likes").setValue(String(likes+1))
+    }
+    
+    func minusLikes(uid: String,feedID: String,likes: Int){
+        ref.child("Likes/\(uid)/\(feedID)").setValue(["Like": false])
+        if ( likes-1 < 0 ){
+            ref.child("Feeds/\(feedID)/likes").setValue("0")
+        } else {
+            ref.child("Feeds/\(feedID)/likes").setValue(String(likes-1))
+        }
+    }
+    
+    
+    
+    func updateFeed(feedID:String,text: String,url: String?){
+        
+        if ( url == nil ){
+            ref.child("Feeds").child(feedID).updateChildValues(["text": text])
+        } else {
+            ref.child("Feeds").child(feedID).updateChildValues(
+                ["text": text,"urlImage":url!])
+        }
+        
     }
     
     func saveFeedsForUser(onSuccess:@escaping ([String])->Void){

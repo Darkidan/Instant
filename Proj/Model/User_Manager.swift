@@ -106,6 +106,16 @@ class User_Manager {
         callback();
     }
     
+    func setHeart(feed: Feed,cell:MyFeedTableViewCell,onSuccess: @escaping (String)->Void ){
+        firebase.setHeart(feed: feed, cell: cell,onSuccess:{(b) in
+            onSuccess(b)
+        })
+    }
+    
+    func setLikesAmount(feed: Feed,cell:MyFeedTableViewCell){
+        firebase.setLikesAmount(feed: feed,cell: cell)
+    }
+    
     func getFeedsFromStringList(feedsString: [String]?) -> [Feed]{
         if feedsString == nil {
             return []
@@ -126,6 +136,10 @@ class User_Manager {
     
     func UpdateUser(){
         firebase.UpdateUser(user: self.user!)
+    }
+    
+    func updateFeed(feedID:String,text: String,url: String?){
+        firebase.updateFeed(feedID: feedID, text: text, url: url)
     }
     
     func ChangePass(password: String){
@@ -174,6 +188,15 @@ class User_Manager {
         }
     }
     
+    
+    func plusLikes(uid: String,feedID: String,likes: Int){
+        firebase.plusLikes(uid: uid, feedID: feedID, likes: likes)
+    }
+    
+    func minusLikes(uid: String,feedID: String,likes: Int){
+        firebase.minusLikes(uid: uid, feedID: feedID, likes: likes)
+    }
+    
     func getEveryUser(onSuccess: @escaping ()->[String]){
         
     }
@@ -188,13 +211,11 @@ class User_Manager {
         return firebase.getEveryUserArray()
     }
     
-    func getFriendsImgArray() -> [String] {
-        return firebase.getFriendsImgArray()
-    }
-    
     func getFriendsArray() -> [String] {
         return firebase.getFriendsArray()
     }
+    
+
 
     func saveFeedsForUser(onSuccess:@escaping ([String])->Void) {
         firebase.saveFeedsForUser(onSuccess: { (feeds) in

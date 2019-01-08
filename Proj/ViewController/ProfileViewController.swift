@@ -28,17 +28,19 @@ class ProfileViewController: UIViewController {
         
         self.tableView.register(UINib(nibName: "profileCustomCell", bundle: nil), forCellReuseIdentifier: "profileCell")
         self.tableView.rowHeight = 350
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         // get all feeds by user id
-        
         let ref = Database.database().reference()
         print("get feeds from user")
         // Get feeds from user id
         ref.child("Users/\(userid!)/feed").observeSingleEvent(of: .value, with: { (DataSnapshot) in
             if(DataSnapshot.childrenCount != 0){
                 let arr = DataSnapshot.value as! [String]
-            // Get all feeds by lastUpdate order
-            // Select only those that belong to current logged user.
+                // Get all feeds by lastUpdate order
+                // Select only those that belong to current logged user.
                 ref.child("Feeds").queryOrdered(byChild: "lastUpdate").observeSingleEvent(of: .value, with: {snapshot in
                     for child in snapshot.children {
                         let snap = child as! DataSnapshot
@@ -49,7 +51,7 @@ class ProfileViewController: UIViewController {
                     self.feedsDataSnapshotArray.reverse()
                     self.tableView.reloadData()
                 })
-        }
+            }
         })
     }
     

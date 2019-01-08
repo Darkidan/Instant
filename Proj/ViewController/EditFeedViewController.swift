@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FirebaseDatabase
 
 class EditFeedViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -51,22 +50,21 @@ class EditFeedViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     @IBAction func EditClicked(_ sender: Any) {
-        let ref = Database.database().reference()
         self.editButton.isHidden = true
         if image != nil {
             User_Manager.instance.saveImage(image: image!, text: "photo" + self.random){ (url:String?) in
                 var _url = ""
                 if url != nil {
                     _url = url!
-                    ref.child("Feeds").child(self.feedID!).updateChildValues(["text": self.textField.text!,
-                                                                              "urlImage":_url])
-                    //self.editButton.isEnabled = false
+                    
+                    User_Manager.instance.updateFeed(feedID: self.feedID!, text: self.textField.text!, url: _url)
+                    
                     self.dismiss(animated: true, completion: nil)
                 }
             }
         } else {
-            ref.child("Feeds").child(self.feedID!).updateChildValues(["text": self.textField.text!])
-            //self.editButton.isEnabled = false
+            User_Manager.instance.updateFeed(feedID: self.feedID!, text: self.textField.text!, url: nil)
+            
             self.dismiss(animated: true, completion: nil)
         }
         

@@ -367,9 +367,9 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uBp-yo-3g4">
-                                            <rect key="frame" x="315" y="333" width="51" height="27"/>
+                                            <rect key="frame" x="321" y="333" width="45" height="27"/>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
-                                            <state key="normal" title="15 Likes">
+                                            <state key="normal" title="Likes 0">
                                                 <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                             </state>
                                         </button>
