@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FirebaseDatabase
 
 class FriendsViewController: UIViewController,UITableViewDataSource{
     
@@ -54,7 +53,7 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
         
         cell.delegate = self
         cell.cellIndex = indexPath
-
+        
         if (searching){
             cell.name.text = self.searchFiltered[indexPath.row]
             cell.addButton.setTitle("+", for:.normal)
@@ -77,40 +76,19 @@ class FriendsViewController: UIViewController,UITableViewDataSource{
 
 extension FriendsViewController: FriendCellDelegate{
     func handleFriend(name: String,buttonText: String,currentCell: CustomCell,indexPath: IndexPath) {
-        let ref = Database.database().reference()
-        ref.child("Users").observeSingleEvent(of: .value, with: { (DataSnapshot) in
-            for child in DataSnapshot.children{
-                let firstSnap = child as! DataSnapshot
-                let firstKey = firstSnap.key
-                for item in firstSnap.children {
-                    let secondSnap = item as! DataSnapshot
-                    let key = secondSnap.key
-                    let val = secondSnap.value
-                    if (key == "username"){
-                        if ( (val as! String) == name ){
-                            let uid = firstKey
-                            if ( buttonText == "+"){
-                                // Add Friend to this user UID
-                                ref.child("Friends/\(User_Manager.instance.user?.id ?? "userid")").child("Friend_\(uid)").setValue(uid)
-                                ref.child("Friends/\(uid)").child("Friend_\(User_Manager.instance.user?.id ?? "userid")").setValue(User_Manager.instance.user?.id ?? "userid")
-                                // change + to Added
-                                currentCell.addButton.setTitle("V",for: .normal)
-                                self.Friends.append(name)
-                                //self.Friends = Array(Set(self.Friends).insert(name))
-                            } else {
-                                // Remove Friend
-                                ref.child("Friends/\(User_Manager.instance.user?.id ?? "userid")").child("Friend_\(uid)").removeValue()
-                                ref.child("Friends/\(uid)").child("Friend_\(User_Manager.instance.user?.id ?? "Userid")").removeValue()
-                                self.Friends.remove(at: indexPath.row)
-                                self.EveryUser.append(name)
-                                self.tableView.reloadData()
-                            }
-                            break;
-                        }
-                    }
-                }
+        
+        User_Manager.instance.handleFriendRequest(name: name, buttonText: buttonText, currentCell: currentCell, indexPath: indexPath) { (action) in
+            if ( action == "+" ){
+                self.Friends = User_Manager.instance.getFriendsArray()
+                currentCell.addButton.setTitle("V",for: .normal)
+                //self.tableView.reloadData()
+            } else {
+                self.Friends = User_Manager.instance.getFriendsArray()
+                self.EveryUser = User_Manager.instance.getEveryUserArray()
+                self.tableView.reloadData()
             }
-        })
+        }
+        
     }
 }
 

@@ -16,7 +16,7 @@ class Firebase {
     var FriendsImg = [String]()
     var EveryUser = [String]()
     var FriendsUID = [String]() // used to filter feeds
-    
+    var feedArray = [Feed]()
     init() {
         ref = Database.database().reference()
     }
@@ -62,7 +62,7 @@ class Firebase {
                     
                     if ( bool ){
                         if let value = snapshot.childSnapshot(forPath: feedID!).value as? [String:Any] {
-
+                            
                             data.append(Feed(_id: value["id"]! as! String,
                                              _username: value["username"]! as! String,
                                              _urlImage: value["urlImage"]! as! String,
@@ -79,20 +79,63 @@ class Firebase {
         }
     }
     
-    /*
-    func getAllFeedsAndObserve(from:Double, callback:@escaping ([Feed])->Void){
-        let feedRef = ref.child("Feeds")
-        let fbQuery = feedRef.queryOrdered(byChild: "lastUpdate").queryStarting(atValue: from)
-        fbQuery.observe(.value) { (snapshot) in
-            var data = [Feed]()
-            if let value = snapshot.value as? [String:Any] {
-                for (_, json) in value{
-                    data.append(Feed(json: json as! [String : Any]))
-                }
+    func getProfileFeed(onSuccess:@escaping ()-> Void){
+        self.feedArray.removeAll()
+        // Get feeds from user id
+        ref.child("Users/\(User_Manager.instance.user?.id ?? "userid")/feed").observeSingleEvent(of: .value, with: { (DataSnapshot) in
+            if(DataSnapshot.childrenCount != 0){
+                let arr = DataSnapshot.value as! [String]
+                // Get all feeds by lastUpdate order
+                // Select only those that belong to current logged user.
+                self.ref.child("Feeds").queryOrdered(byChild: "lastUpdate").observeSingleEvent(of: .value, with: {snapshot in
+                    for child in snapshot.children {
+                        let snap = child as! DataSnapshot
+                        var fid: String?,fusername: String?,furlimage: String?,flastUpdate: Double?,ftext: String?
+                        var fuid: String?,flikes: String?
+                        for val in snap.children {
+                            let c = val as! DataSnapshot
+                            
+                            if ( c.key == "username"){
+                                fusername = c.value as? String
+                            }
+                            if ( c.key == "id"){
+                                fuid = c.value as? String
+                            }
+                            if ( c.key == "lastUpdate"){
+                                flastUpdate = c.value as? Double
+                            }
+                            if ( c.key == "text"){
+                                ftext = c.value as? String
+                            }
+                            if ( c.key == "uid"){
+                                fuid = c.value as? String
+                            }
+                            if ( c.key == "urlImage"){
+                                furlimage = c.value as? String
+                            }
+                            
+                            if ( c.key == "likes"){
+                                flikes = c.value as? String
+                            }
+                            if ( c.key == "id") {
+                                fid = c.value as? String
+                            }
+                        }
+                        
+                        if (arr.contains(snap.key) ){
+                            self.feedArray.append(Feed(_id: fid!, _username: fusername!, _urlImage: furlimage!, _likes: flikes!, _text: ftext!, _uid: fuid!, _lastUpdate: flastUpdate!))
+                        }
+                    }
+                    self.feedArray.reverse()
+                    onSuccess()
+                })
             }
-            callback(data)
-        }
-    }*/
+        })
+    }
+    
+    func getFeedArray()->[Feed]{
+        return feedArray
+    }
     
     func addNewFeed(feed:Feed){
         ref.child("Feeds").child(feed.id).setValue(feed.toJson())
@@ -303,7 +346,7 @@ class Firebase {
     func getFriendsArray() -> [String] {
         return Friends
     }
-
+    
     func setHeart(feed: Feed,cell:MyFeedTableViewCell,onSuccess: @escaping (_ b: String)->Void ){
         ref.child("Likes/\(getUserId())/\(feed.id)/Like").observeSingleEvent(of: .value) {
             (snapshot) in
@@ -358,7 +401,7 @@ class Firebase {
             }
             onSuccess(currentFeeds)
         })
-}
+    }
     
     func getUserList(onSuccess:@escaping ([String])->Void) {
         ref.child("Users").observe(.value, with: { (DataSnapshot) in
@@ -378,6 +421,41 @@ class Firebase {
                 }
             }
             onSuccess(self.EveryUser)
+        })
+    }
+    
+    func handleFriendRequest(name: String,buttonText: String,currentCell: CustomCell,indexPath: IndexPath,onSuccess:@escaping (_ action:String) -> Void){
+        ref.child("Users").observeSingleEvent(of: .value, with: { (DataSnapshot) in
+            for child in DataSnapshot.children{
+                let firstSnap = child as! DataSnapshot
+                let firstKey = firstSnap.key
+                for item in firstSnap.children {
+                    let secondSnap = item as! DataSnapshot
+                    let key = secondSnap.key
+                    let val = secondSnap.value
+                    if (key == "username"){
+                        if ( (val as! String) == name ){
+                            let uid = firstKey
+                            if ( buttonText == "+"){
+                                // Add Friend to this user UID
+                                self.ref.child("Friends/\(User_Manager.instance.user?.id ?? "userid")").child("Friend_\(uid)").setValue(uid)
+                                self.ref.child("Friends/\(uid)").child("Friend_\(User_Manager.instance.user?.id ?? "userid")").setValue(User_Manager.instance.user?.id ?? "userid")
+                                // change + to Added
+                                self.Friends.append(name)
+                                onSuccess("+")
+                            } else {
+                                // Remove Friend
+                                self.ref.child("Friends/\(User_Manager.instance.user?.id ?? "userid")").child("Friend_\(uid)").removeValue()
+                                self.ref.child("Friends/\(uid)").child("Friend_\(User_Manager.instance.user?.id ?? "Userid")").removeValue()
+                                self.Friends.remove(at: indexPath.row)
+                                self.EveryUser.append(name)
+                                onSuccess("-")
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
         })
     }
 }

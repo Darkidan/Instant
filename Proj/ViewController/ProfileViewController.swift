@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FirebaseDatabase
 
 class ProfileViewController: UIViewController {
     
@@ -17,7 +16,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var user: User?
-    var feedsDataSnapshotArray = [DataSnapshot]()
+    var feedArray = [Feed]()
     var selectedIndex: Int?
     
     override func viewDidLoad() {
@@ -31,35 +30,21 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         // get all feeds by user id
-        let ref = Database.database().reference()
-        // Get feeds from user id
-       // print((User_Manager.instance.user?.feeds)?.count)
-        ref.child("Users/\(User_Manager.instance.user?.id ?? "userid")/feed").observeSingleEvent(of: .value, with: { (DataSnapshot) in
-            if(DataSnapshot.childrenCount != 0){
-                let arr = DataSnapshot.value as! [String]
-                // Get all feeds by lastUpdate order
-                // Select only those that belong to current logged user.
-                ref.child("Feeds").queryOrdered(byChild: "lastUpdate").observeSingleEvent(of: .value, with: {snapshot in
-                    for child in snapshot.children {
-                        let snap = child as! DataSnapshot
-                        if ( arr.contains(snap.key) ){
-                            self.feedsDataSnapshotArray.append(snap)
-                        }
-                    }
-                    self.feedsDataSnapshotArray.reverse()
-                    self.tableView.reloadData()
-                })
-            }
-        })
+        User_Manager.instance.getProfileFeed {
+            self.feedArray = User_Manager.instance.getFeedArray()
+            self.tableView.reloadData()
+        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
-       User_Manager.instance.getUser { (user) in
+        User_Manager.instance.getUser { (user) in
             self.user = user
             self.username.text = user.username
             self.email.text = user.email
-             if user.url != "" {
+            if user.url != "" {
                 User_Manager.instance.getImageProfile(url: user.url) { (image:UIImage?) in
                     if image != nil {
                         self.imageAvatar.image = image!
@@ -101,7 +86,7 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return feedsDataSnapshotArray.count
+        return feedArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -109,35 +94,20 @@ extension ProfileViewController: UITableViewDataSource{
         
         cell.delegate = self
         cell.currentCellIndex = indexPath.row
+        cell.ptext!.text = feedArray[indexPath.row].text
+        cell.likesButton.setTitle("\(feedArray[indexPath.row].likes) Likes",for: .normal)
         
-        for item in feedsDataSnapshotArray[indexPath.row].children{
-            let secondSnap = item as! DataSnapshot
-            let key = secondSnap.key
-            let val = secondSnap.value
-            
-            if ( key == "text") {
-                cell.ptext!.text = val as? String
-            }
-            if ( key == "likes"){
-                cell.likesButton.setTitle("\(val!) Likes",for: .normal)
-            }
-            
-            if ( key == "lastUpdate" ){
-                let d = CustomViewController.setDate(dateTime: val as! Double)
-                cell.date!.text = String(d)
-            }
-            
-            if ( key == "urlImage"){
-                cell.pimage.image = UIImage(named: "wait_for_it")
-                cell.pimage.tag = indexPath.row
-                if (val as! String) != "" {
-                    User_Manager.instance.getImage(url: val as! String) { (image:UIImage?) in
-                        if (cell.pimage!.tag == indexPath.row){
-                            if image != nil {
-                                cell.pimage.image = image!
-                                cell.pimage.clipsToBounds = true
-                            }
-                        }
+        let d = CustomViewController.setDate(dateTime: feedArray[indexPath.row].lastUpdate!)
+        cell.date!.text = String(d)
+        
+        cell.pimage.image = UIImage(named: "wait_for_it")
+        cell.pimage.tag = indexPath.row
+        if (feedArray[indexPath.row].urlImage) != "" {
+            User_Manager.instance.getImage(url: feedArray[indexPath.row].urlImage) { (image:UIImage?) in
+                if (cell.pimage!.tag == indexPath.row){
+                    if image != nil {
+                        cell.pimage.image = image!
+                        cell.pimage.clipsToBounds = true
                     }
                 }
             }
@@ -155,24 +125,9 @@ extension ProfileViewController: ProfileCellDelegate{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         if ( segue.identifier == "editFeed" ){
             let vc: EditFeedViewController = segue.destination as! EditFeedViewController
-                        
-            for item in feedsDataSnapshotArray[self.selectedIndex!].children{
-                let secondSnap = item as! DataSnapshot
-                let key = secondSnap.key
-                let val = secondSnap.value
-                
-                if ( key == "text") {
-                    vc.beforeText = val as? String
-                }
-                
-                if ( key == "id" ){
-                    vc.feedID = val as? String
-                }
-                
-                if ( key == "urlImage"){
-                    vc.imageURL = val as? String
-                }
-            }
+            vc.beforeText = feedArray[self.selectedIndex!].text
+            vc.feedID = feedArray[self.selectedIndex!].id
+            vc.imageURL = feedArray[self.selectedIndex!].urlImage
         }
     }
 }

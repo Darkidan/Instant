@@ -57,12 +57,12 @@ class EditFeedViewController: UIViewController, UIImagePickerControllerDelegate,
                     _url = url!
                     
                     User_Manager.instance.updateFeed(feedID: self.feedID!, text: self.textField.text!, url: _url)
-                    self.dismiss(animated: true, completion: nil)
+                    self.navigationController?.popViewController(animated: true)
                 }
             }
         } else {
             User_Manager.instance.updateFeed(feedID: self.feedID!, text: self.textField.text!, url: nil)
-            self.dismiss(animated: true, completion: nil)
+            self.navigationController?.popViewController(animated: true)
         }
         
         self.spinner.isHidden = false

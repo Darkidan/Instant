@@ -31,6 +31,22 @@ class User_Manager {
         })
     }
     
+    func getProfileFeed(onSuccess:@escaping ()-> Void){
+        firebase.getProfileFeed {
+            onSuccess()
+        }
+    }
+    
+    func getFeedArray()->[Feed]{
+        return firebase.getFeedArray()
+    }
+    
+    func handleFriendRequest(name: String,buttonText: String,currentCell: CustomCell,indexPath: IndexPath,onSuccess:@escaping (_ action:String) -> Void){
+        firebase.handleFriendRequest(name: name, buttonText: buttonText, currentCell: currentCell, indexPath: indexPath) { (action) in
+            onSuccess(action)
+        }
+    }
+    
     func setUser(){
         User_Manager.instance.getUser { (user) in
             self.user = user
@@ -82,7 +98,7 @@ class User_Manager {
                     lastUpdated = feed.lastUpdate!
                 }
             }
-
+            
             //4. update the local feeds last update date
             Feed.setLastUpdateDate(database: self.sql.database, date: lastUpdated)
             
@@ -103,7 +119,7 @@ class User_Manager {
         }
         callback();
     }
-
+    
     func setHeart(feed: Feed,cell:MyFeedTableViewCell,onSuccess: @escaping (String)->Void ){
         firebase.setHeart(feed: feed, cell: cell,onSuccess:{(b) in
             onSuccess(b)
